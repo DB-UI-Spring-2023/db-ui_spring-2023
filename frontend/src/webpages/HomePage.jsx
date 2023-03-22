@@ -22,7 +22,6 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export const HomePage = () => {
-  const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
 
@@ -38,7 +37,7 @@ export const HomePage = () => {
         color="blackAlpha.700"
         fontWeight="bold"
       >
-        <GridItem area={"nav"} bg="blue.300">
+        <GridItem area={"nav"} bg="black" color='white'>
           Header
         </GridItem>
         <GridItem area={"main"} m="auto">
@@ -48,29 +47,29 @@ export const HomePage = () => {
             margin="auto auto"
             textAlign="center"
           >
-            TUTORS 4 LESS
+            Books 4 Less
           </Heading>
           <Heading as="h2" size="lg" mt="2rem" textAlign="center">
-            Need help? Find a tutor
+            Buy. Sell. Textbooks.
           </Heading>
           <FormControl mt="2rem" isRequired>
             <FormLabel>Email:</FormLabel>
             <Input
               type="email"
-              value={input}
+              w='100%'
               placeHolder="name@email.com"
               onChange={handleInputChange}
             />
 
             <FormLabel mt="1rem">Password:</FormLabel>
             <Input
-              type="email"
-              value={input}
+              type="text"
+              w='100%'
               placeHolder=""
               onChange={handleInputChange}
             />
           </FormControl>
-          <a class="login-button" href="/home">
+          <a class="login-button" href="/">
             <span class="login-button-span">Sign in</span>
           </a>
           <div className="left-right-divider">
@@ -78,8 +77,9 @@ export const HomePage = () => {
           </div>
           <JoinModal />
         </GridItem>
-        <GridItem area={"hero"} m="auto">
-          <Image src={hero} alt="college students tutoring" />
+        <GridItem area={"hero"} m='auto'>
+          <Center justifyContent='center'>
+          <Image className="hero" src={hero} alt="college students tutoring" /></Center>
         </GridItem>
       </Grid>
     </>
