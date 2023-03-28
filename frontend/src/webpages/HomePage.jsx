@@ -20,10 +20,40 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
+  const navigate = useNavigate();
+
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
+
+  const [emailReg, setEmailReg] = useState("");
+  const [createpwordReg, setCreatepwordReg] = useState("");
+  const [confirmpwordReg, setConfirmpwordReg] = useState("");
+
+  const [loginStatus, setLoginStatus] = useState("");
+  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
+
+  const login = () => {
+    axios.post("http://localhost:8000/login", {
+      email: emailReg,
+      createPass: createpwordReg,
+      confirmPass: confirmpwordReg
+    }).then((response) => {
+      if (response.data.message) {
+        setLoginStatus(response.data.message)
+        setauthenticated(true)
+        localStorage.setItem("authenticated", true)
+        navigate("/dashboard")
+      } else {
+        setLoginStatus(response.data[0].email)
+      }
+    });
+  };
+
+
 
   return (
     <>
@@ -37,8 +67,8 @@ export const HomePage = () => {
         color="blackAlpha.700"
         fontWeight="bold"
       >
-        <GridItem area={"nav"} bg="black" color='white'>
-          Header
+        <GridItem area={"nav"} bg="red" color='white'>
+          <Heading>{loginStatus}</Heading>
         </GridItem>
         <GridItem area={"main"} m="auto">
           <Heading
@@ -57,20 +87,27 @@ export const HomePage = () => {
             <Input
               type="email"
               w='100%'
-              placeHolder="name@email.com"
-              onChange={handleInputChange}
+              placeholder="name@email.com"
+              onChange={(e) => {
+                handleInputChange(e);
+                setEmailReg(e.target.value);
+                }}
             />
 
             <FormLabel mt="1rem">Password:</FormLabel>
             <Input
               type="text"
               w='100%'
-              placeHolder=""
-              onChange={handleInputChange}
+              placeholder=""
+              onChange={(e) => {
+                handleInputChange(e);
+                setCreatepwordReg(e.target.value);
+                setConfirmpwordReg(e.target.value);
+                }}
             />
           </FormControl>
-          <a class="login-button" href="/">
-            <span class="login-button-span">Sign in</span>
+          <a className="login-button" href="/">
+            <span onClick={login} className="login-button-span">Sign in</span>
           </a>
           <div className="left-right-divider">
             <p className="divider-text">or</p>

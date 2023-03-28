@@ -9,35 +9,68 @@ app.use(cors()) // This has to be before any routes
 // Enable JSON parsing
 app.use(express.json())
 
+
 // Connect to mysql
-const mysql = require('mysql')
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'CoolPasswordThanks',
-  database: 'DBUI'
+const mysql = require('mysql2')
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'LoginSystem'
+  })
+
+
+db.connect()
+
+
+app.post('/register', (req,res) => {
+
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const email = req.body.email
+    const createPass = req.body.createPass
+    const confirmPass = req.body.confirmPass
+
+    db.query(
+        "INSERT INTO LoginSystem.Users (firstName, lastName, email, createPass, confirmPass) VALUES (?,?,?,?,?)",
+        [firstName, lastName, email, createPass, confirmPass], (err, result) => {
+        console.log(err)
+    })
 })
 
-connection.connect()
+app.post('/login', (req,res) => {
+
+    const email = req.body.email
+    const createPass = req.body.createPass
+    const confirmPass = req.body.confirmPass
+
+    db.query(
+        "SELECT * FROM LoginSystem.Users WHERE email = ? AND createPass = ? AND confirmPass = ?",
+        [email, createPass, confirmPass], (err, result) => {
+        
+        if (err){
+            res.send({err: err})
+        }
+
+        if (result.length > 0) {
+
+            console.log(result)
+            res.send(result)
+            
+        } else {
+
+            console.log({meassage: "Wrong Combination"})
+            res.send({meassage: "Wrong Combination"})
+        }
+        
+        
+    })
+})
 
 // API routes
 app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
-app.put('/parse', (req, res) => {
-    console.log(req.body)
-    
-    try {
-        const { first, last, age, admin } = req.body
-        const name = `${first} ${last}`
-        const isAdmin = admin ? "is an admin" : "is not an admin"
-
-        res.status(200)
-        res.send(`${name} is ${age} years old and ${isAdmin}`)
-    } catch (err) {
-        console.log(err)
-    }
+    res.send('Hello Clark!')
 })
 
 app.get('/db', (req, res) => {
@@ -45,27 +78,6 @@ app.get('/db', (req, res) => {
         if (err) throw err
 
         console.log(rows)
-        res.status(200)
-        res.send(rows)
-    })
-})
-
-app.post('/user', (req, res) => {
-    const { first, last, age, admin } = req.body
-    const query = `INSERT INTO users (first_name, last_name, age, admin) VALUES ('${first}', '${last}', ${age}, ${admin})`
-    connection.query(query, (err, rows, fields) => {
-        if (err) throw err
-
-        console.log(rows)
-        res.status(200)
-        res.send("Successfully added user!")
-    })
-})
-
-app.get('/users', (req, res) => {
-    connection.query(`SELECT * FROM users`, (err, rows, fields) => {
-        if (err) throw err
-
         res.status(200)
         res.send(rows)
     })
@@ -79,6 +91,7 @@ app.put('/users/clear', (req, res) => {
         res.send("Successfully cleared users!")
     })
 })
+
 
 // Start server
 app.listen(port, () => {
