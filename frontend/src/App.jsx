@@ -1,6 +1,9 @@
 export const App = () => {
 
   return (
-    <>TEST</>
+    <>
+    <h1>My branch</h1>
+    <h2>Testing git push to my branch</h2>
+    </>
   );
 }

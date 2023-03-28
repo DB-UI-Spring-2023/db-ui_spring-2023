@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+}
+
+.login-button {
+    
+  background-image: linear-gradient(135deg, #0C97FA, #16E1F5);
+  border-radius: 6px;
+  color: #252525;
+  display: block;
+  height: 3rem;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 4px;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+  margin-top: 1.5rem;
+  z-index: 2;
+}
+
+.login-button:hover {
+    color: #fff;
+  }
+
+  .login-button .login-button-span {
+    align-items: center;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    transition: 0.5s ease;
+    width: 100%;
+  }
+
+  .login-button:hover .login-button-span {
+    background: transparent;
+  }
+
+  .left-right-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-top: 1.5rem;
+    padding-bottom: .125rem;
+  }
+
+  .left-right-divider::before {
+    height: .063rem;
+    width: auto;
+    background-color: rgb(0 0 0 / .35);
+    --tw-content: '';
+    content: var(--tw-content);
+    flex-grow: 1;
+  }
+
+  .divider-text {
+    font-size: .875rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .left-right-divider::after {
+    height: .063rem;
+    width: auto;
+    background-color: rgb(0 0 0 / .35);
+    --tw-content: '';
+    content: var(--tw-content);
+    flex-grow: 1;
+  }
+
+  .join-button {
+    background-image: linear-gradient(135deg, #49C5F6, #FF2AEF);
+    border-radius: 6px;
+    color: #fff;
+    display: block;
+    height: 3rem;
+    font-size: 1em;
+    font-weight: 600;
+    padding: 4px;
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+    margin-top: 1.5rem;
+    z-index: 2;
+  }
+  
+  .join-button:hover {
+      color: #252525;
+    }
+  
+    .join-button .join-button-span {
+      align-items: center;
+      background: linear-gradient(135deg, #49C5F6, #FF2AEF);
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      transition: 0.5s ease;
+      width: 100%;
+    }
+  
+    .join-button:hover .join-button-span {
+      background: #fff;
+    }
