@@ -13,7 +13,7 @@ app.use(express.json())
 // Connect to mysql
 const mysql = require('mysql2')
 
-const db = mysql.createConnection({
+const loginDB = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'password',
@@ -21,7 +21,7 @@ const db = mysql.createConnection({
   })
 
 
-db.connect()
+loginDB.connect()
 
 
 app.post('/register', (req,res) => {
@@ -32,7 +32,7 @@ app.post('/register', (req,res) => {
     const createPass = req.body.createPass
     const confirmPass = req.body.confirmPass
 
-    db.query(
+    loginDB.query(
         "INSERT INTO LoginSystem.Users (firstName, lastName, email, createPass, confirmPass) VALUES (?,?,?,?,?)",
         [firstName, lastName, email, createPass, confirmPass], (err, result) => {
         console.log(err)
@@ -45,7 +45,7 @@ app.post('/login', (req,res) => {
     const createPass = req.body.createPass
     const confirmPass = req.body.confirmPass
 
-    db.query(
+    loginDB.query(
         "SELECT * FROM LoginSystem.Users WHERE email = ? AND createPass = ? AND confirmPass = ?",
         [email, createPass, confirmPass], (err, result) => {
         
@@ -73,24 +73,6 @@ app.get('/', (req, res) => {
     res.send('Hello Clark!')
 })
 
-app.get('/db', (req, res) => {
-    connection.query('SHOW TABLES', (err, rows, fields) =>{
-        if (err) throw err
-
-        console.log(rows)
-        res.status(200)
-        res.send(rows)
-    })
-})
-
-app.put('/users/clear', (req, res) => {
-    connection.query(`DELETE FROM users`, (err, rows, fields) => {
-        if (err) throw err
-
-        res.status(200)
-        res.send("Successfully cleared users!")
-    })
-})
 
 
 // Start server

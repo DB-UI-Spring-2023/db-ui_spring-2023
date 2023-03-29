@@ -49,6 +49,7 @@ export const JoinModal = () => {
       <button className="join-button" type="button" onClick={onOpen}>
         <span className="join-button-span">Join now</span>
       </button>
+      
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
@@ -85,7 +86,7 @@ export const JoinModal = () => {
               onChange={(e) => {
                 setConfirmpwordReg(e.target.value);
                   if (createpwordReg != confirmpwordReg) {
-                    console.log({meassage: "Passwords Don't Match"})
+                    console.log({meassage: "Passwords Don't Match"});
                   }
                 }}
               />
