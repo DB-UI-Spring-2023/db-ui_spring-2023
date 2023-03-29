@@ -13,8 +13,11 @@ import {
   Input,
   Flex,
   Box,
-  ButtonGroup
+  ButtonGroup,
+  Text,
+  Link
 } from "@chakra-ui/react";
+import { useRouter } from "react-router-dom";
 
 export const JoinModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,32 +30,31 @@ export const JoinModal = () => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create profile</ModalHeader>
+          <ModalHeader>Create an account</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl mt="1rem" isRequired>
+          <FormControl isRequired>
               <FormLabel>First name:</FormLabel>
               <Input type="text" placeHolder="First name" />
-              <FormLabel mt="1rem">Last name:</FormLabel>
+              <FormLabel mt=".5rem">Last name:</FormLabel>
               <Input type="text" placeHolder="Last name" />
-              <FormLabel mt="1rem">Email:</FormLabel>
+              <FormLabel mt=".5rem">Email:</FormLabel>
               <Input type="email" placeHolder="name@email.com" />
-              <FormLabel mt="1rem">School name:</FormLabel>
-              <Input type="text" placeHolder="SMU" />
-              <FormLabel mt="1rem">Create password:</FormLabel>
+              <FormLabel mt=".5rem">Create password:</FormLabel>
               <Input type="text" placeHolder="" />
-              <FormLabel mt="1rem">Confirm password:</FormLabel>
+              <FormLabel mt=".5rem">Confirm password:</FormLabel>
               <Input type="text" placeHolder="" />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <ButtonGroup gap='2'>
-            <Button onClick={onClose} color='white' bg="#0C97FA" variant='outline' _hover={{ bg: "white", color: "#0C97FA", border: '2px'}}>Create</Button>
-            <Button onClick={onClose}>Close</Button>
+          <ButtonGroup gap='2'>
+            <Button color='white' bg="#0C97FA" variant='outline' _hover={{ bg: "white", color: "#0C97FA", border: '2px'}}>Create</Button>
+            <Button onClick={onClose} _hover={{ bg: "white", color: "#FF176B", border: '2px'}}>Close</Button>
             </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>
+    
     </>
   );
 };

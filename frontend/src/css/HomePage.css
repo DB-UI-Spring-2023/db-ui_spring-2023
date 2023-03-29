@@ -2,6 +2,12 @@
   box-sizing: border-box;
 }
 
+.hero {
+  width: 70%;
+  margin: 0 auto;
+
+}
+
 .login-button {
     
   background-image: linear-gradient(135deg, #0C97FA, #16E1F5);
@@ -72,6 +78,7 @@
   .join-button {
     background-image: linear-gradient(135deg, #49C5F6, #FF2AEF);
     border-radius: 6px;
+    border: none;
     color: #fff;
     display: block;
     height: 3rem;
@@ -87,6 +94,7 @@
   
   .join-button:hover {
       color: #252525;
+      border: none;
     }
   
     .join-button .join-button-span {
@@ -97,8 +105,9 @@
       height: 100%;
       transition: 0.5s ease;
       width: 100%;
+      border: none;
     }
   
     .join-button:hover .join-button-span {
-      background: #fff;
+      background: #FFF;
     }
