@@ -21,10 +21,11 @@ import { useState } from "react";
 import { useRouter } from "react-router-dom";
 import axios from 'axios';
 
-
-
 export const JoinModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => setInput(e.target.value);
 
   const [firstReg, setFirstReg] = useState("");
   const [lastReg, setLastReg] = useState("");
@@ -46,10 +47,9 @@ export const JoinModal = () => {
 
   return (
     <>
-      <button className="join-button" type="button" onClick={onOpen}>
-        <span className="join-button-span">Join now</span>
+      <button class="join-button" type="button" onClick={onOpen}>
+        <span class="join-button-span">Join now</span>
       </button>
-      
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
@@ -57,37 +57,39 @@ export const JoinModal = () => {
           <ModalCloseButton />
           <ModalBody>
           <FormControl isRequired>
-              <FormLabel>First name:</FormLabel>
+          <FormLabel>First name:</FormLabel>
               <Input type="text" placeholder="First name" 
               onChange={(e) => {
+                handleInputChange(e)
                 setFirstReg(e.target.value);
                 }}
               />
               <FormLabel mt=".5rem">Last name:</FormLabel>
               <Input type="text" placeholder="Last name" 
               onChange={(e) => {
+                handleInputChange(e)
                 setLastReg(e.target.value);
                 }}
               />
               <FormLabel mt=".5rem">Email:</FormLabel>
               <Input type="email" placeholder="name@email.com" 
               onChange={(e) => {
+                handleInputChange(e)
                 setEmailReg(e.target.value);
                 }}
               />
               <FormLabel mt=".5rem">Create password:</FormLabel>
               <Input type="text" placeholder="" 
               onChange={(e) => {
+                handleInputChange(e)
                 setCreatepwordReg(e.target.value);
                 }}
               />
               <FormLabel mt=".5rem">Confirm password:</FormLabel>
               <Input type="text" placeholder=""
               onChange={(e) => {
+                handleInputChange(e)
                 setConfirmpwordReg(e.target.value);
-                  if (createpwordReg != confirmpwordReg) {
-                    console.log({meassage: "Passwords Don't Match"});
-                  }
                 }}
               />
             </FormControl>
@@ -100,6 +102,7 @@ export const JoinModal = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+    
     </>
   );
 };

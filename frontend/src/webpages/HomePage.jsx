@@ -18,42 +18,47 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+//import { Alert } from 'react-alert'
 
 export const HomePage = () => {
-  const navigate = useNavigate();
-
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
 
-  const [emailReg, setEmailReg] = useState("");
-  const [createpwordReg, setCreatepwordReg] = useState("");
-  const [confirmpwordReg, setConfirmpwordReg] = useState("");
+  const [email, setEmail] = useState("");
+  const [createpword, setCreatepword] = useState("");
+  const [confirmpword, setConfirmpword] = useState("");
 
-  const [loginStatus, setLoginStatus] = useState("");
-  const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated")|| false));
+  const [loginStatus, setLoginStatus] = useState("Not logged in.");
+  
+  axios.defaults.withCredentials = true;
 
   const login = () => {
     axios.post("http://localhost:8000/login", {
-      email: emailReg,
-      createPass: createpwordReg,
-      confirmPass: confirmpwordReg
+      email: email,
+      createPass: createpword,
+      confirmPass: confirmpword
     }).then((response) => {
-      if (response.data.message) {
-        setLoginStatus(response.data.message)
-        setauthenticated(true)
-        localStorage.setItem("authenticated", true)
-        navigate("/dashboard")
+     
+      if (response.data.msg) {
+        setLoginStatus(response.data.msg)
+        alert(response.data.msg)
+        
       } else {
         setLoginStatus(response.data[0].email)
+        alert(response.data[0].email)
       }
+
     });
   };
 
-
+  useEffect(() => {
+    axios.get("http://localhost:8000/login").then((response) => {
+      setLoginStatus(response.data.user[0].email)
+    })
+  },[])
 
   return (
     <>
@@ -67,8 +72,8 @@ export const HomePage = () => {
         color="blackAlpha.700"
         fontWeight="bold"
       >
-        <GridItem area={"nav"} bg="red" color='white'>
-          <Heading>{loginStatus}</Heading>
+        <GridItem area={"nav"} bg="black" color='white'>
+          {loginStatus}
         </GridItem>
         <GridItem area={"main"} m="auto">
           <Heading
@@ -87,10 +92,10 @@ export const HomePage = () => {
             <Input
               type="email"
               w='100%'
-              placeholder="name@email.com"
+              placeHolder="name@email.com"
               onChange={(e) => {
                 handleInputChange(e);
-                setEmailReg(e.target.value);
+                setEmail(e.target.value);
                 }}
             />
 
@@ -98,16 +103,16 @@ export const HomePage = () => {
             <Input
               type="text"
               w='100%'
-              placeholder=""
+              placeHolder=""
               onChange={(e) => {
                 handleInputChange(e);
-                setCreatepwordReg(e.target.value);
-                setConfirmpwordReg(e.target.value);
+                setCreatepword(e.target.value);
+                setConfirmpword(e.target.value);
                 }}
             />
           </FormControl>
-          <a className="login-button" href="/">
-            <span onClick={login} className="login-button-span">Sign in</span>
+          <a class="login-button" href="/">
+            <span onClick={login} class="login-button-span">Sign in</span>
           </a>
           <div className="left-right-divider">
             <p className="divider-text">or</p>
