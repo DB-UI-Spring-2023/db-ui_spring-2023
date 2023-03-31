@@ -14,10 +14,12 @@ import BookIcon from "@mui/icons-material/Book";
 import Mail from "@mui/icons-material/Mail";
 import Notifications from "@mui/icons-material/Notifications";
 import React, { useState } from "react";
+import { red } from "@mui/material/colors";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
+  backgroundColor: red[400],
 });
 
 const Search = styled("div")(({ theme }) => ({
@@ -50,10 +52,11 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
+        <BookIcon sx={{ display: { xs: "block", sm: "block" } }}></BookIcon>
         <Typography variant="h6" sx={{ display: { xs: "none", sm: "block" } }}>
           Textbook Marketplace
         </Typography>
-        <BookIcon sx={{ display: { xs: "block", sm: "block" } }}></BookIcon>
+        
         <Search>
           <InputBase placeholder="search for textbooks..." />
         </Search>
