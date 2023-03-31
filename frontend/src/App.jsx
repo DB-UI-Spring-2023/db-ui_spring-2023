@@ -1,10 +1,11 @@
-import { HomePage } from "./webpages";
+import { Dashboard, HomePage } from "./webpages";
 
 export const App = () => {
 
   return (
     <>
     <HomePage />
+    
     </>
   );
 }

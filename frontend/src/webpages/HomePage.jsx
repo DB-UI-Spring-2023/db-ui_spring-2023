@@ -21,6 +21,7 @@ import {
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
 import { Link } from "react-router-dom";
+
 //import { Alert } from 'react-alert'
 
 export const HomePage = () => {
@@ -31,7 +32,7 @@ export const HomePage = () => {
   const [createpword, setCreatepword] = useState("");
   const [confirmpword, setConfirmpword] = useState("");
 
-  const [loginStatus, setLoginStatus] = useState("Not logged in.");
+  const [loginStatus, setLoginStatus] = useState("");
   
   axios.defaults.withCredentials = true;
 
@@ -60,6 +61,10 @@ export const HomePage = () => {
     })
   },[])
 
+  if (!loginStatus.msg && loginStatus != "Not logged in.") {
+     <Link to="/dashboard" />;
+  }
+  
   return (
     <>
       <Grid
