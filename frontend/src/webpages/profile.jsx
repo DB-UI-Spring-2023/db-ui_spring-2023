@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Heading } from '@chakra-ui/react'
 import { Image } from '@chakra-ui/react'
 import { Badge } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
 export const Profile = () => {
     return (
