@@ -1,86 +1,89 @@
-const express = require('express')
-const app = express()
-const port = 8000
+const express = require("express");
+const app = express();
+const port = 8000;
 
 // Enable Cross-Origin Resource Sharing
-const cors = require('cors')
-app.use(cors()) // This has to be before any routes
+const cors = require("cors");
+app.use(cors()); // This has to be before any routes
 
 // Enable JSON parsing
-app.use(express.json())
+app.use(express.json());
 
 // Connect to mysql
-const mysql = require('mysql')
+const mysql = require("mysql");
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'CoolPasswordThanks',
-  database: 'DBUI'
-})
+  host: "localhost",
+  user: "root",
+  password: "#ponyUp2023!",
+  database: "newuser_db",
+});
 
-connection.connect()
+connection.connect();
 
 // API routes
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+app.get("/", (request, response) => {
+  response.send("Hello World!");
+});
 
-app.put('/parse', (req, res) => {
-    console.log(req.body)
-    
-    try {
-        const { first, last, age, admin } = req.body
-        const name = `${first} ${last}`
-        const isAdmin = admin ? "is an admin" : "is not an admin"
+app.put("/parse", (request, response) => {
+  console.log(request.body);
 
-        res.status(200)
-        res.send(`${name} is ${age} years old and ${isAdmin}`)
-    } catch (err) {
-        console.log(err)
-    }
-})
+  try {
+    const { firstName, lastName } = request.body;
+    const name = `${firstName} ${lastName}`;
+    const message = `${firstName} ${lastName} is a new user!`;
 
-app.get('/db', (req, res) => {
-    connection.query('SHOW TABLES', (err, rows, fields) =>{
-        if (err) throw err
+    response.status(200);
+    response.send(message);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-        console.log(rows)
-        res.status(200)
-        res.send(rows)
-    })
-})
+app.get("/db", (request, response) => {
+  connection.query("SHOW TABLES", (error, rows, fields) => {
+    if (error) throw error;
 
-app.post('/user', (req, res) => {
-    const { first, last, age, admin } = req.body
-    const query = `INSERT INTO users (first_name, last_name, age, admin) VALUES ('${first}', '${last}', ${age}, ${admin})`
-    connection.query(query, (err, rows, fields) => {
-        if (err) throw err
+    console.log(rows);
+    response.status(200);
+    response.send(rows);
+  });
+});
+// create a user
+// 58: take fields in request.body and assign/record them to firstName, lastName, email, password
+// 59: insert data into the newuser table: firstName data = first_name column; lastName data = last_name column; etc
+// 60-61: send query to the connection; if there is an error, throws the error
+// 63-65: if successful, log the rows, and send a successful result to the user
+app.post("/user", (request, response) => {
+  const { firstName, lastName, email, password } = request.body;
+  const query = `INSERT INTO newuser (first_name, last_name, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${password}')`;
+  connection.query(query, (error, rows, fields) => {
+    if (error) throw error;
 
-        console.log(rows)
-        res.status(200)
-        res.send("Successfully added user!")
-    })
-})
+    console.log(rows);
+    response.status(200);
+    response.send("Successfully added a new user!");
+  });
+});
+// 69-76: shows all of the users in the table
+app.get("/users", (request, response) => {
+  connection.query(`SELECT * FROM newuser`, (error, rows, fields) => {
+    if (error) throw error;
 
-app.get('/users', (req, res) => {
-    connection.query(`SELECT * FROM users`, (err, rows, fields) => {
-        if (err) throw err
-
-        res.status(200)
-        res.send(rows)
-    })
-})
-
-app.put('/users/clear', (req, res) => {
-    connection.query(`DELETE FROM users`, (err, rows, fields) => {
-        if (err) throw err
-
-        res.status(200)
-        res.send("Successfully cleared users!")
-    })
-})
+    response.status(200);
+    response.send(rows);
+  });
+});
+// 78-84: deletes all of the results from users in case you want to clear them
+app.put("/users/clear", (request, response) => {
+  connection.query(`DELETE FROM newuser`, (error, rows, field) => {
+    if (error) throw error;
+    response.status(200);
+    response.send("Successfully deleted users!");
+  });
+});
 
 // Start server
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
