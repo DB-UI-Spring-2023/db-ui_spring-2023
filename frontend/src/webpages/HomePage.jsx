@@ -22,8 +22,21 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export const HomePage = () => {
-  const [input, setInput] = useState("");
-  const handleInputChange = (e) => setInput(e.target.value);
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+
+  const [newUserFirstName, setNewUserFirstName] = useState("");
+  const [newUserLastName, setNewUserLastName] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserPassword, setNewUserPassword] = useState("");
+
+  const handleUserEmail = (e) => setUserEmail(e.target.value);
+  const handleUserPassword = (e) => setUserPassword(e.target.value);
+
+  const handleNewUserFirstName = (e) => setNewUserFirstName(e.target.value);
+  const handleNewUserLastName = (e) => setNewUserLastName(e.target.value);
+  const handleNewUserEmail = (e) => setNewUserEmail(e.target.value);
+  const handleNewUserPassword = (e) => setNewUserPassword(e.target.value);
 
   return (
     <>
@@ -58,7 +71,7 @@ export const HomePage = () => {
               type="email"
               w='100%'
               placeHolder="name@email.com"
-              onChange={handleInputChange}
+              onChange={handleUserEmail}
             />
 
             <FormLabel mt="1rem">Password:</FormLabel>
@@ -66,7 +79,7 @@ export const HomePage = () => {
               type="text"
               w='100%'
               placeHolder=""
-              onChange={handleInputChange}
+              onChange={handleUserPassword}
             />
           </FormControl>
           <a class="login-button" href="/">
