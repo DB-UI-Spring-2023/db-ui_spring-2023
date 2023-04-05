@@ -1,4 +1,4 @@
-import { Header, JoinModal } from "../components";
+import { Header, JoinModal, CreateListing } from "../components";
 import hero from "../images/hero.png";
 import "../css/HomePage.css";
 import {
@@ -20,11 +20,13 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //import { Alert } from 'react-alert'
 
 export const HomePage = () => {
+  const nav = useNavigate();
+
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
 
@@ -33,6 +35,9 @@ export const HomePage = () => {
   const [confirmpword, setConfirmpword] = useState("");
 
   const [loginStatus, setLoginStatus] = useState("");
+
+
+
   
   axios.defaults.withCredentials = true;
 
@@ -50,6 +55,7 @@ export const HomePage = () => {
       } else {
         setLoginStatus(response.data[0].email)
         alert(response.data[0].email)
+        nav("/dashboard");
       }
 
     });
@@ -57,13 +63,13 @@ export const HomePage = () => {
 
   useEffect(() => {
     axios.get("http://localhost:8000/login").then((response) => {
-      setLoginStatus(response.data.user[0].email)
+      if (response.data.loggedIn == true){
+        setLoginStatus(response.data.user[0].email)
+        nav("/dashboard");
+      }
     })
   },[])
-
-  if (!loginStatus.msg && loginStatus != "Not logged in.") {
-     <Link to="/dashboard" />;
-  }
+  
   
   return (
     <>
@@ -123,6 +129,7 @@ export const HomePage = () => {
             <p className="divider-text">or</p>
           </div>
           <JoinModal />
+          <CreateListing />
         </GridItem>
         <GridItem area={"hero"} m='auto'>
           <Center justifyContent='center'>

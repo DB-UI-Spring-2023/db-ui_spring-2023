@@ -62,6 +62,23 @@ app.post('/register', (req,res) => {
     })
 })
 
+app.post('/post-listing', (req,res) => {
+
+    const IBSN = req.body.ibsn
+    const Title = req.body.title
+    const Author = req.body.author
+    const bookCondition = req.body.bookCondition
+    const bookFormat = req.body.bookFormat
+    const Cost = req.body.cost
+
+    connection.query(
+        "INSERT INTO LoginSystem.Books (IBSN, Title, Author, bookCondition, bookFormat, Cost) VALUES (?,?,?,?,?,?)",
+        [IBSN, Title, Author, bookCondition, bookFormat, Cost], (err, result) => {
+        console.log(err)
+        
+    })
+})
+
 app.get('/login', (req,res) => {
     if (req.session.user) {
         res.send({loggedIn: true, user: req.session.user})
@@ -96,66 +113,6 @@ app.post('/login', (req,res) => {
             res.send({"msg": "Wrong Combination"})
         }
         
-    })
-})
-
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
-app.put('/parse', (req, res) => {
-    console.log(req.body)
-    
-    try {
-        const { first, last, age, admin } = req.body
-        const name = `${first} ${last}`
-        const isAdmin = admin ? "is an admin" : "is not an admin"
-
-        res.status(200)
-        res.send(`${name} is ${age} years old and ${isAdmin}`)
-    } catch (err) {
-        console.log(err)
-    }
-})
-
-app.get('/db', (req, res) => {
-    connection.query('SHOW TABLES', (err, rows, fields) =>{
-        if (err) throw err
-
-        console.log(rows)
-        res.status(200)
-        res.send(rows)
-    })
-})
-
-app.post('/user', (req, res) => {
-    const { first, last, age, admin } = req.body
-    const query = `INSERT INTO users (first_name, last_name, age, admin) VALUES ('${first}', '${last}', ${age}, ${admin})`
-    connection.query(query, (err, rows, fields) => {
-        if (err) throw err
-
-        console.log(rows)
-        res.status(200)
-        res.send("Successfully added user!")
-    })
-})
-
-app.get('/users', (req, res) => {
-    connection.query(`SELECT * FROM users`, (err, rows, fields) => {
-        if (err) throw err
-
-        res.status(200)
-        res.send(rows)
-    })
-})
-
-app.put('/users/clear', (req, res) => {
-    connection.query(`DELETE FROM users`, (err, rows, fields) => {
-        if (err) throw err
-
-        res.status(200)
-        res.send("Successfully cleared users!")
     })
 })
 

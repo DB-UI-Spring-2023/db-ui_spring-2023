@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HomePage, Dashboard } from "./webpages";
 
-export const Router = () => {
+const AppRoutes = () => {
 
     return (
         <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<HomePage />} exact />
-            <Route path="/home" element={<Dashboard />} exact />
-        </Routes>
+            <Routes>
+                <Route exact path="/" component={<HomePage />}  />
+                <Route path="/dashboard" element={<Dashboard />}  />
+            </Routes>
         </BrowserRouter>
     );
 }
+export default AppRoutes;
