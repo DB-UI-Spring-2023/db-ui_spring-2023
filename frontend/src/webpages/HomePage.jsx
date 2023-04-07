@@ -21,6 +21,7 @@ import {
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import { Dashboard } from "./Dashboard";
 
 //import { Alert } from 'react-alert'
 
@@ -66,11 +67,13 @@ export const HomePage = () => {
       if (response.data.loggedIn == true){
         setLoginStatus(response.data.user[0].email)
         nav("/dashboard");
+      } else {
+        setLoginStatus("Not logged in.")
       }
     })
   },[])
   
-  
+  if (loginStatus.msg || loginStatus == "Not logged in."){
   return (
     <>
       <Grid
@@ -129,7 +132,6 @@ export const HomePage = () => {
             <p className="divider-text">or</p>
           </div>
           <JoinModal />
-          <CreateListing />
         </GridItem>
         <GridItem area={"hero"} m='auto'>
           <Center justifyContent='center'>
@@ -138,4 +140,9 @@ export const HomePage = () => {
       </Grid>
     </>
   );
+
+} else {
+  return <Dashboard />
+}
+
 };
