@@ -80,7 +80,7 @@ export const JoinModal = () => {
   // then, navigate the new user to their dashboard
   const sendNewUser = () => {
     axios
-      .post(url + "/user", user)
+      .post(url + "/newuser", user)
       .then((response) => {
         // alert(response.data)
         navigate("/home");
@@ -92,7 +92,7 @@ export const JoinModal = () => {
 
   const getNewUsers = () => {
     axios
-      .get(url + "/users")
+      .get(url + "/newusers")
       .then((response) => {
         alert(JSON.stringify(response.data));
       })
@@ -103,7 +103,7 @@ export const JoinModal = () => {
 
   const clearUsers = () => {
     axios
-      .put(url + "/users/clear")
+      .put(url + "/newusers/clear")
       .then((response) => {
         alert(response.data);
       })
@@ -114,8 +114,8 @@ export const JoinModal = () => {
 
   return (
     <>
-      <button class="join-button" type="button" onClick={onOpen}>
-        <span class="join-button-span">Join now</span>
+      <button class="sign-up-button" type="button" onClick={onOpen}>
+        <span class="sign-up-button-span">Sign up</span>
       </button>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
