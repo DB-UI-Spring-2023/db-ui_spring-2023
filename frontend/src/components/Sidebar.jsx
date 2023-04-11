@@ -1,60 +1,70 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import React, { useState } from "react";
-import Home from "@mui/icons-material/Home";
-import AccountBox from "@mui/icons-material/AccountBox";
-import AutoStories from "@mui/icons-material/AutoStories";
-import ScrollDialog from "./forms/ScrollDialog";
+import { Avatar, Divider, Flex, Heading, IconButton, Text } from "@chakra-ui/react";
+import { FiMenu, 
+         FiHome,
+         FiSettings,
+         FiPlusCircle,
+         FiPackage,
+         FiUser
+} from "react-icons/fi";
+import { useState } from "react";
+import NavItem from "./NavItem";
 
-// const StyledModal = styled(Modal)({
-//   display:"flex",
-//   alignItems:"center",
-//   justifyContent:"center",
-//   overflow:"scroll"
-// });
-
-// const Search = styled("div")(({ theme }) => ({
-//   backgroundColor: "white",
-//   p: "0 2rem",
-//   borderRadius: theme.shape.borderRadius,
-//   width: "40%",
-// }));
-
-const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+export default function Sidebar() {
+  const [ navSize, changeNavSize ] = useState("large");
   return (
-    <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
-      <Box position="fixed">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#dashboard">
-              <ListItemIcon>
-                <Home />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#profile">
-              <ListItemIcon>
-                <AccountBox />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ScrollDialog />
-          </ListItem>
-        </List>
-      </Box>
-    </Box>
-  );
-};
+    <Flex
+      pos="sticky"
+      left="5"
+      h="95vh"
+      marginTop="2.5vh"
+      boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
+      borderRadius={navSize == "small" ? "15px" : "30px"}
+      w={navSize == "small" ? "75px" : "200px"}
+      flexDir="column"
+      justifyContent="space-between"
+    >
+      <Flex
+        p="5%"
+        flexDir="column"
+        w="100%"
+        alignItems={navSize == "small" ? "center" : "flex-start"}
+        as="nav"
+      >
+          <IconButton
+            background="none"
+            mt={5}
+            _hover={{ background: 'none' }}
+            icon={<FiMenu/>}
+            onClick={() => {
+                if (navSize == "small")
+                  changeNavSize("large")
+                else
+                  changeNavSize("small")
+            }}
+          />
+          <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is the description for the dashboard." />
+          <NavItem navSize={navSize} icon={FiUser} title="Profile" />
+          <NavItem navSize={navSize} icon={FiPlusCircle} title="Create Listing" />
+          <NavItem navSize={navSize} icon={FiPackage} title="View Listings" />
+          <NavItem navSize={navSize} icon={FiSettings} title="Settings" />
+      </Flex>
 
-export default Sidebar;
+      <Flex
+        p="5%"
+        flexDir="column"
+        w="100%"
+        alignItems={navSize == "small" ? "center" : "flex-start"}
+        mb={4}
+      >
+        <Divider display={navSize == "small" ? "none" : "flex"} />
+        <Flex mt={4} align="center">
+            <Avatar size="sm" src="avatar-1.jpg" />
+            <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}>
+              <Heading as="h3" size="sm">John Doe</Heading>
+              <Text color="gray">Admin</Text>
+            </Flex>
+        </Flex> 
+      </Flex>    
+    </Flex>
+  )
+}
