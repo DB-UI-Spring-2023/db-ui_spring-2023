@@ -16,7 +16,6 @@ import {
     UnorderedList,
   } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
-import {rating} from '../components'
 
 export const Profile = () => {
     // const [rating, setRating] = useState(0);
