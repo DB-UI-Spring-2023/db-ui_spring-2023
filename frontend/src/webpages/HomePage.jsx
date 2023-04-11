@@ -34,7 +34,6 @@ export const HomePage = () => {
   const [email, setEmail] = useState("");
   const [createpword, setCreatepword] = useState("");
   const [confirmpword, setConfirmpword] = useState("");
-
   const [loginStatus, setLoginStatus] = useState("");
 
 
@@ -56,7 +55,6 @@ export const HomePage = () => {
       } else {
         setLoginStatus(response.data[0].email)
         alert(response.data[0].email)
-        nav("/dashboard");
       }
 
     });
@@ -73,7 +71,6 @@ export const HomePage = () => {
     })
   },[])
   
-  if (loginStatus.msg || loginStatus == "Not logged in."){
   return (
     <>
       <Grid
@@ -140,9 +137,4 @@ export const HomePage = () => {
       </Grid>
     </>
   );
-
-} else {
-  return <Dashboard />
-}
-
 };

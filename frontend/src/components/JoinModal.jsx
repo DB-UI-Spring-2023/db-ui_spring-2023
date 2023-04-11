@@ -17,12 +17,14 @@ import {
   Text,
   Link
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useRouter } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useRouter } from "react-router-dom";
 import axios from 'axios';
 
 export const JoinModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const navigate = useNavigate()
 
   const [input, setInput] = useState("");
   const handleInputChange = (e) => setInput(e.target.value);
@@ -33,6 +35,8 @@ export const JoinModal = () => {
   const [createpwordReg, setCreatepwordReg] = useState("");
   const [confirmpwordReg, setConfirmpwordReg] = useState("");
 
+  const [regStatus, setRegStatus] = useState(false);
+
   const register = () => {
     axios.post("http://localhost:8000/register", {
       firstName: firstReg,
@@ -41,9 +45,20 @@ export const JoinModal = () => {
       createPass: createpwordReg,
       confirmPass: confirmpwordReg
     }).then((response) => {
+      navigate("/dashboard");
       console.log(response);
+      setRegStatus(true)
+     
+    }).catch((error) => {
+      console.log(error);
     });
   };
+
+  useEffect(() => {
+    if (regStatus == true) {
+      navigate("/dashboard")
+    }
+  })
 
   return (
     <>
