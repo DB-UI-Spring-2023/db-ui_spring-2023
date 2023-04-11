@@ -16,7 +16,7 @@ import {
     UnorderedList,
   } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
-import Rate from '../components/Rate';
+import {rating} from '../components'
 
 export const Profile = () => {
     // const [rating, setRating] = useState(0);
@@ -28,7 +28,6 @@ export const Profile = () => {
             <Badge>Default</Badge>
             <h2>Username</h2>
             <h4>Current Rating</h4>
-            <Rate />
 
             <h4>Temp #Reviews</h4>
             <Textarea placeholder='Here is a sample placeholder' />
