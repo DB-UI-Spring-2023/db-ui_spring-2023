@@ -64,7 +64,7 @@ export const HomePage = () => {
     axios.get("http://localhost:8000/login").then((response) => {
       if (response.data.loggedIn == true){
         setLoginStatus(response.data.user[0].email)
-        nav("/dashboard");
+        //nav("/dashboard");
       } else {
         setLoginStatus("Not logged in.")
       }
@@ -129,6 +129,7 @@ export const HomePage = () => {
             <p className="divider-text">or</p>
           </div>
           <JoinModal />
+          <CreateListing />
         </GridItem>
         <GridItem area={"hero"} m='auto'>
           <Center justifyContent='center'>
