@@ -73,20 +73,9 @@ export const HomePage = () => {
   
   return (
     <>
-      <Grid
-        templateAreas={`"nav nav"
-                        "main hero"
-                        "main hero"`}
-        gridTemplateRows={`auto 1fr`}
-        gridTemplateColumns="60% 1fr"
-        gap="4"
-        color="blackAlpha.700"
-        fontWeight="bold"
-      >
-        <GridItem area={"nav"} bg="black" color='white'>
-          {loginStatus}
-        </GridItem>
-        <GridItem area={"main"} m="auto">
+      <Header />
+      <SimpleGrid columns={[1, 1, 1, 2, 2]} spacing={4}>
+        <Box mt="4rem">
           <Heading
             as="h1"
             size="2xl"
@@ -95,14 +84,14 @@ export const HomePage = () => {
           >
             Books 4 Less
           </Heading>
-          <Heading as="h2" size="lg" mt="2rem" textAlign="center">
-            Buy. Sell. Textbooks.
+          <Heading as="h2" size="lg" m="1rem auto" textAlign="center">
+            Buy. Sell. Trade. Textbooks.
           </Heading>
-          <FormControl mt="2rem" isRequired>
+          <FormControl w="50%" m="2rem auto" isRequired>
             <FormLabel>Email:</FormLabel>
             <Input
               type="email"
-              w='100%'
+              w="100%"
               placeHolder="name@email.com"
               onChange={(e) => {
                 handleInputChange(e);
@@ -113,7 +102,7 @@ export const HomePage = () => {
             <FormLabel mt="1rem">Password:</FormLabel>
             <Input
               type="text"
-              w='100%'
+              w="100%"
               placeHolder=""
               onChange={(e) => {
                 handleInputChange(e);

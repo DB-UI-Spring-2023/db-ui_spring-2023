@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   useDisclosure,
   Modal,
@@ -15,7 +16,7 @@ import {
   Box,
   ButtonGroup,
   Text,
-  Link
+  Link,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useRouter } from "react-router-dom";
@@ -62,8 +63,8 @@ export const JoinModal = () => {
 
   return (
     <>
-      <button class="join-button" type="button" onClick={onOpen}>
-        <span class="join-button-span">Join now</span>
+      <button class="sign-up-button" type="button" onClick={onOpen}>
+        <span class="sign-up-button-span">Sign up</span>
       </button>
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
@@ -117,7 +118,6 @@ export const JoinModal = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    
     </>
   );
 };

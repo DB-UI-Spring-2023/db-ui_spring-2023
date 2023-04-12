@@ -1,6 +1,6 @@
-const express = require('express')
-const app = express()
-const port = 8000
+const express = require("express");
+const app = express();
+const port = 8000;
 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -31,7 +31,7 @@ app.use(
 );
 
 // Enable JSON parsing
-app.use(express.json())
+app.use(express.json());
 
 // Connect to mysql
 const mysql = require('mysql2')
@@ -43,7 +43,7 @@ const connection = mysql.createConnection({
   database: 'LoginSystem'
 })
 
-connection.connect()
+connection.connect();
 
 // API routes
 
@@ -118,5 +118,5 @@ app.post('/login', (req,res) => {
 
 // Start server
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
