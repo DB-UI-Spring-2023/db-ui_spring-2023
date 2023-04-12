@@ -46,13 +46,22 @@ import { JoinModal } from "./JoinModal";
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenLogin, onOpen: onOpenLogin, onClose: onCloseLogin } = useDisclosure();
+  const { isOpen: isOpenSignUp, onOpen: onOpenSignUp, onClose: onCloseSignUp } = useDisclosure();
+
+  const [userName, setUsername] = useState();
+  const [userPassword, setUserPassword] = useState();
 
   const [newUserFirstName, setNewUserFirstName] = useState("");
   const [newUserLastName, setNewUserLastName] = useState("");
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleUsername = (e) =>
+    setUsername(e.target.value);
+    const handleUserPassword = (e) =>
+    setUserPassword(e.target.value);
 
   const handleNewUserFirstName = (e) =>
     setNewUserFirstName(e.target.value);
@@ -104,22 +113,75 @@ export const Header = () => {
               </Button>
               <Button
                 className="button"
+                w="5rem"
                 _hover={{
                   bgGradient: "linear(to-r, #0C97FA, #16E1F5)",
                   color: "#fff",
                 }}
                 hideBelow="350px"
+                onClick={onOpenLogin}
               >
                 Login
               </Button>
+              <Modal onClose={onCloseLogin} isOpen={isOpenLogin} isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Login:</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <FormControl isRequired>
+                      <FormLabel>Username:</FormLabel>
+                      <Input
+                        type="text"
+                        placeHolder="email@mail.com"
+                        onChange={handleUsername}
+                      />
+                      <FormLabel mt=".5rem">Password:</FormLabel>
+                      <Input
+                        type="text"
+                        placeHolder="Password"
+                        onChange={setUserPassword}
+                      />
+                    </FormControl>
+                  </ModalBody>
+                  <ModalFooter>
+                    <ButtonGroup gap="2">
+                      <Button
+                        color="white"
+                        bg="#0C97FA"
+                        variant="outline"
+                        _hover={{
+                          bg: "white",
+                          color: "#0C97FA",
+                          border: "2px",
+                        }}
+                        onClick={sendNewUser}
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        onClick={onCloseLogin}
+                        _hover={{
+                          bg: "white",
+                          color: "#FF176B",
+                          border: "2px",
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </ButtonGroup>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
               <Button
                 className="button"
+                w="5rem"
                 _hover={{
                   bgGradient: "linear(to-r, #49c5f6, #ff2aef)",
                   color: "#fff",
                 }}
                 hideBelow="350px"
-                onClick={onOpen}
+                onClick={onOpenSignUp}
               >
                 Sign up
               </Button>
@@ -127,7 +189,7 @@ export const Header = () => {
           </Flex>
         </Flex>
       </Box>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={onCloseSignUp} isOpen={isOpenSignUp} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create an account</ModalHeader>
@@ -178,14 +240,14 @@ export const Header = () => {
                 Create
               </Button>
               <Button
-                onClick={onClose}
+                onClick={onCloseSignUp  }
                 _hover={{
                   bg: "white",
                   color: "#FF176B",
                   border: "2px",
                 }}
               >
-                Close
+                Cancel
               </Button>
             </ButtonGroup>
           </ModalFooter>

@@ -45,7 +45,7 @@ export const HomePage = () => {
     <>
       <Header />
       <SimpleGrid columns={[1, 1, 1, 2, 2]} spacing={4}>
-        <Box mt="4rem">
+        <Box mt="3rem">
           <Heading
             as="h1"
             size="2xl"
@@ -70,7 +70,7 @@ export const HomePage = () => {
             <Input
               type="text"
               w="100%"
-              placeHolder=""
+              placeHolder="smu2023"
               onChange={handleUserPassword}
             />
           </FormControl>
@@ -82,7 +82,7 @@ export const HomePage = () => {
           </div>
           <JoinModal />
         </Box>
-        <Box mt="4rem">
+        <Box mt="3rem">
           <Center justifyContent="center">
             <Image
               className="hero"
