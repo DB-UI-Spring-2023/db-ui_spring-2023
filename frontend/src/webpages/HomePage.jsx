@@ -33,7 +33,6 @@ export const HomePage = () => {
 
   const [email, setEmail] = useState("");
   const [createpword, setCreatepword] = useState("");
-  const [confirmpword, setConfirmpword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
 
 
@@ -44,8 +43,7 @@ export const HomePage = () => {
   const login = () => {
     axios.post("http://localhost:8000/login", {
       email: email,
-      createPass: createpword,
-      confirmPass: confirmpword
+      createPass: createpword
     }).then((response) => {
      
       if (response.data.msg) {
@@ -64,7 +62,7 @@ export const HomePage = () => {
     axios.get("http://localhost:8000/login").then((response) => {
       if (response.data.loggedIn == true){
         setLoginStatus(response.data.user[0].email)
-        //nav("/dashboard");
+        nav("/dashboard");
       } else {
         setLoginStatus("Not logged in.")
       }
@@ -107,12 +105,11 @@ export const HomePage = () => {
               onChange={(e) => {
                 handleInputChange(e);
                 setCreatepword(e.target.value);
-                setConfirmpword(e.target.value);
                 }}
             />
           </FormControl>
           <a class="login-button" href="/">
-            <span onClick={login} class="login-button-span">Sign in</span>
+            <span onClick={login} class="login-button-span">Login</span>
           </a>
           <div className="left-right-divider">
             <p className="divider-text">or</p>

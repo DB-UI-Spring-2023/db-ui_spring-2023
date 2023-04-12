@@ -58,6 +58,8 @@ export const Header = () => {
   const [newUserPassword, setNewUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [loginStatus, setLoginStatus] = useState("");
+
   const handleUsername = (e) =>
     setUsername(e.target.value);
     const handleUserPassword = (e) =>
@@ -79,12 +81,12 @@ export const Header = () => {
     firstName: newUserFirstName,
     lastName: newUserLastName,
     email: newUserEmail,
-    password: newUserPassword,
+    createPass: newUserPassword,
   };
 
   const sendNewUser = () => {
     axios
-      .post(url + "/newuser", user)
+      .post(url + "/register", user)
       .then((response) => {
         // alert(response.data)
         navigate("/home");
@@ -92,6 +94,24 @@ export const Header = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const login = () => {
+    axios.post("http://localhost:8000/login", {
+      email: newUserEmail,
+      createPass: newUserPassword
+    }).then((response) => {
+     
+      if (response.data.msg) {
+        setLoginStatus(response.data.msg)
+        alert(response.data.msg)
+        
+      } else {
+        setLoginStatus(response.data[0].email)
+        alert(response.data[0].email)
+      }
+
+    });
   };
 
   return (
@@ -155,7 +175,7 @@ export const Header = () => {
                           color: "#0C97FA",
                           border: "2px",
                         }}
-                        onClick={sendNewUser}
+                        onClick={login}
                       >
                         Login
                       </Button>

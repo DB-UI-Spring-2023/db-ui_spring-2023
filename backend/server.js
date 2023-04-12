@@ -53,11 +53,10 @@ app.post('/register', (req,res) => {
     const lastName = req.body.lastName
     const email = req.body.email
     const createPass = req.body.createPass
-    const confirmPass = req.body.confirmPass
 
     connection.query(
-        "INSERT INTO LoginSystem.Users (firstName, lastName, email, createPass, confirmPass) VALUES (?,?,?,?,?)",
-        [firstName, lastName, email, createPass, confirmPass], (err, result) => {
+        "INSERT INTO LoginSystem.Users (firstName, lastName, email, createPass) VALUES (?,?,?,?)",
+        [firstName, lastName, email, createPass], (err, result) => {
         console.log(err)
     })
 })
@@ -91,11 +90,10 @@ app.post('/login', (req,res) => {
 
     const email = req.body.email
     const createPass = req.body.createPass
-    const confirmPass = req.body.confirmPass
 
     connection.query(
-        "SELECT * FROM LoginSystem.Users WHERE email = ? AND createPass = ? AND confirmPass = ?",
-        [email, createPass, confirmPass], (err, result) => {
+        "SELECT * FROM LoginSystem.Users WHERE email = ? AND createPass = ? ",
+        [email, createPass], (err, result) => {
         
         if (err){
             res.send({err: err})
