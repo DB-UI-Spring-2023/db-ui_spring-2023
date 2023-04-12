@@ -20,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useRouter } from "react-router-dom";
-import axios from 'axios';
 
 export const JoinModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

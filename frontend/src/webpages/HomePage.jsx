@@ -119,12 +119,13 @@ export const HomePage = () => {
           </div>
           <JoinModal />
           <CreateListing />
-        </GridItem>
-        <GridItem area={"hero"} m='auto'>
+        </Box>
+        <Box mt ="3rem">
           <Center justifyContent='center'>
-          <Image className="hero" src={hero} alt="college students tutoring" /></Center>
-        </GridItem>
-      </Grid>
+          <Image className="hero" src={hero} alt="college students tutoring" />
+          </Center>
+        </Box>
+      </SimpleGrid>
     </>
   );
 };
