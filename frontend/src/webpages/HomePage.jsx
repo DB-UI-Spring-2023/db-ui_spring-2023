@@ -75,7 +75,7 @@ export const HomePage = () => {
     <>
       <Header />
       <SimpleGrid columns={[1, 1, 1, 2, 2]} spacing={4}>
-        <Box mt="4rem">
+        <Box mt="3rem">
           <Heading
             as="h1"
             size="2xl"
@@ -120,9 +120,13 @@ export const HomePage = () => {
           <JoinModal />
           <CreateListing />
         </Box>
-        <Box mt ="3rem">
-          <Center justifyContent='center'>
-          <Image className="hero" src={hero} alt="college students tutoring" />
+        <Box mt="3rem">
+          <Center justifyContent="center">
+            <Image
+              className="hero"
+              src={hero}
+              alt="college students tutoring"
+            />
           </Center>
         </Box>
       </SimpleGrid>
