@@ -12,7 +12,7 @@ export const App = () => {
   return (
     <>
     {/* <HomePage /> */}
-    <Profile />
+    {/* <Profile /> */}
     <Search />
     <BookList/>
     <BookList/>
