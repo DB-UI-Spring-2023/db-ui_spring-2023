@@ -48,6 +48,7 @@ export const BookList = () => {
                     <Button variant='ghost' colorScheme='teal'>
                         Add to cart
                     </Button>
+                    
                     <Button variant='ghost' ref={btnRef} colorScheme='pink' onClick={onOpen}>
                         Details
                     </Button>
@@ -66,24 +67,31 @@ export const BookList = () => {
                                 <Stack>
                                     <div>
                                     <h2> Summary </h2>
-                                    <Text>Adaptation of the first of J.K. Rowling's popular children's novels about Harry Potter, a boy who learns on his eleventh birthday that he is the orphaned son of two powerful wizards and possesses unique magical powers of his own. He is summoned from his life as an unwanted child to become a student at Hogwarts, an English boarding school for wizards. There, he meets several friends who become his closest allies and help him discover the truth about his parents' mysterious deaths.</Text>
+                                    <Text>Harry Potter and the Philosopher's Stone is a fantasy novel written by British author J. K. Rowling. The first novel in the Harry Potter series and Rowling's debut novel, it follows Harry Potter, a young wizard who discovers his magical heritage on his eleventh birthday, when he receives a letter of acceptance to Hogwarts School of Witchcraft and Wizardry. Harry makes close friends and a few enemies during his first year at the school and with the help of his friends, Ron Weasley and Hermione Granger, he faces an attempted comeback by the dark wizard Lord Voldemort, who killed Harry's parents, but failed to kill Harry when he was just 15 months old.</Text>
                                     </div>
                                     <Divider />
-
                                     <h2> Auther</h2>
-                                    
+                                    <Text>J.K. Rowling</Text>
+                                    <Divider />
+                                    <h2> Publisher</h2>
+                                    <Text> Bloomsbury Publishing</Text>
+                                    <Divider />
+                                    <h2> Published Date</h2>
+                                    <Text> 26 June 1997</Text>
+                                    <Divider />
+                                    <h2> ISBN</h2>
+                                    <Text> 9780747532743</Text>
+                                    <Divider />
                                 </Stack>
                             </DrawerBody>
-
+                            
                             <DrawerFooter>
-                                <Button variant='solid' colorScheme='pink'>
-                                    Buy now
-                                </Button>   
+                                <Button variant='ghost' colorScheme='blue'>
+                                    Merchant Info
+                                </Button>  
                             </DrawerFooter>
-
                         </DrawerContent>
                     </Drawer>
-
                     </ButtonGroup>
                 </CardFooter>
             </Card>

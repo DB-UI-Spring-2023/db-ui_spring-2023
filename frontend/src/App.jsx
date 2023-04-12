@@ -6,13 +6,20 @@ import { useState } from "react";
 import bookCart from "./components/bookCart";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Search } from "./webpages";
+import { BookList } from "./components";
 
 export const App = () => {
   return (
     <>
     {/* <HomePage /> */}
-    {/* <Profile /> */}
+    <Profile />
     <Search />
+    <BookList/>
+    <BookList/>
+    <BookList/>
+    <BookList/>
+
+    <BookList/>
     {/* <bookCart /> */}
     </>
   );
