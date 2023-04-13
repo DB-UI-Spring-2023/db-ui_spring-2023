@@ -1,4 +1,4 @@
-/**
+/*
  * Author:          Rudy Lucas
  * filename:        server.js
  * Date:            04-13-2023
@@ -30,7 +30,7 @@ const connection = mysql.createConnection({
 connection.connect();
 
 // import routers
-const postUsersRouter = require('./routes/postUsersRoutes')(connection);
+const postUsersRouter = require('./routes/postRoutes')(connection);
 const getPutRouter = require('./routes/getPutRoutes')(connection);
 
 // mount the routers

@@ -1,6 +1,6 @@
 /*
  * Author:          Rudy Lucas
- * filename:        server.js
+ * filename:        postRoutes.js
  * Date:            04-13-2023
  * Description:     This file represents backend functionality of
  *                  post routes, and will be exported to server.js
@@ -10,10 +10,15 @@ const express = require("express");
 module.exports = (connection) => {
   const router = express.Router();
 
+  // Login credentials
   router.post("/login", (request, response) => {
     const email = request.body.email;
     const password = request.body.password;
 
+    //  defines an SQL query as a string;
+    //  the query SELECTS all the columns (*) from the newuser table
+    //  where the 'email' and 'password' columns match placeholders (?)
+    //  when the query is executed, the (?) will be replaced with values
     const query =
       "SELECT * FROM newuser WHERE email = ? AND password = ?";
     connection.query(query, [email, password], (error, result) => {
@@ -29,11 +34,11 @@ module.exports = (connection) => {
     });
   });
 
-  // create a user
-  // 38: take fields in request.body and assign/record them to firstName, lastName, email, password
-  // 39: insert data into the newuser table: firstName data = first_name column; lastName data = last_name column; etc
-  // 40-41: send query to the connection; if there is an error, throws the error
-  // 43-45: if successful, log the rows, and send a successful result to the user
+  //  Create a new user
+  //  38: take fields in request.body and assign/record them to firstName, lastName, email, password
+  //  39: insert data into the newuser table: firstName data = first_name column; lastName data = last_name column; etc
+  //  40-41: send query to the connection; if there is an error, throws the error
+  //  43-45: if successful, log the rows, and send a successful result to the user
   router.post("/newuser", (request, response) => {
     const { firstName, lastName, email, password } = request.body;
     const query = `INSERT INTO newuser (first_name, last_name, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${password}')`;

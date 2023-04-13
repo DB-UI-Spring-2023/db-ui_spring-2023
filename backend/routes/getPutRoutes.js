@@ -1,6 +1,6 @@
 /*
  * Author:          Rudy Lucas
- * filename:        server.js
+ * filename:        getPutRoutes.js
  * Date:            04-13-2023
  * Description:     This file represents backend functionality of
  *                  get and put routes, and will be exported to server.js
