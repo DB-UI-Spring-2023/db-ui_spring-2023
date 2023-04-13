@@ -114,4 +114,9 @@
       background: #FFF;
     }
 
+    .error-message {
+      color: #ff176b;
+      font-size: small;
+    }
+
     

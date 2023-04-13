@@ -1,4 +1,4 @@
-/**
+/*
  * Author:          Rudy Lucas
  * filename:        Header.jsx
  * Date:            03-20-2023
@@ -8,6 +8,7 @@
  *                  and the "Sign In"/"Sign Out" buttons
  */
 import "../css/Header.css";
+import "../css/HomePage.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import booksIcon from "../images/stack-of-books.png";
@@ -40,17 +41,27 @@ import {
   Stack,
   useColorMode,
   Center,
+  Text,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { JoinModal } from "./JoinModal";
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen: isOpenLogin, onOpen: onOpenLogin, onClose: onCloseLogin } = useDisclosure();
-  const { isOpen: isOpenSignUp, onOpen: onOpenSignUp, onClose: onCloseSignUp } = useDisclosure();
+  const {
+    isOpen: isOpenLogin,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenSignUp,
+    onOpen: onOpenSignUp,
+    onClose: onCloseSignUp,
+  } = useDisclosure();
 
-  const [userName, setUsername] = useState();
+  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [newUserFirstName, setNewUserFirstName] = useState("");
   const [newUserLastName, setNewUserLastName] = useState("");
@@ -58,10 +69,8 @@ export const Header = () => {
   const [newUserPassword, setNewUserPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleUsername = (e) =>
-    setUsername(e.target.value);
-    const handleUserPassword = (e) =>
-    setUserPassword(e.target.value);
+  const handleUserEmail = (e) => setUserEmail(e.target.value);
+  const handleUserPassword = (e) => setUserPassword(e.target.value);
 
   const handleNewUserFirstName = (e) =>
     setNewUserFirstName(e.target.value);
@@ -75,11 +84,32 @@ export const Header = () => {
 
   const url = "http://localhost:8000";
 
+  const login = {
+    email: userEmail,
+    password: userPassword,
+  };
+
   const user = {
     firstName: newUserFirstName,
     lastName: newUserLastName,
     email: newUserEmail,
     password: newUserPassword,
+  };
+
+  const sendLogin = async (event) => {
+    event.preventDefault(); // prevent default behavior of the <a> element
+
+    try {
+      const response = await axios.post(url + "/login", login);
+      // alert(response.data);
+      navigate("/home");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
   };
 
   const sendNewUser = () => {
@@ -123,7 +153,11 @@ export const Header = () => {
               >
                 Login
               </Button>
-              <Modal onClose={onCloseLogin} isOpen={isOpenLogin} isCentered>
+              <Modal
+                onClose={onCloseLogin}
+                isOpen={isOpenLogin}
+                isCentered
+              >
                 <ModalOverlay />
                 <ModalContent>
                   <ModalHeader>Login:</ModalHeader>
@@ -134,15 +168,22 @@ export const Header = () => {
                       <Input
                         type="text"
                         placeHolder="email@mail.com"
-                        onChange={handleUsername}
+                        onChange={handleUserEmail}
                       />
                       <FormLabel mt=".5rem">Password:</FormLabel>
                       <Input
                         type="text"
                         placeHolder="Password"
-                        onChange={setUserPassword}
+                        onChange={handleUserPassword}
                       />
                     </FormControl>
+                    <Flex mt="1rem">
+                      {errorMessage && (
+                        <p className="error-message">
+                          <b>{errorMessage}</b>
+                        </p>
+                      )}
+                    </Flex>
                   </ModalBody>
                   <ModalFooter>
                     <ButtonGroup gap="2">
@@ -155,7 +196,7 @@ export const Header = () => {
                           color: "#0C97FA",
                           border: "2px",
                         }}
-                        onClick={sendNewUser}
+                        onClick={sendLogin}
                       >
                         Login
                       </Button>
@@ -228,19 +269,19 @@ export const Header = () => {
             <ButtonGroup gap="2">
               <Button
                 color="white"
-                bg="#0C97FA"
+                bgGradient="linear(to-r, #49C5F6, #FF2AEF)"
                 variant="outline"
                 _hover={{
-                  bg: "white",
-                  color: "#0C97FA",
-                  border: "2px",
+                  color: "#252525",
+                  bg: "#FFF",
+                  borderColor: "#252525",
                 }}
                 onClick={sendNewUser}
               >
                 Create
               </Button>
               <Button
-                onClick={onCloseSignUp  }
+                onClick={onCloseSignUp}
                 _hover={{
                   bg: "white",
                   color: "#FF176B",

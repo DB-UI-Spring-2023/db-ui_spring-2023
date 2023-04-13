@@ -156,26 +156,38 @@ export const JoinModal = () => {
             <ButtonGroup gap="2">
               <Button
                 color="white"
-                bg="#0C97FA"
+                bgGradient='linear(to-r, #49C5F6, #FF2AEF)'
                 variant="outline"
                 _hover={{
-                  bg: "white",
-                  color: "#0C97FA",
-                  border: "2px",
+                  color: '#252525',
+                  bg: '#FFF',
+                  borderColor: '#252525'
                 }}
                 onClick={sendNewUser}
               >
                 Create
               </Button>
+              {/*<Button
+                color="white"
+                bgGradient='linear(to-r, #49C5F6, #FF2AEF)'
+                variant="outline"
+                _hover={{
+                  color: '#252525',
+                  bg: '#FFF',
+                  borderColor: '#252525'
+                }}
+                onClick={clearUsers}
+              >
+                Clear Users
+              </Button>*/}
               <Button
                 onClick={onClose}
                 _hover={{
-                  bg: "white",
-                  color: "#FF176B",
+                  color: "red",
                   border: "2px",
                 }}
               >
-                Close
+                Cancel
               </Button>
             </ButtonGroup>
           </ModalFooter>
