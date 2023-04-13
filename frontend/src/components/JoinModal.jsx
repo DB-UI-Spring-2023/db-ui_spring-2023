@@ -1,3 +1,11 @@
+/*
+ * Author:          Rudy Lucas
+ * filename:        JoinModal.jsx
+ * Date:            03-20-2023
+ * Description:     This component is a modal that activates when 
+ *                  attempting to sign up for an account.
+ */
+
 import axios from "axios";
 import {
   useDisclosure,

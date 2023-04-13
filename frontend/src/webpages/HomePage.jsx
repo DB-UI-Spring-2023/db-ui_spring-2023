@@ -1,3 +1,12 @@
+/*
+ * Author:          Rudy Lucas
+ * filename:        HomePage.jsx
+ * Date:            03-20-2023
+ * Description:     This component represents the website's homepage with 
+ *                  simple functionality such as logging into your account
+ *                  and signing up for an account.
+ */
+
 import axios from "axios";
 import { Header, JoinModal } from "../components";
 import hero from "../images/hero.png";
