@@ -40,7 +40,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'password',
-  database: 'LoginSystem'
+  database: 'DB_UI'
 })
 
 connection.connect();
@@ -55,7 +55,7 @@ app.post('/register', (req,res) => {
     const createPass = req.body.createPass
 
     connection.query(
-        "INSERT INTO LoginSystem.Users (firstName, lastName, email, createPass) VALUES (?,?,?,?)",
+        "INSERT INTO DB_UI.Users (firstName, lastName, email, createPass) VALUES (?,?,?,?)",
         [firstName, lastName, email, createPass], (err, result) => {
         console.log(err)
     })
@@ -71,7 +71,7 @@ app.post('/post-listing', (req,res) => {
     const Cost = req.body.cost
 
     connection.query(
-        "INSERT INTO LoginSystem.Books (IBSN, Title, Author, bookCondition, bookFormat, Cost) VALUES (?,?,?,?,?,?)",
+        "INSERT INTO DB_UI.Books (IBSN, Title, Author, bookCondition, bookFormat, Cost) VALUES (?,?,?,?,?,?)",
         [IBSN, Title, Author, bookCondition, bookFormat, Cost], (err, result) => {
         console.log(err)
         
@@ -92,7 +92,7 @@ app.post('/login', (req,res) => {
     const createPass = req.body.createPass
 
     connection.query(
-        "SELECT * FROM LoginSystem.Users WHERE email = ? AND createPass = ? ",
+        "SELECT * FROM DB_UI.Users WHERE email = ? AND createPass = ? ",
         [email, createPass], (err, result) => {
         
         if (err){

@@ -49,7 +49,7 @@ export const Header = () => {
   const { isOpen: isOpenLogin, onOpen: onOpenLogin, onClose: onCloseLogin } = useDisclosure();
   const { isOpen: isOpenSignUp, onOpen: onOpenSignUp, onClose: onCloseSignUp } = useDisclosure();
 
-  const [userName, setUsername] = useState();
+  const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
 
   const [newUserFirstName, setNewUserFirstName] = useState("");
@@ -60,8 +60,8 @@ export const Header = () => {
 
   const [loginStatus, setLoginStatus] = useState("");
 
-  const handleUsername = (e) =>
-    setUsername(e.target.value);
+  const handleUserEmail = (e) =>
+    setUserEmail(e.target.value);
     const handleUserPassword = (e) =>
     setUserPassword(e.target.value);
 
@@ -89,7 +89,7 @@ export const Header = () => {
       .post(url + "/register", user)
       .then((response) => {
         // alert(response.data)
-        navigate("/home");
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
@@ -98,8 +98,8 @@ export const Header = () => {
 
   const login = () => {
     axios.post("http://localhost:8000/login", {
-      email: newUserEmail,
-      createPass: newUserPassword
+      email: userEmail,
+      createPass: userPassword
     }).then((response) => {
      
       if (response.data.msg) {
@@ -109,10 +109,22 @@ export const Header = () => {
       } else {
         setLoginStatus(response.data[0].email)
         alert(response.data[0].email)
+
       }
 
     });
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/login").then((response) => {
+      if (response.data.loggedIn == true){
+        setLoginStatus(response.data.user[0].email)
+        navigate("/dashboard");
+      } else {
+        setLoginStatus("Not logged in.")
+      }
+    })
+  },[])
 
   return (
     <>
@@ -154,13 +166,13 @@ export const Header = () => {
                       <Input
                         type="text"
                         placeHolder="email@mail.com"
-                        onChange={handleUsername}
+                        onChange={handleUserEmail}
                       />
                       <FormLabel mt=".5rem">Password:</FormLabel>
                       <Input
                         type="text"
                         placeHolder="Password"
-                        onChange={setUserPassword}
+                        onChange={handleUserPassword}
                       />
                     </FormControl>
                   </ModalBody>
