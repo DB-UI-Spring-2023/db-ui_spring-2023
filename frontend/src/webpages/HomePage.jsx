@@ -1,4 +1,4 @@
-import { Header, JoinModal, CreateListing } from "../components";
+import { Header, JoinModal } from "../components";
 import hero from "../images/hero.png";
 import "../css/HomePage.css";
 import {
@@ -21,7 +21,7 @@ import {
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
-import { Dashboard } from "./Dashboard";
+
 
 //import { Alert } from 'react-alert'
 
@@ -67,7 +67,7 @@ export const HomePage = () => {
         setLoginStatus("Not logged in.")
       }
     })
-  },[])
+  },[loginStatus])
   
   return (
     <>
@@ -115,7 +115,7 @@ export const HomePage = () => {
             <p className="divider-text">or</p>
           </div>
           <JoinModal />
-          <CreateListing />
+         
         </Box>
         <Box mt="3rem">
           <Center justifyContent="center">

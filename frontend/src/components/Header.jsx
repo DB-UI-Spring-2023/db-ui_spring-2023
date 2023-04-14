@@ -40,6 +40,7 @@ import {
   Stack,
   useColorMode,
   Center,
+  useEditable,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { JoinModal } from "./JoinModal";
@@ -56,8 +57,8 @@ export const Header = () => {
   const [newUserLastName, setNewUserLastName] = useState("");
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [registerStatus, setRegisterStatus] = useState(false);
   const [loginStatus, setLoginStatus] = useState("");
 
   const handleUserEmail = (e) =>
@@ -88,10 +89,13 @@ export const Header = () => {
     axios
       .post(url + "/register", user)
       .then((response) => {
-        // alert(response.data)
-        navigate("/dashboard");
+        setRegisterStatus(true);
+        setUserEmail(newUserEmail);
+        setUserPassword(newUserPassword);
+        //alert(registerStatus);
       })
       .catch((error) => {
+        setRegisterStatus(false);
         console.log(error);
       });
   };
@@ -104,16 +108,22 @@ export const Header = () => {
      
       if (response.data.msg) {
         setLoginStatus(response.data.msg)
-        alert(response.data.msg)
+        //alert(response.data.msg)
         
       } else {
         setLoginStatus(response.data[0].email)
-        alert(response.data[0].email)
-
+        //alert(response.data[0].email)
       }
 
     });
   };
+
+  useEffect(() => {
+    if (registerStatus == true) {
+      onCloseSignUp();
+      login();
+    }
+  },[registerStatus])
 
   useEffect(() => {
     axios.get("http://localhost:8000/login").then((response) => {
@@ -124,7 +134,7 @@ export const Header = () => {
         setLoginStatus("Not logged in.")
       }
     })
-  },[])
+  },[loginStatus])
 
   return (
     <>

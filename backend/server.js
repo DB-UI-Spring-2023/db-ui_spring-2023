@@ -25,7 +25,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60 * 60 * 10,
+            expires: 60 * 60 * 24,
         },
     })
 );
@@ -57,7 +57,10 @@ app.post('/register', (req,res) => {
     connection.query(
         "INSERT INTO DB_UI.Users (firstName, lastName, email, createPass) VALUES (?,?,?,?)",
         [firstName, lastName, email, createPass], (err, result) => {
-        console.log(err)
+          if (err){
+            res.send({err: err})
+          }
+          res.send(result);
     })
 })
 
@@ -113,6 +116,26 @@ app.post('/login', (req,res) => {
         
     })
 })
+
+// API endpoint for fetching books data
+app.post('/books', (req, res) => {
+  const searchTerm = req.query.search || "";
+
+  // Construct SQL query with search term
+  const query = `SELECT * FROM DB_UI.Books WHERE Title LIKE '%${searchTerm}%' OR Author LIKE '%${searchTerm}%'`;
+
+  // Fetch data from MySQL database
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.log("Error fetching books:", error);
+      return res.status(500).json({ error: "Error fetching books" });
+    }
+
+    // Send retrieved data as JSON response
+    res.json(results);
+  });
+});
+
 
 // Start server
 app.listen(port, () => {
