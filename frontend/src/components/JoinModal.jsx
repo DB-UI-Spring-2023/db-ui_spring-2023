@@ -26,8 +26,8 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
-import { useNavigate, useRouter } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const JoinModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
