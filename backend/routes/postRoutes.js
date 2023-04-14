@@ -19,6 +19,8 @@ module.exports = (connection) => {
     //  the query SELECTS all the columns (*) from the newuser table
     //  where the 'email' and 'password' columns match placeholders (?)
     //  when the query is executed, the (?) will be replaced with values
+    //  HTTP status codes:
+    //  200 = OK; 401 = Unauthorized; 404 = Not Found; 500 = Internal Server Error; 
     const query =
       "SELECT * FROM newuser WHERE email = ? AND password = ?";
     connection.query(query, [email, password], (error, result) => {
