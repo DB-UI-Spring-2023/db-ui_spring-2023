@@ -1,9 +1,10 @@
-import { Grid, GridItem, Input, Flex, Center, Stack, Menu, MenuButton, Spacer, IconButton, MenuList, MenuItem } from "@chakra-ui/react";
-import { HamburgerIcon, AddIcon } from "@chakra-ui/icon";
+import { Grid, GridItem, Input, Stack, Menu, MenuButton, IconButton, useColorMode } from "@chakra-ui/react";
 import { MdDensityMedium } from 'react-icons/md';
 import Sidebar from "./Sidebar";
 
 export const Dashboard = () => {
+  // const { colorMode, toggleColorMode } = useColorMode();
+  
   return (
     <Grid
       templateAreas={`"header header"
@@ -16,7 +17,7 @@ export const Dashboard = () => {
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <GridItem bg="orange.300" area={"header"}>
+      <GridItem bg="salmon" area={"header"}>
         <Stack direction='row'>
           <Input mt='2rem' ml='auto' mr='auto' w='90%' variant='filled' placeholder='Enter Textbook Keywords...' />
           
@@ -25,7 +26,7 @@ export const Dashboard = () => {
           </Menu>
       </Stack>
       </GridItem>
-      <GridItem pl="2" bg="" area={"nav"}>
+      <GridItem w="3" pl="2" bg="" area={"nav"}>
         <Sidebar />
       </GridItem>
       <GridItem pl="2" bg="green.300" area={"main"}>

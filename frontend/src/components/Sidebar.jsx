@@ -1,13 +1,14 @@
 import { Avatar, Divider, Flex, Heading, IconButton, Text } from "@chakra-ui/react";
-import { FiMenu, 
-         FiHome,
+import { FiHome,
          FiSettings,
          FiPlusCircle,
          FiPackage,
-         FiUser
+         FiUser,
+         FiAlignLeft
 } from "react-icons/fi";
 import { useState } from "react";
 import NavItem from "./NavItem";
+import Profile from "./Profile";
 
 export default function Sidebar() {
   const [ navSize, changeNavSize ] = useState("large");
@@ -34,7 +35,7 @@ export default function Sidebar() {
             background="none"
             mt={5}
             _hover={{ background: 'none' }}
-            icon={<FiMenu/>}
+            icon={<FiAlignLeft/>}
             onClick={() => {
                 if (navSize == "small")
                   changeNavSize("large")
@@ -42,11 +43,12 @@ export default function Sidebar() {
                   changeNavSize("small")
             }}
           />
-          <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is the description for the dashboard." />
-          <NavItem navSize={navSize} icon={FiUser} title="Profile" />
-          <NavItem navSize={navSize} icon={FiPlusCircle} title="Create Listing" />
-          <NavItem navSize={navSize} icon={FiPackage} title="View Listings" />
-          <NavItem navSize={navSize} icon={FiSettings} title="Settings" />
+          <NavItem navSize={navSize} icon={FiHome} id="dashboard" title="Dashboard" description="This is the description for the dashboard." />
+          <Profile navSize={navSize} icon={FiUser} id="profile" title="Profile" />
+          {/* <NavItem navSize={navSize} icon={FiUser} id="profile" title="Profile" /> */}
+          <NavItem navSize={navSize} icon={FiPlusCircle} id="create-listing" title="Create Listing" />
+          <NavItem navSize={navSize} icon={FiPackage} id="view-listing" title="View Listings" />
+          <NavItem navSize={navSize} icon={FiSettings} id="settings" title="Settings" />
       </Flex>
 
       <Flex
