@@ -29,45 +29,52 @@ const books = [
   ];
   
   
-
 export const Search = () => {
-  const [pickerItems, setPickerItems] = React.useState(books);
-  const [selectedItems, setSelectedItems] = React.useState([]);
+    const [pickerItems, setPickerItems] = React.useState(books);
+    const [selectedItems, setSelectedItems] = React.useState([]);
 
-  const handleCreateItem = (item) => {
-    setPickerItems((curr) => [...curr, item]);
-    setSelectedItems((curr) => [...curr, item]);
-  };
+    const handleCreateItem = (item) => {
+        setPickerItems((curr) => [...curr, item]);
+        setSelectedItems((curr) => [...curr, item]);
+    };
 
-  const handleSelectedItemsChange = (selectedItems) => {
-    if (selectedItems) {
-      setSelectedItems(selectedItems);
-    }
-  };
+    const handleSelectedItemsChange = (selectedItems) => {
+        if (selectedItems) {
+        setSelectedItems(selectedItems);
+        } else {
+        setSelectedItems([]);
+        }
+        console.log(selectedItems);
+    };
 
-  return (
-    <ChakraProvider>
-      <Box px={8} py={4}>
-        <CUIAutoComplete
-          label="Find a Book"
-          placeholder="Type a Book Title"
-          onCreateItem={handleCreateItem}
-          items={pickerItems}
-          tagStyleProps={{
-            rounded: "full",
-            pt: 1,
-            pb: 2,
-            px: 2,
-            fontSize: "1rem"
-          }}
-          selectedItems={selectedItems}
-          onSelectedItemsChange={(changes) =>
-            handleSelectedItemsChange(changes.selectedItems)
-          }
-        />
-      </Box>
-    </ChakraProvider>
-  );
+    const [value, setValue] = React.useState('');
+    const onChange = (event) => {
+        setValue(event.target.value);
+    };
+
+    return (
+        <ChakraProvider>
+        <Box px={8} py={4}>
+            <CUIAutoComplete
+            label="Find a Book"
+            placeholder="Type a Book Title"
+            onCreateItem={handleCreateItem}
+            items={pickerItems}
+            tagStyleProps={{
+                rounded: "full",
+                pt: 1,
+                pb: 2,
+                px: 2,
+                fontSize: "1rem"
+            }}
+            selectedItems={selectedItems}
+            onSelectedItemsChange={(changes) =>
+                handleSelectedItemsChange(changes.selectedItems)
+            }
+            />
+        </Box>
+        </ChakraProvider>
+    );
 }
 
 // import React from 'react';
