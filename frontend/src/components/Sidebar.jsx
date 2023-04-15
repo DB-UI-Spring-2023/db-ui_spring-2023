@@ -9,6 +9,7 @@ import { FiHome,
 import { useState } from "react";
 import NavItem from "./NavItem";
 import Profile from "./Profile";
+import CreateListing from "./CreateListing";
 
 export default function Sidebar() {
   const [ navSize, changeNavSize ] = useState("large");
@@ -46,7 +47,7 @@ export default function Sidebar() {
           <NavItem navSize={navSize} icon={FiHome} id="dashboard" title="Dashboard" description="This is the description for the dashboard." />
           <Profile navSize={navSize} icon={FiUser} id="profile" title="Profile" />
           {/* <NavItem navSize={navSize} icon={FiUser} id="profile" title="Profile" /> */}
-          <NavItem navSize={navSize} icon={FiPlusCircle} id="create-listing" title="Create Listing" />
+          <CreateListing navSize={navSize} icon={FiPlusCircle} id="create-listing" title="Create Listing" />
           <NavItem navSize={navSize} icon={FiPackage} id="view-listing" title="View Listings" />
           <NavItem navSize={navSize} icon={FiSettings} id="settings" title="Settings" />
       </Flex>
