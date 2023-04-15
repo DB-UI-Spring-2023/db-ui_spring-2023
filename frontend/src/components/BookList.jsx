@@ -25,7 +25,7 @@ export const BookList = ({book}) => {
     const btnRef = React.useRef()
     const [summary, setSummary] = useState("Summary Loading...");
 
-    const API_KEY = "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";
+
     const API_Body = {
         "model": "text-davinci-003",
         "prompt": `Can you generate a summary for a book with the title "${book.Title}"`,
@@ -38,7 +38,7 @@ export const BookList = ({book}) => {
 
     // const configuration = new Configuration({
     //     organization: "org-evB9KrNJdZTi6iyFSCm9Ujql",
-    //     apiKey: "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",
+    //   
     // });
     // const openai = new OpenAIApi(configuration);
    
@@ -48,7 +48,7 @@ export const BookList = ({book}) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer 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"
+                "Authorization": "Bearer key"
             },
             body: JSON.stringify(API_Body)
         }).then((data) => {
