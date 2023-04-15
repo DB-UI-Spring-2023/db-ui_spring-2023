@@ -1,4 +1,3 @@
-
 DROP SCHEMA IF EXISTS `DB_UI`;
 
 CREATE SCHEMA `DB_UI`;
@@ -11,7 +10,7 @@ CREATE TABLE `Books` (
   `Author` varchar(45) DEFAULT NULL,
   `bookCondition` varchar(45) NOT NULL,
   `bookFormat` varchar(45) NOT NULL,
-  `Cost` varchar(20) DEFAULT NULL,
+  `Cost` decimal(5,2) NOT NULL,
   PRIMARY KEY (`IBSN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

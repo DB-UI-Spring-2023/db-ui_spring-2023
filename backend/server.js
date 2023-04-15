@@ -118,20 +118,29 @@ app.post('/login', (req,res) => {
 })
 
 // API endpoint for fetching books data
-app.post('/books', (req, res) => {
-  const searchTerm = req.query.search || "";
+app.get('/books', (req, res) => {
+  const { searchTerm, minPrice, maxPrice } = req.query;
 
-  // Construct SQL query with search term
-  const query = `SELECT * FROM DB_UI.Books WHERE Title LIKE '%${searchTerm}%' OR Author LIKE '%${searchTerm}%'`;
+  // Prepare SQL query with placeholders for dynamic values
+  const query = `
+    SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost < ?`;
 
-  // Fetch data from MySQL database
-  connection.query(query, (error, results) => {
+  // Prepare values to replace placeholders in the SQL query
+  console.log(searchTerm,minPrice,maxPrice);
+  const values = [
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    parseFloat(minPrice) || 0,
+    parseFloat(maxPrice) || Number.MAX_VALUE,
+  ];
+
+  // Execute the SQL query with the values
+  connection.query(query, values, (error, results) => {
     if (error) {
-      console.log("Error fetching books:", error);
-      return res.status(500).json({ error: "Error fetching books" });
+      console.error("Error querying books data:", error);
+      return res.status(500).json({ error: "Failed to fetch books data" });
     }
-
-    // Send retrieved data as JSON response
+    // Send the fetched books data as JSON response
     res.json(results);
   });
 });
