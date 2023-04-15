@@ -1,6 +1,5 @@
 
-import { Box, Wrap, WrapItem, Checkbox, CheckboxGroup, Text, Input, Button } from "@chakra-ui/react";
-
+import { Box, Wrap, WrapItem, Checkbox, CheckboxGroup, Text, Input, Button, Grid, GridItem, Stack, Menu, MenuButton, IconButton, useColorMode } from "@chakra-ui/react";
 
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
@@ -8,12 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { CreateListing, BookList } from "../components";
 
 import { CUIAutoComplete } from "chakra-ui-autocomplete";
+import { MdDensityMedium } from 'react-icons/md';
+import Sidebar from "../components/Sidebar";
 
 export const Dashboard = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [books, setBooks] = useState([]);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  
 
   const nav = useNavigate();
 
@@ -53,57 +51,46 @@ export const Dashboard = () => {
   //   }
   // };
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/books", {
-          params: {
-            searchTerm,
-            minPrice,
-            maxPrice,
-          },
-        });
-        setBooks(response.data);
-      } catch (error) {
-        console.error("Error fetching books data:", error);
-      }
-    };
-    fetchBooks();
-  }, [searchTerm, minPrice, maxPrice]);
-
-  const handleSearchTermChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleMinPriceChange = (event) => {
-    setMinPrice(event.target.value);
-  };
-
-  const handleMaxPriceChange = (event) => {
-    setMaxPrice(event.target.value);
-  };
-
-  const handleClearFilters = () => {
-    setMinPrice("");
-    setMaxPrice("");
-  };
+  
 
   return (
-    
-    <Box p={4}>
+
+    <Grid
+      templateAreas={`"header header"
+                      "nav main"
+                      "nav footer"`}
+      gridTemplateRows={""}
+      gridTemplateColumns={"3 1fr"}
+      h="20rem"
+      gap="2"
+      color="blackAlpha.700"
+      fontWeight="bold"
+    >
       <div>
       <>Welcome {loginStatus}</>
       <CreateListing />
       </div>
-      {/* <Input
-        type="text"
-        placeholder="Search for a book..."
-        mb={4}
-        value={searchTerm}
-        onChange={handleSearchChange}
-      /> */}
-      {/* Search bar */}
-      {/* <input
+      <GridItem bg="salmon" area={"header"}>
+        <Stack direction='row'>
+          <Input mt='2rem' ml='auto' mr='auto' w='90%' variant='filled' placeholder='Enter Textbook Keywords...' />
+          
+          <Menu>
+              <MenuButton mt='2rem' mr='auto' as={IconButton} icon={<MdDensityMedium />} variant='outline' />
+          </Menu>
+      </Stack>
+      </GridItem>
+      <GridItem w="3" pl="2" bg="" area={"nav"}>
+        <Sidebar />
+      </GridItem>
+      
+      <GridItem pl="2" bg="green.300" area={"main"}>
+          Main
+      </GridItem>
+      <GridItem pl="2" bg="blue.300" area={"footer"}>
+        Footer
+      </GridItem>
+
+            {/* <input
         type="text"
         value={searchTerm}
         onChange={handleSearchTermChange}
@@ -124,46 +111,8 @@ export const Dashboard = () => {
               />
             )}
           /> */}
-        <Input
-        type="text"
-        placeholder="Search for a book..."
-        mb={4}
-        value={searchTerm}
-        onChange={handleSearchTermChange}
-        />
-      {/* Price range filter */}
-      <Wrap spacing={4} mb={4}>
-        <WrapItem>
-          <Input
-            type="number"
-            placeholder="Min Price"
-            value={minPrice}
-            onChange={handleMinPriceChange}
-          />
-        </WrapItem>
-        <WrapItem>
         
-          <Input
-            type="number"
-            placeholder="Max Price"
-            value={maxPrice}
-            onChange={handleMaxPriceChange}
-          />
-        </WrapItem>
-      </Wrap>
-
-      {/* Clear filters button */}
-      {(minPrice || maxPrice) && (
-        <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
-          Clear Filters
-        </Button>
-      )}
-      <Wrap spacing={4}>
-        {books.map((book) => (
-          <BookList key={book.IBSN} book = {book} />
-        ))}
-      </Wrap>
-
+      
       {/* Display books */}
       {/* <Wrap spacing={4}>
         {books.map((book) => (
@@ -177,7 +126,8 @@ export const Dashboard = () => {
         ))}
       </Wrap> */}
 
-    </Box>
+    </Grid>
+
   );
 };
 

@@ -15,13 +15,81 @@ import { Button, ButtonGroup} from '@chakra-ui/react'
 import { Divider } from '@chakra-ui/react'
 //import SorcererStone from '../images/sorcererStone.png'
 import { useDisclosure } from '@chakra-ui/react'
+import { Configuration, OpenAIApi } from 'openai'; // Import OpenAI modules
+
+
 import * as React from 'react';
 //import css from '../css/bookList.css';
 export const BookList = ({book}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
+    const [summary, setSummary] = useState("Summary Loading...");
 
-    return <>
+    const API_KEY = "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";
+    const API_Body = {
+        "model": "text-davinci-003",
+        "prompt": `Can you generate a summary for a book with the title "${book.Title}"`,
+        "temperature": 0,
+        "max_tokens": 64,
+        "top_p": 1.0,
+        "frequency_penalty": 0.0,
+        "presence_penalty": 0.0
+    };
+
+    // const configuration = new Configuration({
+    //     organization: "org-evB9KrNJdZTi6iyFSCm9Ujql",
+    //     apiKey: "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",
+    // });
+    // const openai = new OpenAIApi(configuration);
+   
+    async function callAPI(){
+        
+        await fetch("https://api.openai.com/v1/completions",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer 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"
+            },
+            body: JSON.stringify(API_Body)
+        }).then((data) => {
+            return data.json();
+        }).then((data) => {
+            console.log(data);
+            setSummary(data.choices[0].text.trim());
+        })
+    }
+
+    function openChange(){
+        callAPI();
+        onOpen();
+    }
+
+    // useEffect(() => {
+    //     // Fetch book summary using OpenAI API when component mounts
+    //     const fetchSummary = async () => {
+    //         try {
+    //             const response = await openai.textCompletions.create({
+    //                 prompt: `Generate a summary of the book "${book.Title}"`, // Prompt for generating summary
+    //                 max_tokens: 100, // Maximum number of tokens in the generated text
+    //                 n: 1, // Number of completions to generate
+    //                 stop: ['\n'], // Stop condition for generated text
+    //             });
+    //             alert(response.choices[0]?.text )
+    //             setSummary(response.choices[0]?.text || ''); // Set the book summary in state
+    //         } catch (error) {
+    //             console.error('Failed to generate book summary:', error);
+    //         }
+    //     };
+
+    //     fetchSummary(); // Call fetchSummary function
+    // }, [onOpen]);
+    
+        
+
+
+    
+
+    return (
         <stack>
         <Container>
             <Card maxW='sm'>
@@ -49,7 +117,7 @@ export const BookList = ({book}) => {
                         Add to cart
                     </Button>
                     
-                    <Button variant='ghost' ref={btnRef} colorScheme='pink' onClick={onOpen}>
+                    <Button variant='ghost' ref={btnRef} colorScheme='pink' onClick={openChange}>
                         Details
                     </Button>
                     <Drawer
@@ -67,7 +135,7 @@ export const BookList = ({book}) => {
                                 <Stack>
                                     <div>
                                     <h2> Summary </h2>
-                                    <Text>Harry Potter and the Philosopher's Stone is a fantasy novel written by British author J. K. Rowling. The first novel in the Harry Potter series and Rowling's debut novel, it follows Harry Potter, a young wizard who discovers his magical heritage on his eleventh birthday, when he receives a letter of acceptance to Hogwarts School of Witchcraft and Wizardry. Harry makes close friends and a few enemies during his first year at the school and with the help of his friends, Ron Weasley and Hermione Granger, he faces an attempted comeback by the dark wizard Lord Voldemort, who killed Harry's parents, but failed to kill Harry when he was just 15 months old.</Text>
+                                    <Text>{summary}</Text>
                                     </div>
                                     <Divider />
                                     <h2> Author </h2>
@@ -97,5 +165,5 @@ export const BookList = ({book}) => {
             </Card>
         </Container>
         </stack>
-    </>
-}
+        );
+    };

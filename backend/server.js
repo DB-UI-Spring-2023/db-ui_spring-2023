@@ -126,7 +126,7 @@ app.get('/books', (req, res) => {
     SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost < ?`;
 
   // Prepare values to replace placeholders in the SQL query
-  console.log(searchTerm,minPrice,maxPrice);
+  // console.log(searchTerm,minPrice,maxPrice);
   const values = [
     `%${searchTerm}%`,
     `%${searchTerm}%`,

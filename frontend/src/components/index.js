@@ -3,3 +3,7 @@ export * from "./JoinModal";
 export * from "./CreateListing";
 export * from "./BookList";
 export * from "./BookSearch";
+export * from "./Sidebar";
+export * from "./NavHoverBox";
+export * from "./NavItem";
+export * from "./Profile";
