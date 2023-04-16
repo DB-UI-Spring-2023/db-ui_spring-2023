@@ -25,7 +25,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60 * 60 * 24,
+            expires: 1000 * 60 * 60 * 24,
         },
     })
 );
@@ -53,10 +53,11 @@ app.post('/register', (req,res) => {
     const lastName = req.body.lastName
     const email = req.body.email
     const createPass = req.body.createPass
+    const privileges = req.body.privileges
 
     connection.query(
-        "INSERT INTO DB_UI.Users (firstName, lastName, email, createPass) VALUES (?,?,?,?)",
-        [firstName, lastName, email, createPass], (err, result) => {
+        "INSERT INTO DB_UI.Users (firstName, lastName, email, createPass, privileges) VALUES (?,?,?,?,?)",
+        [firstName, lastName, email, createPass, privileges], (err, result) => {
           if (err){
             res.send({err: err})
           }
@@ -72,10 +73,11 @@ app.post('/post-listing', (req,res) => {
     const bookCondition = req.body.bookCondition
     const bookFormat = req.body.bookFormat
     const Cost = req.body.cost
+    const Seller = req.body.seller
 
     connection.query(
-        "INSERT INTO DB_UI.Books (IBSN, Title, Author, bookCondition, bookFormat, Cost) VALUES (?,?,?,?,?,?)",
-        [IBSN, Title, Author, bookCondition, bookFormat, Cost], (err, result) => {
+        "INSERT INTO DB_UI.Books (IBSN, Title, Author, bookCondition, bookFormat, Cost, Seller) VALUES (?,?,?,?,?,?,?)",
+        [IBSN, Title, Author, bookCondition, bookFormat, Cost, Seller], (err, result) => {
         console.log(err)
         
     })
@@ -92,6 +94,9 @@ app.get('/login', (req,res) => {
 app.post('/login', (req,res) => {
 
     const email = req.body.email
+    const first = req.body.first
+    const last = req.body.last
+
     const createPass = req.body.createPass
 
     connection.query(
@@ -142,6 +147,20 @@ app.get('/books', (req, res) => {
     }
     // Send the fetched books data as JSON response
     res.json(results);
+  });
+});
+
+// API endpoint for fetching books data
+app.get('/books/:email', (req, res) => {
+  const email = req.params.email;
+
+  const sql = 'SELECT * FROM DB_UI.Books WHERE Seller = ?';
+  connection.query(sql, [email], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Error fetching books from the database.' });
+    } else {
+      res.status(200).json(results);
+    }
   });
 });
 

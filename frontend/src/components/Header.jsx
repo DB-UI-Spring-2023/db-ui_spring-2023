@@ -60,6 +60,8 @@ export const Header = () => {
 
   const [registerStatus, setRegisterStatus] = useState(false);
   const [loginStatus, setLoginStatus] = useState("");
+  const [ errorMessage, setErrorMessage ] = useState("Noit Logged In")
+  const [privileges, setPrivileges] = useState("");
 
   const handleUserEmail = (e) =>
     setUserEmail(e.target.value);
@@ -83,6 +85,7 @@ export const Header = () => {
     lastName: newUserLastName,
     email: newUserEmail,
     createPass: newUserPassword,
+    privileges: privileges,
   };
 
   const sendNewUser = () => {
@@ -108,11 +111,11 @@ export const Header = () => {
      
       if (response.data.msg) {
         setLoginStatus(response.data.msg)
-        //alert(response.data.msg)
+        setErrorMessage(response.data.msg)
         
       } else {
         setLoginStatus(response.data[0].email)
-        //alert(response.data[0].email)
+        setErrorMessage(response.data[0].email)
       }
 
     });
@@ -185,6 +188,13 @@ export const Header = () => {
                         onChange={handleUserPassword}
                       />
                     </FormControl>
+                    <Flex mt="1rem">
+                      {errorMessage && (
+                        <p className="error-message">
+                          <b>{errorMessage}</b>
+                        </p>
+                      )}
+                    </Flex>
                   </ModalBody>
                   <ModalFooter>
                     <ButtonGroup gap="2">
@@ -262,6 +272,7 @@ export const Header = () => {
                 placeHolder=""
                 onChange={handleNewUserPassword}
               />
+              
               {/* <FormLabel mt=".5rem">Confirm password:</FormLabel>
               <Input type="text" placeHolder="" onChange={handleConfirmPassword}/> */}
             </FormControl>

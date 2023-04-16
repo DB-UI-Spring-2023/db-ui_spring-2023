@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import NavHoverBox from '../components/NavHoverBox'
 
-export default function Profile({ icon, title, description, active, navSize }) {
+export default function Profile({ icon, title, description, active, navSize, action }) {
     return (
         <Flex
             mt={30}
@@ -25,6 +25,7 @@ export default function Profile({ icon, title, description, active, navSize }) {
                     borderRadius={8}
                     _hover={{ textDecor: 'none', backgroundColor: "#AEC8CA" }}
                     w={navSize == "large" && "100%"}
+                    onClick={action}
                 >
                     <MenuButton w="100%">
                         <Flex>

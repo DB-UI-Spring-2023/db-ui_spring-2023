@@ -25,7 +25,7 @@ export const BookList = ({book}) => {
     const btnRef = React.useRef()
     const [summary, setSummary] = useState("Summary Loading...");
 
-
+    
     const API_Body = {
         "model": "text-davinci-003",
         "prompt": `Can you generate a summary for a book with the title "${book.Title}"`,
@@ -36,11 +36,7 @@ export const BookList = ({book}) => {
         "presence_penalty": 0.0
     };
 
-    // const configuration = new Configuration({
-    //     organization: "org-evB9KrNJdZTi6iyFSCm9Ujql",
-    //   
-    // });
-    // const openai = new OpenAIApi(configuration);
+    
    
     async function callAPI(){
         
@@ -48,7 +44,7 @@ export const BookList = ({book}) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer key"
+                "Authorization": "Bearer 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"
             },
             body: JSON.stringify(API_Body)
         }).then((data) => {
@@ -64,31 +60,7 @@ export const BookList = ({book}) => {
         onOpen();
     }
 
-    // useEffect(() => {
-    //     // Fetch book summary using OpenAI API when component mounts
-    //     const fetchSummary = async () => {
-    //         try {
-    //             const response = await openai.textCompletions.create({
-    //                 prompt: `Generate a summary of the book "${book.Title}"`, // Prompt for generating summary
-    //                 max_tokens: 100, // Maximum number of tokens in the generated text
-    //                 n: 1, // Number of completions to generate
-    //                 stop: ['\n'], // Stop condition for generated text
-    //             });
-    //             alert(response.choices[0]?.text )
-    //             setSummary(response.choices[0]?.text || ''); // Set the book summary in state
-    //         } catch (error) {
-    //             console.error('Failed to generate book summary:', error);
-    //         }
-    //     };
-
-    //     fetchSummary(); // Call fetchSummary function
-    // }, [onOpen]);
     
-        
-
-
-    
-
     return (
         <stack>
         <Container>
@@ -101,9 +73,9 @@ export const BookList = ({book}) => {
                     borderRadius='lg'
                     /> */}
                     <Stack mt='6' spacing='3'>
-                    <Heading size='md'>{book.Title}</Heading>
+                    <Heading size='md'>{book.Title} ({book.Seller})</Heading>
                     <Text color='purple' fontSize='2xl'>
-                        {book.Cost}
+                        {book.Cost}  ()
                     </Text>
                     </Stack>
                 </CardBody>
@@ -141,11 +113,11 @@ export const BookList = ({book}) => {
                                     <h2> Author </h2>
                                     <Text>{book.Author}</Text>
                                     <Divider />
-                                    <h2> Publisher</h2>
-                                    <Text> Bloomsbury Publishing</Text>
+                                    <h2> Format</h2>
+                                    <Text> {book.Format} </Text>
                                     <Divider />
-                                    <h2> Published Date</h2>
-                                    <Text> 26 June 1997</Text>
+                                    <h2> Condition</h2>
+                                    <Text> {book.Condition} </Text>
                                     <Divider />
                                     <h2> ISBN</h2>
                                     <Text> {book.IBSN}</Text>

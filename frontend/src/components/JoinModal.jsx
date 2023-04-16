@@ -17,6 +17,7 @@ import {
   ButtonGroup,
   Text,
   Link,
+  Select,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useRouter } from "react-router-dom";
@@ -37,13 +38,18 @@ export const JoinModal = () => {
 
   const [regStatus, setRegStatus] = useState(false);
 
+  const [privileges, setPrivileges] = useState("");
+
+  
+
   const register = () => {
     axios.post("http://localhost:8000/register", {
       firstName: firstReg,
       lastName: lastReg,
       email: emailReg,
       createPass: createpwordReg,
-      confirmPass: confirmpwordReg
+      confirmPass: confirmpwordReg,
+      privileges: privileges
     }).then((response) => {
       navigate("/dashboard");
       console.log(response);
@@ -58,7 +64,7 @@ export const JoinModal = () => {
     if (regStatus == true) {
       navigate("/dashboard")
     }
-  })
+  },[regStatus])
 
   return (
     <>
@@ -107,6 +113,15 @@ export const JoinModal = () => {
                 setConfirmpwordReg(e.target.value);
                 }}
               />
+              <FormLabel>User Privileges</FormLabel>
+              <Select
+              placeholder="Select privileges"
+              value={privileges}
+              onChange={(e) => {setPrivileges(e.target.value);}}
+            >
+              <option value="admin">Admin</option>
+              <option value="student">Student</option>
+            </Select>
             </FormControl>
           </ModalBody>
           <ModalFooter>

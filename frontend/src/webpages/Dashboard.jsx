@@ -12,6 +12,49 @@ import Sidebar from "../components/Sidebar";
 
 export const Dashboard = () => {
   
+  const [searchTerm, setSearchTerm] = useState("");
+  const [books, setBooks] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  const [navSize, setNavSize] = useState("large");
+
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // useEffect(() => {
+  //   const fetchBooksBySeller = async (loginStatus) => {
+  //       try {
+  //         const response = await axios.get(`http://localhost:8000/books/${loginStatus}`);
+  //         console.log('Books fetched successfully:', response.data);
+  //         setMyBooks(response.data);
+  //         return response.data;
+  //       } catch (error) {
+  //         console.error('Error fetching books:', error);
+  //       }
+  //     };
+  //   fetchBooksBySeller(loginStatus);
+  // },[loginStatus]);
+
+  useEffect(() => {
+      const fetchBooks = async () => {
+        try {
+          const response = await axios.get("http://localhost:8000/books", {
+            params: {
+              searchTerm,
+              minPrice,
+              maxPrice,
+            },
+          });
+          setBooks(response.data);
+        } catch (error) {
+          console.error("Error fetching books data:", error);
+        }
+      };
+      fetchBooks();
+    }, [searchTerm, minPrice, maxPrice]);
 
   const nav = useNavigate();
 
@@ -59,35 +102,69 @@ export const Dashboard = () => {
       templateAreas={`"header header"
                       "nav main"
                       "nav footer"`}
-      gridTemplateRows={""}
+      gridTemplateRows={"auto 1fr 1rem auto"}
       gridTemplateColumns={"3 1fr"}
-      h="20rem"
-      gap="2"
+      h="100vh"
+      gap="1"
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <div>
-      <>Welcome {loginStatus}</>
-      <CreateListing />
-      </div>
-      <GridItem bg="salmon" area={"header"}>
+    
+      <GridItem p={2} bg="salmon" area={"header"}>
         <Stack direction='row'>
-          <Input mt='2rem' ml='auto' mr='auto' w='90%' variant='filled' placeholder='Enter Textbook Keywords...' />
+          <Input value={searchTerm} onChange={handleSearchTermChange} mt='2rem' ml='auto' mr='auto' w='90%' variant='filled' placeholder='Enter Textbook Keywords...' />
           
-          <Menu>
+          <Menu >
               <MenuButton mt='2rem' mr='auto' as={IconButton} icon={<MdDensityMedium />} variant='outline' />
           </Menu>
       </Stack>
       </GridItem>
       <GridItem w="3" pl="2" bg="" area={"nav"}>
-        <Sidebar />
+        <Sidebar setNavSize={setNavSize} />
       </GridItem>
       
-      <GridItem pl="2" bg="green.300" area={"main"}>
-          Main
+      <GridItem
+        p={2}
+        pl="1"
+        bg="green.300"
+        area={"main"}
+        marginLeft={navSize == "small" ? "75px" : "200px"}
+        h="30rem"
+        display="flex"
+        flexDirection="column"
+        overflowY="auto"
+      >
+        <Box flexGrow="1">
+          <Text color="white">Current Listings</Text>
+          <Wrap spacing={4}  mx="auto">
+            {books.map((book) => (
+              <BookList key={book.IBSN} book = {book} />
+            ))}
+          </Wrap>
+        </Box>
+        {/* <Box bg="green.300" h="1rem" /> */}
       </GridItem>
-      <GridItem pl="2" bg="blue.300" area={"footer"}>
-        Footer
+
+      <GridItem 
+        p={2}
+        pl="1"
+        bg="blue.300"
+        area={"footer"}
+        marginLeft={navSize == "small" ? "75px" : "200px"}
+        h="30rem"
+        display="flex"
+        flexDirection="column"
+      
+        overflowY="auto"
+      >
+        <Box flexGrow="1">
+            <Text color="white">Your Listings</Text>
+            <Wrap spacing={4}  mx="auto">
+              {books.map((book) => (
+                <BookList key={book.IBSN} book = {book} />
+              ))}
+            </Wrap>
+        </Box>
       </GridItem>
 
             {/* <input

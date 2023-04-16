@@ -17,7 +17,7 @@ import {
     Text,
     Link
   } from "@chakra-ui/react";
-  import { useState } from "react";
+  import { useState, useEffect } from "react";
   import { useRouter } from "react-router-dom";
   import axios from 'axios';
 
@@ -34,6 +34,7 @@ import {
     const [condition, setCondition] = useState("");
     const [format, setFormat] = useState("");
     const [cost, setCost] = useState("");
+    const [seller, setSeller ] = useState("");
 
     const postListing = () => {
         axios.post("http://localhost:8000/post-listing", {
@@ -42,13 +43,24 @@ import {
           author: author,
           bookCondition: condition,
           bookFormat: format,
-          cost: cost
+          cost: cost,
+          seller: seller,
         }).then((response) => {
          
           console.log(response);
     
         });
       };
+
+      useEffect(() => {
+        axios.get("http://localhost:8000/login").then((response) => {
+          if (response.data.loggedIn == true){
+            setSeller(response.data.user[0].email)
+          } else {
+            setSeller("Not logged in.")
+          }
+        })
+      },[seller])
   
     return (
       <>

@@ -34,8 +34,15 @@ export default function NavHoverBox({ title, icon, description, id, action }) {
                 borderRadius="10px"
                 color="#fff"
                 textAlign="center"
+                zIndex={10}
             >
-                <Icon as={icon} fontSize="3xl" mb={4} onClick={action} />
+                <Icon
+                as={icon}
+                fontSize="3xl"
+                mb={4}
+                onClick={action}
+                />
+
                 <Heading size="md" fontWeight="normal">{title}</Heading>
                 <Text>{description}</Text>
             </Flex>

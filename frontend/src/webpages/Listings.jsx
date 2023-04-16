@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import { CreateListing, BookList } from "../components";
+import Sidebar from "../components/Sidebar";
 
 export const Listings = () => {
 
@@ -11,6 +12,7 @@ export const Listings = () => {
     const [books, setBooks] = useState([]);
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
+    const [navSize, setNavSize] = useState("large");
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -49,18 +51,32 @@ export const Listings = () => {
 
     return (
         <>
-        <Input
-          mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
-          type="text"
-          placeholder="Search for a book..."
-          mb={4}
-          value={searchTerm}
-          onChange={handleSearchTermChange}
-        />
-        {/* Price range filter */}
-      <Wrap spacing={4} mb={4}>
+
+        <Grid
+            templateAreas={`"header header"
+                            "nav main"
+                            "nav footer"`}
+            gridTemplateRows={""}
+            gridTemplateColumns={"3 1fr"}
+            h="20rem"
+            gap="1"
+            color="blackAlpha.700"
+            fontWeight="bold"
+        >
+
+        <GridItem p={2} bg="salmon" area={"header"}>
+            <Input
+            mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
+            type="text"
+            placeholder="Search for a book..."
+            mb={4}
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            />
+            <Wrap spacing={4} mb={4}>
         <WrapItem>
           <Input
+            mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
             type="number"
             placeholder="Min Price"
             value={minPrice}
@@ -70,6 +86,7 @@ export const Listings = () => {
         <WrapItem>
         
           <Input
+            mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
             type="number"
             placeholder="Max Price"
             value={maxPrice}
@@ -84,12 +101,28 @@ export const Listings = () => {
           Clear Filters
         </Button>
       )}
-
-        <Wrap spacing={4}>
+        </GridItem>
+        <GridItem w="3" pl="2" area={"nav"}>
+            <Sidebar setNavSize={setNavSize} />
+        </GridItem>
+        <GridItem
+            p={2}
+            pl="1"
+            bg="green.300"
+            area={"main"}
+            marginLeft={navSize == "small" ? "75px" : "200px"}
+        >
+        <Wrap spacing={4} width="100%">
           {books.map((book) => (
             <BookList key={book.IBSN} book = {book} />
           ))}
         </Wrap>
+      </GridItem>
+        </Grid>
+
+        
+        
+        
         </>
     );
 

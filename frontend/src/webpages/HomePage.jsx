@@ -17,6 +17,7 @@ import {
   Divider,
   Text,
   Flex,
+  Select,
 } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
@@ -32,10 +33,15 @@ export const HomePage = () => {
   const handleInputChange = (e) => setInput(e.target.value);
 
   const [email, setEmail] = useState("");
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  
   const [createpword, setCreatepword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
 
+  const [ errorMessage, setErrorMessage ] = useState("")
 
+  
 
   
   axios.defaults.withCredentials = true;
@@ -43,16 +49,18 @@ export const HomePage = () => {
   const login = () => {
     axios.post("http://localhost:8000/login", {
       email: email,
+      last: last,
+      first: first,
       createPass: createpword
     }).then((response) => {
      
       if (response.data.msg) {
         setLoginStatus(response.data.msg)
-        alert(response.data.msg)
+        setErrorMessage(response.data.msg)
         
       } else {
         setLoginStatus(response.data[0].email)
-        alert(response.data[0].email)
+        setErrorMessage(response.data[0].email)
       }
 
     });
@@ -62,6 +70,7 @@ export const HomePage = () => {
     axios.get("http://localhost:8000/login").then((response) => {
       if (response.data.loggedIn == true){
         setLoginStatus(response.data.user[0].email)
+  
         nav("/dashboard");
       } else {
         setLoginStatus("Not logged in.")
@@ -107,7 +116,17 @@ export const HomePage = () => {
                 setCreatepword(e.target.value);
                 }}
             />
+            
+            
+            <Flex mt="1rem" textAlign="center">
+            {errorMessage && (
+              <p className="error-message">
+                <b>{errorMessage}</b>
+              </p>
+            )}
+          </Flex>
           </FormControl>
+          
           <a class="login-button" href="/">
             <span onClick={login} class="login-button-span">Login</span>
           </a>
