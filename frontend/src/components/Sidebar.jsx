@@ -19,6 +19,7 @@ import { useState } from "react";
 import NavItem from "./NavItem";
 import Profile from "./Profile";
 import CreateListing from "./CreateListing";
+import Home from "./Home";
 
 export default function Sidebar() {
   const [navSize, changeNavSize] = useState("large");
@@ -33,12 +34,11 @@ export default function Sidebar() {
       flexDir="column"
       justifyContent="space-between"
     >
-      <NavItem
+      <Home
         navSize={navSize}
         icon={FiHome}
-        id="dashboard"
-        title="Dashboard"
-        description="This is the description for the dashboard."
+        id="home"
+        title="Home"
       />
       <Profile
         navSize={navSize}

@@ -1,9 +1,9 @@
-import { Dashboard } from "./components/Dashboard";
+import { Router } from "./Routes";
 
 function App() {
 
   return (
-    <Dashboard />
+    <Router />
   );
 }
 
