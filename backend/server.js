@@ -122,16 +122,46 @@ app.post('/login', (req,res) => {
     })
 })
 
+// API endpoint for fetching sellers data
+app.get('/sellers', (req, res) => {
+  const query = "SELECT DISTINCT Seller FROM DB_UI.Books";
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error("Error querying sellers data:", error);
+      return res.status(500).json({ error: "Failed to fetch sellers data" });
+    }
+    // Send the fetched sellers data as JSON response
+    res.json(results.map(result => result.Seller));
+  });
+});
+
+// Add the following route to fetch book titles
+app.get("/book-titles", (req, res) => {
+  const query = "SELECT DISTINCT Title FROM DB_UI.Books";
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error("Error querying book titles data:", error);
+      return res.status(500).json({ error: "Failed to fetch book titles data" });
+    }
+    // Send the fetched book titles data as JSON response
+    res.json(results.map(result => result.Title));
+  });
+});
+
+
 // API endpoint for fetching books data
 app.get('/books', (req, res) => {
-  const { searchTerm, minPrice, maxPrice } = req.query;
+  const { searchTerm, minPrice, maxPrice, sellers } = req.query;
 
-  // Prepare SQL query with placeholders for dynamic values
-  const query = `
-    SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost < ?`;
+  let query = `
+    SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost <= ?`;
 
-  // Prepare values to replace placeholders in the SQL query
-  // console.log(searchTerm,minPrice,maxPrice);
+  if (sellers) {
+    query += ` AND Seller IN (?)`;
+  }
+
   const values = [
     `%${searchTerm}%`,
     `%${searchTerm}%`,
@@ -139,7 +169,10 @@ app.get('/books', (req, res) => {
     parseFloat(maxPrice) || Number.MAX_VALUE,
   ];
 
-  // Execute the SQL query with the values
+  if (sellers) {
+    values.push(sellers.split(","));
+  }
+
   connection.query(query, values, (error, results) => {
     if (error) {
       console.error("Error querying books data:", error);
@@ -149,6 +182,7 @@ app.get('/books', (req, res) => {
     res.json(results);
   });
 });
+
 
 // API endpoint for fetching books data
 app.get('/books/:email', (req, res) => {

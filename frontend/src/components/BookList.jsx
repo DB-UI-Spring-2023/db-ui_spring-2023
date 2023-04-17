@@ -96,7 +96,8 @@ export const BookList = ({book}) => {
                         isOpen={isOpen}
                         placement='right'
                         onClose={onClose}
-                        finalFocusRef={btnRef}>
+                        finalFocusRef={btnRef}
+                        zIndex={0}>
                         <DrawerOverlay />
                         <DrawerContent>
                             <DrawerCloseButton />

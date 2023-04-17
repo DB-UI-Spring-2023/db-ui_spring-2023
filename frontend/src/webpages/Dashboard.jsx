@@ -18,25 +18,30 @@ export const Dashboard = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
+  const [first, setFirst] = useState("");
+    const [last, setLast] = useState("");
+    const [email, setEmail] = useState("");
+    const [privileges, setPrivileges] = useState("");
+
   const [navSize, setNavSize] = useState("large");
 
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // useEffect(() => {
-  //   const fetchBooksBySeller = async (loginStatus) => {
-  //       try {
-  //         const response = await axios.get(`http://localhost:8000/books/${loginStatus}`);
-  //         console.log('Books fetched successfully:', response.data);
-  //         setMyBooks(response.data);
-  //         return response.data;
-  //       } catch (error) {
-  //         console.error('Error fetching books:', error);
-  //       }
-  //     };
-  //   fetchBooksBySeller(loginStatus);
-  // },[loginStatus]);
+  useEffect(() => {
+    const fetchBooksBySeller = async (email) => {
+        try {
+          const response = await axios.get(`http://localhost:8000/books/${email}`);
+          console.log('Books fetched successfully:', response.data);
+          setMyBooks(response.data);
+          return response.data;
+        } catch (error) {
+          console.error('Error fetching books:', error);
+        }
+      };
+    fetchBooksBySeller(email);
+  },[email]);
 
   useEffect(() => {
       const fetchBooks = async () => {
@@ -64,12 +69,16 @@ export const Dashboard = () => {
         axios.get("http://localhost:8000/login").then((response) => {
           if (response.data.loggedIn == true){
             setLoginStatus(response.data.user[0].email)
+            setFirst(response.data.user[0].firstName)
+            setEmail(response.data.user[0].email)
+            setLast(response.data.user[0].lastName)
+            setPrivileges(response.data.user[0].privileges)
           } else {
             nav("/")
             setLoginStatus("Not logged in.")
           }
         })
-      },[loginStatus])
+      })
 
       // useEffect(() => {
       //   fetchBooks();
@@ -102,7 +111,7 @@ export const Dashboard = () => {
       templateAreas={`"header header"
                       "nav main"
                       "nav footer"`}
-      gridTemplateRows={"auto 1fr 1rem auto"}
+      gridTemplateRows={"auto 1fr auto"}
       gridTemplateColumns={"3 1fr"}
       h="100vh"
       gap="1"
@@ -133,17 +142,33 @@ export const Dashboard = () => {
         display="flex"
         flexDirection="column"
         overflowY="auto"
+        position="relative" // Add this line
       >
-        <Box flexGrow="1">
+        {/* Floating border */}
+        <Box
+          position="sticky"
+          top={0}
+          bottom={0}
+          left={0}
+          right={0}
+          border="4px solid"
+          borderColor="green.500"
+          pointerEvents="none"
+          borderRadius="md"
+        />
+
+        <Box
+          p={4}
+        >
           <Text color="white">Current Listings</Text>
-          <Wrap spacing={4}  mx="auto">
+          <Wrap spacing={4} mx="2">
             {books.map((book) => (
-              <BookList key={book.IBSN} book = {book} />
+              <BookList key={book.IBSN} book={book} />
             ))}
           </Wrap>
         </Box>
-        {/* <Box bg="green.300" h="1rem" /> */}
       </GridItem>
+      
 
       <GridItem 
         p={2}
@@ -160,8 +185,8 @@ export const Dashboard = () => {
         <Box flexGrow="1">
             <Text color="white">Your Listings</Text>
             <Wrap spacing={4}  mx="auto">
-              {books.map((book) => (
-                <BookList key={book.IBSN} book = {book} />
+              {myBooks.map((book2) => (
+                <BookList key={book2.IBSN} book = {book2} />
               ))}
             </Wrap>
         </Box>

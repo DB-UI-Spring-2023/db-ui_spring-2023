@@ -9,8 +9,10 @@ import {
     MenuList
 } from '@chakra-ui/react'
 import NavHoverBox from '../components/NavHoverBox'
+import { useNavigate } from 'react-router-dom'
 
 export default function NavItem({ icon, title, description, active, navSize, action }) {
+    const nav = useNavigate();
     return (
         <Flex
             mt={30}
