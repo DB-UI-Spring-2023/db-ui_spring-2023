@@ -12,14 +12,14 @@ export const App = () => {
   return (
     <>
     {/* <HomePage /> */}
-    {/* <Profile /> */}
-    <Search />
+    <Profile />
+    {/* <Search />
     <BookList/>
     <BookList/>
     <BookList/>
     <BookList/>
 
-    <BookList/>
+    <BookList/> */}
     {/* <bookCart /> */}
     </>
   );
