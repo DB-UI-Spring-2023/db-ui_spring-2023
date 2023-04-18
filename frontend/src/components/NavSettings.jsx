@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 
-export default function Home({
+export default function Settings({
   icon,
   title,
   active,
@@ -21,7 +21,7 @@ export default function Home({
   const navigate = useNavigate();
 
   const handleNavigation = () => {
-    navigate("/");
+    navigate("/settings");
   };
 
   return (

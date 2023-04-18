@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -14,15 +14,26 @@ import {
   MenuList,
   Heading,
 } from "@chakra-ui/react";
+import "../css/CreateListing.css";
+import { useNavigate } from "react-router";
 
 export default function CreateListing({
   icon,
   title,
-  description,
   active,
   navSize,
 }) {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+    const navigate = useNavigate();
+
+    const handleNavigation = () => {
+      navigate("/listings");
+    };
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleCloseModal = () => {
+        setIsOpen(false);
+    };
 
   return (
     <Menu placement="right">
@@ -33,7 +44,7 @@ export default function CreateListing({
         _hover={{ textDecor: "none", backgroundColor: "#AEC8CA" }}
         w={navSize == "large" && "100%"}
       >
-        <MenuButton w="100%">
+        <MenuButton isOpen={isOpen} onClose={handleCloseModal} w="100%">
           <Flex>
             <Icon
               as={icon}
@@ -49,94 +60,97 @@ export default function CreateListing({
           </Flex>
         </MenuButton>
       </Link>
-      <MenuList py={0} border="none" w={200} h={200} ml={5}>
+      <MenuList py={0} border="none" h="20rem" ml={4}>
         <Flex
           pos="absolute"
-          mt="calc(100px - 7.5px)"
+          mt="9.5rem"
           ml="-10px"
           width={0}
           height={0}
           borderTop="10px solid transparent"
           borderBottom="10px solid transparent"
-          borderRight="10px solid #82AAAD"
+          borderRight="10px solid #19252e"
         />
         <Flex
+          className="listing-modal"
           h={600}
           w={500}
-          // w="100%"
           flexDir="column"
           alignItems="center"
           justify="center"
-          backgroundColor="#82AAAD"
           borderRadius="10px"
           color="#fff"
           textAlign="center"
         >
-          {/* <Icon as={icon} fontSize="3xl" mb={4} /> */}
           <Heading size="md" fontWeight="normal">
             {title}
           </Heading>
           <FormControl isRequired w="75%" mb={4}>
             <FormLabel>Title:</FormLabel>
             <Input
-              bgColor="white"
-              color="black"
+              className="listing-input"
+              bgColor="#82AAAD"
               type="text"
               placeHolder="Title"
             />
             <FormLabel mt=".5rem">Author:</FormLabel>
             <Input
-              bgColor="white"
-              color="black"
+              className="listing-input"            
+              bgColor="#82AAAD"
               type="text"
               placeHolder="Author"
             />
             <FormLabel mt=".5rem">ISBN:</FormLabel>
             <Input
-              bgColor="white"
-              color="black"
+              className="listing-input"
+              bgColor="#82AAAD"
               type="email"
               placeHolder="ISBN"
             />
             <FormLabel mt=".5rem">Condition:</FormLabel>
             <Input
-              bgColor="white"
-              color="black"
+              className="listing-input"
+              bgColor="#82AAAD"
               type="text"
               placeHolder="Condition"
             />
             <FormLabel mt=".5rem">Format:</FormLabel>
             <Input
-              bgColor="white"
-              color="black"
+              className="listing-input"
+              bgColor="#82AAAD"
               type="text"
               placeHolder="Format"
             />
             <FormLabel mt=".5rem">Price:</FormLabel>
             <Input
-              bgColor="white"
-              color="black"
+              className="listing-input"
+              bgColor="#82AAAD"
               type="text"
               placeHolder="Price"
             />
           </FormControl>
           <ButtonGroup gap="2">
             <Button
+              onClick={handleNavigation}
               color="white"
-              bg="#0C97FA"
+              bg="#21575c"
               variant="outline"
               _hover={{
                 bg: "white",
-                color: "#0C97FA",
+                color: "#2d676c",
                 border: "2px",
               }}
             >
               Submit
             </Button>
             <Button
+              onClick={handleCloseModal}
+              color="white"
+              bg="#21575c"
+              variant="outline"
               _hover={{
                 bg: "white",
-                color: "#FF176B",
+                color: "#2d676c",
                 border: "2px",
               }}
             >

@@ -2,14 +2,13 @@ import {
   Grid,
   GridItem,
   Input,
+  InputGroup,
+  InputLeftElement,
   Stack,
-  Menu,
-  MenuButton,
-  IconButton,
-  useColorMode,
 } from "@chakra-ui/react";
-import { MdDensityMedium } from "react-icons/md";
 import Sidebar from "./Sidebar";
+import "../css/Dashboard.css";
+import { IconName, MdSearch } from "react-icons/md";
 
 export const Dashboard = () => {
   // const { colorMode, toggleColorMode } = useColorMode();
@@ -25,20 +24,21 @@ export const Dashboard = () => {
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <GridItem bg="salmon" area={"header"}>
+      <GridItem className="header-color" area={"header"}>
         <Stack direction="row">
-          <Input
-            m="2rem auto"
-            w="90%"
-            variant="filled"
-            placeholder="Search for a textbook"
-          />
+          <InputGroup className="input-group" m="2rem auto" w="50%">
+            <InputLeftElement
+              pointerEvents='none'
+              children={<MdSearch color='#606060' />}
+            />
+            <Input variant='filled' bgColor="#82AAAD" color="#606060" placeholder='Search for a textbook' />
+          </InputGroup>
         </Stack>
       </GridItem>
       <GridItem pl="2" area={"nav"}>
         <Sidebar />
       </GridItem>
-      <GridItem pl="2" bg="green.300" area={"main"}>
+      <GridItem pl="2" bg="#82AAAD" area={"main"}>
         Main
       </GridItem>
     </Grid>
