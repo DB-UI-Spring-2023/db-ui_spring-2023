@@ -1,5 +1,5 @@
 
-import { Box, Wrap, WrapItem, Checkbox, CheckboxGroup, Text, Input, Button, Grid, GridItem, Stack, Menu, MenuButton, IconButton, useColorMode } from "@chakra-ui/react";
+import { InputGroup,InputLeftElement,Box, Wrap, WrapItem, Checkbox, CheckboxGroup, Text, Input, Button, Grid, GridItem, Stack, Menu, MenuButton, IconButton, useColorMode } from "@chakra-ui/react";
 
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CreateListing, BookList } from "../components";
 
 import { CUIAutoComplete } from "chakra-ui-autocomplete";
-import { MdDensityMedium } from 'react-icons/md';
+import { MdDensityMedium, MdSearch } from 'react-icons/md';
 import Sidebar from "../components/Sidebar";
 
 export const Dashboard = () => {
@@ -112,30 +112,34 @@ export const Dashboard = () => {
                       "nav main"
                       "nav footer"`}
       gridTemplateRows={"auto 1fr auto"}
-      gridTemplateColumns={"3 1fr"}
-      h="100vh"
-      gap="1"
+      gridTemplateColumns={"12% 1fr"}
+      h="auto"
+      gap="2"
       color="blackAlpha.700"
       fontWeight="bold"
     >
     
-      <GridItem p={2} bg="salmon" area={"header"}>
-        <Stack direction='row'>
-          <Input value={searchTerm} onChange={handleSearchTermChange} mt='2rem' ml='auto' mr='auto' w='90%' variant='filled' placeholder='Enter Textbook Keywords...' />
-          
-          <Menu >
-              <MenuButton mt='2rem' mr='auto' as={IconButton} icon={<MdDensityMedium />} variant='outline' />
-          </Menu>
-      </Stack>
+      <GridItem className="header-color" area={"header"}>
+        <Stack direction="row">
+          <InputGroup className="input-group" m="2rem auto" w="50%">
+            <InputLeftElement
+              pointerEvents='none'
+              children={<MdSearch color='#606060' />}
+            />
+            <Input value={searchTerm} onChange={handleSearchTermChange} variant='filled' bgColor="#82AAAD" color="#606060" placeholder='Search for a textbook' />
+          </InputGroup>
+        </Stack>
       </GridItem>
-      <GridItem w="3" pl="2" bg="" area={"nav"}>
-        <Sidebar setNavSize={setNavSize} />
+
+      
+      <GridItem pl="2" area={"nav"}>
+        <Sidebar />
       </GridItem>
       
       <GridItem
         p={2}
         pl="1"
-        bg="green.300"
+        bgColor="#82AAAD"
         area={"main"}
         marginLeft={navSize == "small" ? "75px" : "200px"}
         h="30rem"
@@ -144,26 +148,15 @@ export const Dashboard = () => {
         overflowY="auto"
         position="relative" // Add this line
       >
-        {/* Floating border */}
-        <Box
-          position="sticky"
-          top={0}
-          bottom={0}
-          left={0}
-          right={0}
-          border="4px solid"
-          borderColor="green.500"
-          pointerEvents="none"
-          borderRadius="md"
-        />
-
         <Box
           p={4}
         >
           <Text color="white">Current Listings</Text>
-          <Wrap spacing={4} mx="2">
+          <Wrap spacing={2} mx="2" w="fit-content">
             {books.map((book) => (
-              <BookList key={book.IBSN} book={book} />
+              <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center">
+                <BookList book={book} />
+            </Box>
             ))}
           </Wrap>
         </Box>
@@ -173,7 +166,7 @@ export const Dashboard = () => {
       <GridItem 
         p={2}
         pl="1"
-        bg="blue.300"
+        bgColor="#82AAAD"
         area={"footer"}
         marginLeft={navSize == "small" ? "75px" : "200px"}
         h="30rem"
@@ -184,9 +177,11 @@ export const Dashboard = () => {
       >
         <Box flexGrow="1">
             <Text color="white">Your Listings</Text>
-            <Wrap spacing={4}  mx="auto">
+            <Wrap spacing={2}  mx="2">
               {myBooks.map((book2) => (
-                <BookList key={book2.IBSN} book = {book2} />
+                <Box key={book2.IBSN} transform="scale(0.8)" transformOrigin="center" >
+                  <BookList book={book2} />
+              </Box>
               ))}
             </Wrap>
         </Box>

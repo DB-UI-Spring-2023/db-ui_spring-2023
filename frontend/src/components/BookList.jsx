@@ -1,4 +1,15 @@
 import { Card, CardHeader, CardBody, CardFooter, Container} from '@chakra-ui/react'
+import { VStack, HStack } from '@chakra-ui/react';
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverArrow,
+    PopoverCloseButton,
+  } from "@chakra-ui/react";
+  
 import {
     Drawer,
     DrawerBody,
@@ -8,6 +19,8 @@ import {
     DrawerContent,
     DrawerCloseButton,
   } from '@chakra-ui/react'
+
+
 import { useState, useEffect } from "react";
 import { Image } from '@chakra-ui/react'
 import { Stack, Heading, Text } from '@chakra-ui/react'
@@ -16,14 +29,19 @@ import { Divider } from '@chakra-ui/react'
 //import SorcererStone from '../images/sorcererStone.png'
 import { useDisclosure } from '@chakra-ui/react'
 import { Configuration, OpenAIApi } from 'openai'; // Import OpenAI modules
+import SellerPopup from './SellerPopup';
+
 
 
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 //import css from '../css/bookList.css';
 export const BookList = ({book}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
     const [summary, setSummary] = useState("Summary Loading...");
+
+    const nav = useNavigate();
 
     
     const API_Body = {
@@ -44,7 +62,7 @@ export const BookList = ({book}) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer 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"
+                "Authorization": "Bearer API_KEY"
             },
             body: JSON.stringify(API_Body)
         }).then((data) => {
@@ -60,11 +78,35 @@ export const BookList = ({book}) => {
         onOpen();
     }
 
+    const [isAdmin, setIsAdmin] = useState(false); // Add a new state for isAdmin (set it to true for admin users)
+
+  // Add a new function to handle book removal
+  const handleRemoveBook = () => {
+    if (!isAdmin) {
+      alert("You don't have the permissions to remove this book.");
+      return;
+    }
+
+    // Logic to remove the book from the database
+    // ...
+  };
+
     
     return (
         <stack>
         <Container>
             <Card maxW='sm'>
+            <Button
+              position="absolute"
+              top={2}
+              right={2}
+              variant="outline"
+              colorScheme="red"
+              size="sm"
+              onClick={handleRemoveBook}
+            >
+              X
+            </Button>
                 <CardBody>
                     {/* <Image
                     src={SorcererStone}
@@ -73,25 +115,63 @@ export const BookList = ({book}) => {
                     borderRadius='lg'
                     /> */}
                     <Stack mt='6' spacing='3'>
-                    <Heading size='md'>{book.Title} ({book.Seller})</Heading>
+                    <Heading size='md'>{book.Title}</Heading>
                     <Text color='purple' fontSize='2xl'>
-                        {book.Cost}  ()
+                        {book.Cost}  ({book.bookFormat})
                     </Text>
+                    <Button
+                            w="100%"
+                            variant="solid"
+                            colorScheme="pink"
+                            size="lg"
+                            fontWeight="bold"
+                        >
+                            Buy now
+                        </Button>
                     </Stack>
                 </CardBody>
                 <Divider />
                 <CardFooter>
-                    <ButtonGroup spacing='2'>
-                    <Button variant='solid' colorScheme='pink'>
-                        Buy now
-                    </Button>
-                    <Button variant='ghost' colorScheme='teal'>
-                        Add to cart
-                    </Button>
-                    
-                    <Button variant='ghost' ref={btnRef} colorScheme='pink' onClick={openChange}>
-                        Details
-                    </Button>
+                    <VStack alignItems="flex-start" spacing={1}>
+                        
+                        <HStack spacing={1}>
+                            <Text></Text>
+                            <Button variant="ghost" colorScheme="teal" size="sm">
+                            Add to cart
+                            </Button>
+                            <Button
+                            variant="ghost"
+                            ref={btnRef}
+                            colorScheme="pink"
+                            size="sm"
+                            onClick={openChange}
+                            >
+                            Details
+                            </Button>
+                        
+                        <Popover>
+                            <PopoverTrigger>
+                            <Button variant="ghost" colorScheme="blue">
+                                Seller Info
+                            </Button>
+                            </PopoverTrigger>
+                            <PopoverContent >
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverHeader>Seller Information</PopoverHeader>
+                            <PopoverBody>
+                                <Text>Name: {book.SellerFirstName} {book.SellerLastName}</Text>
+                                <Text>Email: {book.SellerEmail}</Text>
+
+                                <Button mt={2} colorScheme="teal" onClick={() => nav(`/profile/${book.SellerEmail}`)}>
+                                View Profile
+                                </Button>
+                            </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                        </HStack>
+                        
+                    </VStack>
                     <Drawer
                         isOpen={isOpen}
                         placement='right'
@@ -115,10 +195,10 @@ export const BookList = ({book}) => {
                                     <Text>{book.Author}</Text>
                                     <Divider />
                                     <h2> Format</h2>
-                                    <Text> {book.Format} </Text>
+                                    <Text> {book.bookFormat} </Text>
                                     <Divider />
                                     <h2> Condition</h2>
-                                    <Text> {book.Condition} </Text>
+                                    <Text> {book.bookCondition} </Text>
                                     <Divider />
                                     <h2> ISBN</h2>
                                     <Text> {book.IBSN}</Text>
@@ -127,16 +207,25 @@ export const BookList = ({book}) => {
                             </DrawerBody>
                             
                             <DrawerFooter>
-                                <Button variant='ghost' colorScheme='blue'>
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button variant='ghost' colorScheme='blue'>
                                     Merchant Info
-                                </Button>  
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <SellerPopup sellerEmail={book.Seller} />
+                                </PopoverContent>
+                                </Popover>  
                             </DrawerFooter>
                         </DrawerContent>
                     </Drawer>
-                    </ButtonGroup>
+                    
+                    
                 </CardFooter>
             </Card>
         </Container>
         </stack>
         );
     };
+

@@ -18,7 +18,18 @@ import {
     OrderedList,
     UnorderedList,
     Wrap,
+    Collapse,
   } from '@chakra-ui/react'
+  import {
+    Avatar,
+    Divider,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+    Stack,
+    Text,
+  } from "@chakra-ui/react";
 import { Box } from '@chakra-ui/react'
 import { Form } from 'react-router-dom';
 import axios from 'axios';
@@ -58,7 +69,7 @@ export const ProfilePage = () => {
       },[email]);
 
       useEffect(() => {
-        axios.get("http://localhost:8000/login").then((response) => {
+        axios.get(`http://localhost:8000/login`).then((response) => {
           if (response.data.loggedIn == true){
             setFirst(response.data.user[0].firstName)
             setEmail(response.data.user[0].email)
@@ -70,6 +81,24 @@ export const ProfilePage = () => {
             }
          })
         });
+
+        const handleUpdateProfile = () => {
+          // Logic to update user profile
+          // ...
+        };
+      
+        const handleDeleteListing = (listingId) => {
+          // Logic to delete a user's listing
+          // ...
+        };
+
+        // useState hook to manage the visibility of personal information
+        const [showPersonalInfo, setShowPersonalInfo] = useState(false);
+
+        // Function to toggle the visibility of personal information
+        const handleTogglePersonalInfo = () => {
+          setShowPersonalInfo(!showPersonalInfo);
+        };
       
 
     return (
@@ -78,8 +107,83 @@ export const ProfilePage = () => {
         <NavItem navSize="large" icon={FiHome} id="dashboard" title="Dashboard" description="This is the description for the dashboard." action={() => nav('/dashboard')}/>
         <div class="profileInfo">
             <Image mt='.5rem' borderRadius='full' boxSize='150px'src='https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp' alt='default pic' />
-            <Badge>{first}</Badge>
-            <h2>{last} ({privileges})</h2>
+            <Badge>{first} {last} </Badge>
+            <h2>({privileges})</h2>
+
+            <Box>
+        <Flex justifyContent="center">
+          <Box mt="4">
+            <Button
+              colorScheme="teal"
+              onClick={handleTogglePersonalInfo}
+              mb={4}
+            >
+              Update Personal Information
+            </Button>
+            <Collapse in={showPersonalInfo}>
+              {/* Personal Information */}
+              <Box>
+        <Flex justifyContent="center">
+          <Box mt="4">
+            <Text fontSize="2xl" fontWeight="bold">
+              Personal Information
+            </Text>
+            <Divider />
+            <Stack spacing={4}>
+              <FormControl>
+                <FormLabel>First Name</FormLabel>
+                <Input
+                  type="text"
+                  value={first}
+                  onChange={(e) => setFirst(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Last Name</FormLabel>
+                <Input
+                  type="text"
+                  value={last}
+                  onChange={(e) => setLast(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  value={createpword}
+                  onChange={(e) => setCreatepword(e.target.value)}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Confirm Password</FormLabel>
+                <Input
+                  type="password"
+                  value={confirmpword}
+                  onChange={(e) => setConfirmpword(e.target.value)}
+                />
+              </FormControl>
+              <Button colorScheme="teal" onClick={handleUpdateProfile}>
+                Update Profile
+              </Button>
+            </Stack>
+          </Box>
+        </Flex>
+      </Box>
+            </Collapse>
+          </Box>
+        </Flex>
+      </Box>
+
+            
+
             <h4>Current Rating</h4>
 
             <h4>Temp #Reviews</h4>

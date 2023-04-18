@@ -150,13 +150,85 @@ app.get("/book-titles", (req, res) => {
   });
 });
 
+app.get('/sellers/:email', (req, res) => {
+  const { email } = req.params;
+  connection.query(
+    'SELECT * FROM DB_UI.Users WHERE email = ?',
+    [email],
+    (err, results) => {
+      if (err) {
+        console.error('Error querying seller data:', err);
+        return res.status(500).json({ error: 'Failed to fetch seller data' });
+      }
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.status(404).json({ error: 'Seller not found' });
+      }
+    }
+  );
+});
+
+app.get('/users/:email', (req, res) => {
+  const { email } = req.params;
+  connection.query(
+    'SELECT * FROM DB_UI.Users WHERE email = ?',
+    [email],
+    (err, results) => {
+      if (err) {
+        console.error('Error querying user data:', err);
+        return res.status(500).json({ error: 'Failed to fetch user data' });
+      }
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    }
+  );
+});
+
+// app.get('/books', (req, res) => {
+//   const { searchTerm, minPrice, maxPrice, sellers } = req.query;
+
+//   let query = `
+//     SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost <= ?`;
+
+//   if (sellers) {
+//     query += ` AND Seller IN (?)`;
+//   }
+
+//   const values = [
+//     `%${searchTerm}%`,
+//     `%${searchTerm}%`,
+//     parseFloat(minPrice) || 0,
+//     parseFloat(maxPrice) || Number.MAX_VALUE,
+//   ];
+
+//   if (sellers) {
+//     values.push(sellers.split(","));
+//   }
+
+//   connection.query(query, values, (error, results) => {
+//     if (error) {
+//       console.error("Error querying books data:", error);
+//       return res.status(500).json({ error: "Failed to fetch books data" });
+//     }
+//     // Send the fetched books data as JSON response
+//     res.json(results);
+//   });
+// });
+
 
 // API endpoint for fetching books data
 app.get('/books', (req, res) => {
   const { searchTerm, minPrice, maxPrice, sellers } = req.query;
 
   let query = `
-    SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost <= ?`;
+    SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
+    FROM DB_UI.Books B
+    JOIN DB_UI.Users U ON B.Seller = U.email
+    WHERE (B.Title LIKE ? OR B.Author LIKE ?) AND B.Cost >= ? AND B.Cost <= ?`;
 
   if (sellers) {
     query += ` AND Seller IN (?)`;

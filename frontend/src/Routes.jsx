@@ -10,6 +10,7 @@ export const Router = () => {
                 <Route path="/dashboard" element={<Dashboard />} exact />
                 <Route path="/listings" element={<Listings />} exact />
                 <Route path="/profile" element={<ProfilePage />} exact />
+                <Route path="/profile/:email" element={<ProfilePage />} exact />
             </Routes>
         </BrowserRouter>
     );

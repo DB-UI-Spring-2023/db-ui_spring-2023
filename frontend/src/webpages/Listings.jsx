@@ -18,6 +18,7 @@ import {
     ListItem,
   } from "@chakra-ui/react";
   
+  import "../css/Listings.css";
   import { useState, useRef, useEffect } from "react";
   import axios from "axios";
   import { Link, useNavigate } from "react-router-dom";
@@ -187,8 +188,8 @@ import {
                 setSelectedSellers={setSelectedSellers}
               />
             </GridItem>
-            <GridItem w="3" pl="2" area={"nav"}>
-              <Sidebar setNavSize={setNavSize} />
+            <GridItem pl="2" area={"nav"} h="80vh">
+              <Sidebar />
             </GridItem>
             <GridItem
               p={2}

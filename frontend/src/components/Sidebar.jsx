@@ -22,6 +22,8 @@ import CreateListing from "./CreateListing";
 import Home from "./Home";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ViewListings from "./ViewListings";
+import NavSettings from "./NavSettings";
 
 
 export default function Sidebar() {
@@ -48,15 +50,12 @@ export default function Sidebar() {
   return (
     <Flex
     pos="sticky"
-    top="2.5vh"
-    left="5"
-    h="80vh"
-    marginTop="2.5vh"
-    boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
-    borderRadius={navSize == "small" ? "15px" : "30px"}
-    w={navSize == "small" ? "75px" : "200px"}
-    flexDir="column"
-    justifyContent="space-between"
+      left="5"
+      h="100%"
+      boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
+      borderRadius={navSize == "small" ? "15px" : "30px"}
+      flexDir="column"
+      justifyContent="space-between"
     >
       <Home
         navSize={navSize}
@@ -71,26 +70,24 @@ export default function Sidebar() {
         title="Profile"
         action={() => nav('/profile')}
       />
-      {/* <NavItem navSize={navSize} icon={FiUser} id="profile" title="Profile" /> */}
+      
       <CreateListing
         navSize={navSize}
         icon={FiPlusCircle}
         id="create-listing"
         title="Create Listing"
       />
-      <NavItem
+      <ViewListings
         navSize={navSize}
         icon={FiPackage}
         id="view-listing"
         title="View Listings"
-        action={() => nav('/listings')}
       />
-      <NavItem
+      <NavSettings
         navSize={navSize}
         icon={FiSettings}
         id="settings"
         title="Settings"
-        action={() => nav('/listings')}
       />
     </Flex>
   );
