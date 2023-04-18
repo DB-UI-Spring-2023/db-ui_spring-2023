@@ -11,8 +11,7 @@ import {
   import { IconName, MdSearch } from "react-icons/md";
   
   export const Settings = () => {
-    // const { colorMode, toggleColorMode } = useColorMode();
-  
+      
     return (
       <Grid
         templateAreas={`"header header"

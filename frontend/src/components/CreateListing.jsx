@@ -13,6 +13,7 @@ import {
   Text,
   MenuList,
   Heading,
+  useDisclosure,
 } from "@chakra-ui/react";
 import "../css/CreateListing.css";
 import { useNavigate } from "react-router";
@@ -29,11 +30,7 @@ export default function CreateListing({
       navigate("/listings");
     };
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    const handleCloseModal = () => {
-        setIsOpen(false);
-    };
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Menu placement="right">
@@ -44,7 +41,7 @@ export default function CreateListing({
         _hover={{ textDecor: "none", backgroundColor: "#AEC8CA" }}
         w={navSize == "large" && "100%"}
       >
-        <MenuButton isOpen={isOpen} onClose={handleCloseModal} w="100%">
+        <MenuButton onClick={onOpen} w="100%">
           <Flex>
             <Icon
               as={icon}
@@ -60,7 +57,7 @@ export default function CreateListing({
           </Flex>
         </MenuButton>
       </Link>
-      <MenuList py={0} border="none" h="20rem" ml={4}>
+      <MenuList isOpen={isOpen} onClose={onClose} py={0} border="none" h="20rem" ml={4}>
         <Flex
           pos="absolute"
           mt="9.5rem"
@@ -144,7 +141,7 @@ export default function CreateListing({
               Submit
             </Button>
             <Button
-              onClick={handleCloseModal}
+              onClick={onClose}
               color="white"
               bg="#21575c"
               variant="outline"
