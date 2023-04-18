@@ -8,17 +8,16 @@ import {
 } from "@chakra-ui/react";
 import Sidebar from "./Sidebar";
 import "../css/Dashboard.css";
-import { IconName, MdSearch } from "react-icons/md";
+import { MdSearch } from "react-icons/md";
 
 export const Dashboard = () => {
-  // const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Grid
       templateAreas={`"header header"
                       "nav main"`}
       gridTemplateRows={""}
-      gridTemplateColumns={"12% 1fr"}
+      gridTemplateColumns={"15% 1fr"}
       h="auto"
       gap="2"
       color="blackAlpha.700"

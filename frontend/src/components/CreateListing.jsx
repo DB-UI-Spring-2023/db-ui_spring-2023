@@ -14,6 +14,8 @@ import {
   MenuList,
   Heading,
   useDisclosure,
+  Modal,
+  MenuItem,
 } from "@chakra-ui/react";
 import "../css/CreateListing.css";
 import { useNavigate } from "react-router";
@@ -30,7 +32,7 @@ export default function CreateListing({
       navigate("/listings");
     };
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Menu placement="right">
@@ -101,7 +103,7 @@ export default function CreateListing({
             <Input
               className="listing-input"
               bgColor="#82AAAD"
-              type="email"
+              type="text"
               placeHolder="ISBN"
             />
             <FormLabel mt=".5rem">Condition:</FormLabel>
@@ -131,6 +133,8 @@ export default function CreateListing({
               onClick={handleNavigation}
               color="white"
               bg="#21575c"
+              border="2px solid #fff"
+              borderRadius={4}
               variant="outline"
               _hover={{
                 bg: "white",
@@ -140,9 +144,12 @@ export default function CreateListing({
             >
               Submit
             </Button>
-            <Button
-              onClick={onClose}
-              color="white"
+           <MenuItem
+            onClick={onClose}
+            color="white"
+            border="2px solid #fff"
+            borderRadius={4}
+            width='auto'
               bg="#21575c"
               variant="outline"
               _hover={{
@@ -150,9 +157,10 @@ export default function CreateListing({
                 color: "#2d676c",
                 border: "2px",
               }}
-            >
-              Close
-            </Button>
+           >
+            
+            <b>Close</b>
+           </MenuItem>
           </ButtonGroup>
         </Flex>
       </MenuList>
