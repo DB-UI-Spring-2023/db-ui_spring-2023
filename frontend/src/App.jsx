@@ -13,10 +13,10 @@ export const App = () => {
     <>
     {/* <HomePage /> */}
     <Profile />
-    {/* <Search />
+    {/* <Search /> */}
     <BookList/>
     <BookList/>
-    <BookList/>
+    {/* <BookList/>
     <BookList/>
 
     <BookList/> */}

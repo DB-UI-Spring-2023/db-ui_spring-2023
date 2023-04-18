@@ -16,6 +16,7 @@ import { Divider } from '@chakra-ui/react'
 import SorcererStone from '../images/sorcererStone.png'
 import { useDisclosure } from '@chakra-ui/react'
 import * as React from 'react';
+import { Rating} from '../components';
 import css from '../css/bookList.css';
 export const BookList = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -72,6 +73,9 @@ export const BookList = () => {
                                     <Divider />
                                     <h2> Author </h2>
                                     <Text>J.K. Rowling</Text>
+                                    <Divider />
+                                    <h2> Rating </h2>
+                                    <Rating value={4} />
                                     <Divider />
                                     <h2> Publisher</h2>
                                     <Text> Bloomsbury Publishing</Text>

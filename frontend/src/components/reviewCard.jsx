@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex } from '@chakra-ui/react'
+import { Center, Flex } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 import { BiLike, BiChat, BiShare } from 'react-icons/bi'
 import { Box } from '@chakra-ui/react'
@@ -11,6 +11,7 @@ import { Button } from '@chakra-ui/react'
 import { Heading } from '@chakra-ui/react'
 import Clark from '../images/TATRL2264-U02BLU5GG7R-c36088063f5f-512.jpeg'
 import gunCat from '../images/24900141_10156761403396840_5223982907118387909_n.jpg'
+import { Rating } from '../components';
 
 export const ReviewCard = () => {
     return (
@@ -27,6 +28,9 @@ export const ReviewCard = () => {
                         </Flex>
                     </Flex>
                 </CardHeader>
+                    <div class="rating" style={{paddingLeft: "1em"}}>
+                        <Rating value ={1} />
+                    </div>
                 <CardBody>
                     <Text>
                     I hate this book. It's so bad. I can't believe I wasted my time reading it. I'm going to give it a 1 star rating.
@@ -52,9 +56,6 @@ export const ReviewCard = () => {
                     </Button>
                     <Button flex='1' variant='ghost' leftIcon={<BiChat />}>
                     Comment
-                    </Button>
-                    <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
-                    Share
                     </Button>
                 </CardFooter>
             </Card>
