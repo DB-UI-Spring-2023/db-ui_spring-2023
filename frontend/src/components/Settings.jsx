@@ -6,11 +6,11 @@ import {
   InputLeftElement,
   Stack,
 } from "@chakra-ui/react";
+import Sidebar from "./Sidebar";
 import "../css/Dashboard.css";
 import { MdSearch } from "react-icons/md";
-import Sidebar from "../components/Sidebar";
 
-export const Dashboard = () => {
+export const Settings = () => {
 
   return (
     <Grid
@@ -38,7 +38,7 @@ export const Dashboard = () => {
         <Sidebar />
       </GridItem>
       <GridItem pl="2" bg="#82AAAD" area={"main"}>
-        Main
+        Settings
       </GridItem>
     </Grid>
   );
