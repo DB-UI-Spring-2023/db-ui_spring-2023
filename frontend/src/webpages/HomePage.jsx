@@ -27,55 +27,65 @@ import {
   Divider,
   Text,
   Flex,
+  Select,
 } from "@chakra-ui/react";
 import { useNavigate, useRouter } from "react-router-dom";
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef, useEffect } from "react"
+
+//import { Alert } from 'react-alert'
 
 export const HomePage = () => {
-  const navigate = useNavigate();
+  const nav = useNavigate();
 
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => setInput(e.target.value);
 
-  const handleUserEmail = (e) => setUserEmail(e.target.value);
-  const handleUserPassword = (e) => setUserPassword(e.target.value);
+  const [email, setEmail] = useState("");
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  
+  const [createpword, setCreatepword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
 
-  const url = "http://localhost:8000";
-  const user = {
-    email: userEmail,
-    password: userPassword,
-  };
-  // package all the data in user as a JSON
-  const sendJSON = () => {
-    console.log(user);
-    axios
-      .put(url + "/parse", user)
-      .then((response) => {
-        alert(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const [ errorMessage, setErrorMessage ] = useState("")
 
-  const sendLogin = async (event) => {
-    event.preventDefault(); // prevent default behavior of the <a> element
+  
 
-    try {
-      const response = await axios.post(url + "/login", user);
-      // alert(response.data);
-      navigate("/home");
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErrorMessage(error.response.data.message);
+  
+  axios.defaults.withCredentials = true;
+
+  const login = () => {
+    axios.post("http://localhost:8000/login", {
+      email: email,
+      last: last,
+      first: first,
+      createPass: createpword
+    }).then((response) => {
+     
+      if (response.data.msg) {
+        setLoginStatus(response.data.msg)
+        setErrorMessage(response.data.msg)
+        
       } else {
-        console.log(error);
+        setLoginStatus(response.data[0].email)
+        setErrorMessage(response.data[0].email)
       }
-    }
+
+    });
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:8000/login").then((response) => {
+      if (response.data.loggedIn == true){
+        setLoginStatus(response.data.user[0].email)
+  
+        nav("/dashboard");
+      } else {
+        setLoginStatus("Not logged in.")
+      }
+    })
+  },[loginStatus])
+  
   return (
     <>
       <Header />
@@ -98,16 +108,31 @@ export const HomePage = () => {
               type="email"
               w="100%"
               placeHolder="name@email.com"
-              onChange={handleUserEmail}
+              onChange={(e) => {
+                handleInputChange(e);
+                setEmail(e.target.value);
+                }}
             />
 
             <FormLabel mt="1rem">Password:</FormLabel>
             <Input
               type="text"
               w="100%"
-              placeHolder="smu2023"
-              onChange={handleUserPassword}
+              placeHolder=""
+              onChange={(e) => {
+                handleInputChange(e);
+                setCreatepword(e.target.value);
+                }}
             />
+            
+            
+            <Flex mt="1rem" textAlign="center">
+            {errorMessage && (
+              <p className="error-message">
+                <b>{errorMessage}</b>
+              </p>
+            )}
+          </Flex>
           </FormControl>
           <Center>
             {errorMessage && (
@@ -116,13 +141,14 @@ export const HomePage = () => {
               </p>
             )}
           </Center>
-          <a className="login-button" href="/" onClick={sendLogin}>
+          <a className="login-button" href="/" onClick={login}>
             <span className="login-button-span">Login</span>
           </a>
           <div className="left-right-divider">
             <p className="divider-text">or</p>
           </div>
           <JoinModal />
+         
         </Box>
         <Box mt="3rem">
           <Center justifyContent="center">

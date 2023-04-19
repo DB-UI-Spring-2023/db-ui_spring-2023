@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+
+  import { useState, useEffect, useDisclosure, useNavigate } from "react";
+  import { useRouter } from "react-router-dom";
+  import axios from 'axios';
+
 import {
   FormControl,
   FormLabel,
@@ -13,29 +17,57 @@ import {
   Text,
   MenuList,
   Heading,
-  useDisclosure,
   Modal,
   MenuItem,
 } from "@chakra-ui/react";
 import "../css/CreateListing.css";
-import { useNavigate } from "react-router";
 
-export default function CreateListing({
-  icon,
-  title,
-  active,
-  navSize,
-}) {
-    const navigate = useNavigate();
-
-    const handleNavigation = () => {
-      navigate("/listings");
-    };
+export default function CreateListing({ icon, title, description, active, navSize }) {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+  
+    const [input, setInput] = useState("");
+    const handleInputChange = (e) => setInput(e.target.value);
+
+    const [ibsn, setibsn] = useState("");
+    const [bookTitle, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [condition, setCondition] = useState("");
+    const [format, setFormat] = useState("");
+    const [cost, setCost] = useState("");
+    const [seller, setSeller ] = useState("");
+
+    const postListing = () => {
+        axios.post("http://localhost:8000/post-listing", {
+          ibsn: ibsn,
+          title: bookTitle,
+          author: author,
+          bookCondition: condition,
+          bookFormat: format,
+          cost: cost,
+          seller: seller,
+        }).then((response) => {
+         
+          console.log(response);
+    
+        });
+      };
+
+      useEffect(() => {
+        axios.get("http://localhost:8000/login").then((response) => {
+          if (response.data.loggedIn == true){
+            setSeller(response.data.user[0].email)
+          } else {
+            setSeller("Not logged in.")
+          }
+        })
+      },[seller])
+  
+
 
   return (
-    <Menu placement="right">
+    
+    <Menu placement="right"  >
       <Link
         backgroundColor={active && "#AEC8CA"}
         p={3}
@@ -59,7 +91,7 @@ export default function CreateListing({
           </Flex>
         </MenuButton>
       </Link>
-      <MenuList isOpen={isOpen} onClose={onClose} py={0} border="none" h="20rem" ml={4}>
+      <MenuList isOpen={isOpen} onClose={onClose} py={0} border="none" h="20rem" ml={4} >
         <Flex
           pos="absolute"
           mt="9.5rem"
@@ -91,6 +123,10 @@ export default function CreateListing({
               bgColor="#82AAAD"
               type="text"
               placeHolder="Title"
+              onChange={(e) => {
+                handleInputChange(e)
+                setTitle(e.target.value);
+                }}
             />
             <FormLabel mt=".5rem">Author:</FormLabel>
             <Input
@@ -98,6 +134,10 @@ export default function CreateListing({
               bgColor="#82AAAD"
               type="text"
               placeHolder="Author"
+              onChange={(e) => {
+                handleInputChange(e)
+                setAuthor(e.target.value);
+                }}
             />
             <FormLabel mt=".5rem">ISBN:</FormLabel>
             <Input
@@ -105,6 +145,10 @@ export default function CreateListing({
               bgColor="#82AAAD"
               type="text"
               placeHolder="ISBN"
+              onChange={(e) => {
+                handleInputChange(e)
+                setibsn(e.target.value);
+                }}
             />
             <FormLabel mt=".5rem">Condition:</FormLabel>
             <Input
@@ -112,6 +156,10 @@ export default function CreateListing({
               bgColor="#82AAAD"
               type="text"
               placeHolder="Condition"
+              onChange={(e) => {
+                handleInputChange(e)
+                setCondition(e.target.value);
+                }}
             />
             <FormLabel mt=".5rem">Format:</FormLabel>
             <Input
@@ -119,6 +167,10 @@ export default function CreateListing({
               bgColor="#82AAAD"
               type="text"
               placeHolder="Format"
+              onChange={(e) => {
+                handleInputChange(e)
+                setFormat(e.target.value);
+                }}
             />
             <FormLabel mt=".5rem">Price:</FormLabel>
             <Input
@@ -126,11 +178,14 @@ export default function CreateListing({
               bgColor="#82AAAD"
               type="text"
               placeHolder="Price"
+              onChange={(e) => {
+                handleInputChange(e)
+                setCost(e.target.value);
+                }}
             />
           </FormControl>
           <ButtonGroup gap="2">
             <Button
-              onClick={handleNavigation}
               color="white"
               bg="#21575c"
               border="2px solid #fff"
@@ -141,6 +196,7 @@ export default function CreateListing({
                 color: "#2d676c",
                 border: "2px",
               }}
+              onClick={postListing}
             >
               Submit
             </Button>

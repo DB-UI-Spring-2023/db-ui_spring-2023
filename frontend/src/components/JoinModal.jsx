@@ -25,100 +25,54 @@ import {
   ButtonGroup,
   Text,
   Link,
+  Select,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useRouter } from "react-router-dom";
 
 export const JoinModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [newUserFirstName, setNewUserFirstName] = useState("");
-  const [newUserLastName, setNewUserLastName] = useState("");
-  const [newUserEmail, setNewUserEmail] = useState("");
-  const [newUserPassword, setNewUserPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate()
 
-  const handleNewUserFirstName = (e) =>
-    setNewUserFirstName(e.target.value);
-  const handleNewUserLastName = (e) =>
-    setNewUserLastName(e.target.value);
-  const handleNewUserEmail = (e) => setNewUserEmail(e.target.value);
-  const handleNewUserPassword = (e) =>
-    setNewUserPassword(e.target.value);
-  // const handleConfirmPassword = (e) => setConfirmPassword(e.target.value);
+  const [input, setInput] = useState("");
+  const handleInputChange = (e) => setInput(e.target.value);
 
-  const navigate = useNavigate();
+  const [firstReg, setFirstReg] = useState("");
+  const [lastReg, setLastReg] = useState("");
+  const [emailReg, setEmailReg] = useState("");
+  const [createpwordReg, setCreatepwordReg] = useState("");
+  const [confirmpwordReg, setConfirmpwordReg] = useState("");
 
-  const url = "http://localhost:8000";
+  const [regStatus, setRegStatus] = useState(false);
 
-  // check if we are connecting
-  const checkAPI = () => {
-    axios
-      .get(url + "/")
-      .then((respone) => {
-        alert(respone.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const [privileges, setPrivileges] = useState("");
+
+  
+
+  const register = () => {
+    axios.post("http://localhost:8000/register", {
+      firstName: firstReg,
+      lastName: lastReg,
+      email: emailReg,
+      createPass: createpwordReg,
+      confirmPass: confirmpwordReg,
+      privileges: privileges
+    }).then((response) => {
+      navigate("/dashboard");
+      console.log(response);
+      setRegStatus(true)
+     
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 
-  // assign firstName, lastName, email, and password to user
-  const user = {
-    firstName: newUserFirstName,
-    lastName: newUserLastName,
-    email: newUserEmail,
-    password: newUserPassword,
-  };
-
-  // package all the data in user as a JSON
-  const sendJSON = () => {
-    console.log(user);
-    axios
-      .put(url + "/parse", user)
-      .then((response) => {
-        alert(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  // send and post the new user data to the backend and table,
-  // then, navigate the new user to their dashboard
-  const sendNewUser = () => {
-    axios
-      .post(url + "/newuser", user)
-      .then((response) => {
-        // alert(response.data)
-        navigate("/home");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const getNewUsers = () => {
-    axios
-      .get(url + "/newusers")
-      .then((response) => {
-        alert(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const clearUsers = () => {
-    axios
-      .put(url + "/newusers/clear")
-      .then((response) => {
-        alert(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  useEffect(() => {
+    if (regStatus == true) {
+      navigate("/dashboard")
+    }
+  },[regStatus])
 
   return (
     <>
@@ -131,72 +85,57 @@ export const JoinModal = () => {
           <ModalHeader>Create an account</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isRequired>
-              <FormLabel>First name:</FormLabel>
-              <Input
-                type="text"
-                placeHolder="First name"
-                onChange={handleNewUserFirstName}
+          <FormControl isRequired>
+          <FormLabel>First name:</FormLabel>
+              <Input type="text" placeholder="First name" 
+              onChange={(e) => {
+                handleInputChange(e)
+                setFirstReg(e.target.value);
+                }}
               />
               <FormLabel mt=".5rem">Last name:</FormLabel>
-              <Input
-                type="text"
-                placeHolder="Last name"
-                onChange={handleNewUserLastName}
+              <Input type="text" placeholder="Last name" 
+              onChange={(e) => {
+                handleInputChange(e)
+                setLastReg(e.target.value);
+                }}
               />
               <FormLabel mt=".5rem">Email:</FormLabel>
-              <Input
-                type="email"
-                placeHolder="name@email.com"
-                onChange={handleNewUserEmail}
+              <Input type="email" placeholder="name@email.com" 
+              onChange={(e) => {
+                handleInputChange(e)
+                setEmailReg(e.target.value);
+                }}
               />
               <FormLabel mt=".5rem">Create password:</FormLabel>
-              <Input
-                type="text"
-                placeHolder=""
-                onChange={handleNewUserPassword}
+              <Input type="text" placeholder="" 
+              onChange={(e) => {
+                handleInputChange(e)
+                setCreatepwordReg(e.target.value);
+                }}
               />
-              {/* <FormLabel mt=".5rem">Confirm password:</FormLabel>
-              <Input type="text" placeHolder="" onChange={handleConfirmPassword}/> */}
+              <FormLabel mt=".5rem">Confirm password:</FormLabel>
+              <Input type="text" placeholder=""
+              onChange={(e) => {
+                handleInputChange(e)
+                setConfirmpwordReg(e.target.value);
+                }}
+              />
+              <FormLabel>User Privileges</FormLabel>
+              <Select
+              placeholder="Select privileges"
+              value={privileges}
+              onChange={(e) => {setPrivileges(e.target.value);}}
+            >
+              <option value="admin">Admin</option>
+              <option value="student">Student</option>
+            </Select>
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <ButtonGroup gap="2">
-              <Button
-                color="white"
-                bgGradient='linear(to-r, #49C5F6, #FF2AEF)'
-                variant="outline"
-                _hover={{
-                  color: '#252525',
-                  bg: '#FFF',
-                  borderColor: '#252525'
-                }}
-                onClick={sendNewUser}
-              >
-                Create
-              </Button>
-              {/*<Button
-                color="white"
-                bgGradient='linear(to-r, #49C5F6, #FF2AEF)'
-                variant="outline"
-                _hover={{
-                  color: '#252525',
-                  bg: '#FFF',
-                  borderColor: '#252525'
-                }}
-                onClick={clearUsers}
-              >
-                Clear Users
-              </Button>*/}
-              <Button
-                onClick={onClose}
-                _hover={{
-                  color: "red",
-                  border: "2px",
-                }}
-              >
-                Cancel
-              </Button>
+          <ButtonGroup gap='2'>
+            <Button onClick={register} color='white' bg="#0C97FA" variant='outline' _hover={{ bg: "white", color: "#0C97FA", border: '2px'}}>Create</Button>
+            <Button onClick={onClose} _hover={{ bg: "white", color: "#FF176B", border: '2px'}}>Close</Button>
             </ButtonGroup>
           </ModalFooter>
         </ModalContent>

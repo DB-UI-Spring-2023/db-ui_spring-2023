@@ -42,6 +42,7 @@ import {
   useColorMode,
   Center,
   Text,
+  useEditable,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { JoinModal } from "./JoinModal";
@@ -61,16 +62,21 @@ export const Header = () => {
 
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
 
   const [newUserFirstName, setNewUserFirstName] = useState("");
   const [newUserLastName, setNewUserLastName] = useState("");
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleUserEmail = (e) => setUserEmail(e.target.value);
-  const handleUserPassword = (e) => setUserPassword(e.target.value);
+  const [registerStatus, setRegisterStatus] = useState(false);
+  const [loginStatus, setLoginStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Not Logged In")
+  const [privileges, setPrivileges] = useState("");
+
+  const handleUserEmail = (e) =>
+    setUserEmail(e.target.value);
+    const handleUserPassword = (e) =>
+    setUserPassword(e.target.value);
 
   const handleNewUserFirstName = (e) =>
     setNewUserFirstName(e.target.value);
@@ -84,7 +90,7 @@ export const Header = () => {
 
   const url = "http://localhost:8000";
 
-  const login = {
+  const login_creds = {
     email: userEmail,
     password: userPassword,
   };
@@ -93,14 +99,15 @@ export const Header = () => {
     firstName: newUserFirstName,
     lastName: newUserLastName,
     email: newUserEmail,
-    password: newUserPassword,
+    createPass: newUserPassword,
+    privileges: privileges,
   };
 
   const sendLogin = async (event) => {
     event.preventDefault(); // prevent default behavior of the <a> element
 
     try {
-      const response = await axios.post(url + "/login", login);
+      const response = await axios.post(url + "/login", login_creds);
       // alert(response.data);
       navigate("/home");
     } catch (error) {
@@ -114,15 +121,54 @@ export const Header = () => {
 
   const sendNewUser = () => {
     axios
-      .post(url + "/newuser", user)
+      .post(url + "/register", user)
       .then((response) => {
-        // alert(response.data)
-        navigate("/home");
+        setRegisterStatus(true);
+        setUserEmail(newUserEmail);
+        setUserPassword(newUserPassword);
+        //alert(registerStatus);
       })
       .catch((error) => {
+        setRegisterStatus(false);
         console.log(error);
       });
   };
+
+  const login = () => {
+    axios.post("http://localhost:8000/login", {
+      email: userEmail,
+      createPass: userPassword
+    }).then((response) => {
+     
+      if (response.data.msg) {
+        setLoginStatus(response.data.msg)
+        setErrorMessage(response.data.msg)
+        
+      } else {
+        setLoginStatus(response.data[0].email)
+        setErrorMessage(response.data[0].email)
+      }
+
+    });
+  };
+
+  useEffect(() => {
+    if (registerStatus == true) {
+      onCloseSignUp();
+      login();
+    }
+  },[registerStatus])
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/login").then((response) => {
+      if (response.data.loggedIn == true){
+        setLoginStatus(response.data.user[0].email)
+        navigate("/dashboard");
+      } else {
+        setLoginStatus("Not logged in.")
+      }
+    })
+  },[loginStatus])
 
   return (
     <>
@@ -196,7 +242,7 @@ export const Header = () => {
                           color: "#0C97FA",
                           border: "2px",
                         }}
-                        onClick={sendLogin}
+                        onClick={login}
                       >
                         Login
                       </Button>
@@ -261,6 +307,7 @@ export const Header = () => {
                 placeHolder=""
                 onChange={handleNewUserPassword}
               />
+              
               {/* <FormLabel mt=".5rem">Confirm password:</FormLabel>
               <Input type="text" placeHolder="" onChange={handleConfirmPassword}/> */}
             </FormControl>
