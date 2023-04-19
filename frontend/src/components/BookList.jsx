@@ -62,7 +62,7 @@ export const BookList = ({book}) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer API_KEY"
+                "Authorization": "Bearer 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"
             },
             body: JSON.stringify(API_Body)
         }).then((data) => {
