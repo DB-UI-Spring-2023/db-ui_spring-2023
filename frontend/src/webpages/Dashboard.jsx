@@ -30,7 +30,7 @@ export const Dashboard = () => {
               pointerEvents='none'
               children={<MdSearch color='#606060' />}
             />
-            <Input variant='filled' bgColor="#82AAAD" color="#606060" placeholder='Search for a textbook' />
+            <Input variant='filled' focusBorderColor="#FF2AEF" color="#FFF" placeholder='Search for a textbook' />
           </InputGroup>
         </Stack>
       </GridItem>
