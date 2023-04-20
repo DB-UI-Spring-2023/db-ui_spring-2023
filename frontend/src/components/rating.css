@@ -16,3 +16,7 @@
 .empty-star:after{
     content: "\2606";
 }
+
+.half-star:after{
+    content: "\2606";
+}

@@ -12,8 +12,25 @@ import { Heading } from '@chakra-ui/react'
 import Clark from '../images/TATRL2264-U02BLU5GG7R-c36088063f5f-512.jpeg'
 import gunCat from '../images/24900141_10156761403396840_5223982907118387909_n.jpg'
 import { Rating } from '../components';
+import {
+    Drawer,
+    DrawerBody,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+  } from '@chakra-ui/react'
+import { Textarea } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react';
+import { Divider } from '@chakra-ui/react'
 
 export const ReviewCard = () => {
+    const [userLike, setUserLike] = React.useState(0);
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef()
+
     return (
         <>  
         <Card maxW='xs'>
@@ -54,9 +71,37 @@ export const ReviewCard = () => {
                     <Button flex='1' variant='ghost' leftIcon={<BiLike />}>
                     Like
                     </Button>
-                    <Button flex='1' variant='ghost' leftIcon={<BiChat />}>
+                    <Button flex='1' variant='ghost' leftIcon={<BiChat />} ref={btnRef} onClick={onOpen}>
                     Comment
                     </Button>
+                    <Drawer
+                        isOpen={isOpen}
+                        placement='right'
+                        onClose={onClose}
+                        finalFocusRef={btnRef}>
+                        <DrawerOverlay />
+                        <DrawerContent>
+                            <DrawerCloseButton />
+                            <DrawerHeader>Comments</DrawerHeader>
+                            <DrawerBody >
+                                <Stack>
+                                    
+                                    <Divider />
+                                    <Textarea placeholder="Leave a comment" />
+                                    <Button variant='ghost' colorScheme='blue'>
+                                        Post
+                                    </Button>
+                                </Stack>
+                            </DrawerBody>
+                            
+                            <DrawerFooter>
+                                <Button variant='ghost' colorScheme='blue'>
+                                    Merchant Info
+                                </Button>  
+                            </DrawerFooter>
+                        </DrawerContent>
+                    </Drawer>
+                    
                 </CardFooter>
             </Card>
         </>

@@ -14,8 +14,8 @@ export const App = () => {
     {/* <HomePage /> */}
     <Profile />
     {/* <Search /> */}
-    <BookList/>
-    <BookList/>
+    {/* <BookList/>
+    <BookList/> */}
     {/* <BookList/>
     <BookList/>
 
