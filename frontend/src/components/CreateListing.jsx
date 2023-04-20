@@ -1,5 +1,6 @@
 
   import { useState, useEffect, useDisclosure, useNavigate } from "react";
+  import "../css/CreateListing.css";
   import { useRouter } from "react-router-dom";
   import axios from 'axios';
 
@@ -89,8 +90,9 @@ export default function CreateListing({ icon, title, description, active, navSiz
           </Flex>
         </MenuButton>
       </Link>
-      <MenuList py={0} border="none" w={200} h={200} ml={5} >
+      <MenuList py={0} border="none" w={200} h={200} ml={5}>
         <Flex
+           
           pos="absolute"
           mt="calc(100px - 7.5px)"
           ml="-10px"
@@ -101,6 +103,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
           borderRight="10px solid #82AAAD"
         />
         <Flex
+          className="menu-listing"
           h={600}
           w={500}
           // w="100%"

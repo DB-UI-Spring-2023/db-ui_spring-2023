@@ -188,6 +188,39 @@ app.get('/users/:email', (req, res) => {
   );
 });
 
+// Update profile
+app.put('/profile/update', async (req, res) => {
+  const { email, firstName, lastName, password } = req.body;
+
+  const query = 'UPDATE DB_UI.Users SET firstName = ?, lastName = ?, createPass = ? WHERE email = ?';
+
+  connection.query(query, [firstName, lastName, password, email], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: 'Error updating profile', err });
+    } else {
+      res.status(200).json({ message: 'Profile updated successfully', result });
+    }
+  });
+});
+
+// Delete listing
+app.delete('/listing/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const query = 'DELETE FROM DB_UI.Books WHERE IBSN = ?';
+
+  connection.query(query, [id], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: 'Error deleting listing', err });
+    } else {
+      res.status(200).json({ message: 'Listing deleted successfully', result });
+    }
+  });
+});
+
+
+
+
 // app.get('/books', (req, res) => {
 //   const { searchTerm, minPrice, maxPrice, sellers } = req.query;
 

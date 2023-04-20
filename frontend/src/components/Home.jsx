@@ -25,12 +25,7 @@ export default function Home({
   };
 
   return (
-    <Flex
-      mt={30}
-      flexDir="column"
-      w="100%"
-      alignItems={navSize == "small" ? "center" : "flex-start"}
-    >
+    
       <Menu placement="right">
         <Link
           backgroundColor={active && "#AEC8CA"}
@@ -54,6 +49,6 @@ export default function Home({
         </Link>
         
       </Menu>
-    </Flex>
+
   );
 }

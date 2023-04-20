@@ -12,12 +12,7 @@ import NavHoverBox from '../components/NavHoverBox'
 
 export default function Profile({ icon, title, description, active, navSize, action }) {
     return (
-        <Flex
-            mt={30}
-            flexDir="column"
-            w="100%"
-            alignItems={navSize == "small" ? "center" : "flex-start"}
-        >
+        
             <Menu placement="right">
                 <Link
                     backgroundColor={active && "#AEC8CA"}
@@ -44,6 +39,6 @@ export default function Profile({ icon, title, description, active, navSize, act
                     <NavHoverBox title={title} icon={icon} description={description} />
                 </MenuList>
             </Menu>
-        </Flex>
+
     )
 }

@@ -83,8 +83,7 @@ export const ProfilePage = () => {
         });
 
         const handleUpdateProfile = () => {
-          // Logic to update user profile
-          // ...
+          
         };
       
         const handleDeleteListing = (listingId) => {
@@ -134,7 +133,7 @@ export const ProfilePage = () => {
                 <FormLabel>First Name</FormLabel>
                 <Input
                   type="text"
-                  value={first}
+                  placeholder={first}
                   onChange={(e) => setFirst(e.target.value)}
                 />
               </FormControl>
@@ -142,7 +141,7 @@ export const ProfilePage = () => {
                 <FormLabel>Last Name</FormLabel>
                 <Input
                   type="text"
-                  value={last}
+                  placeholder={last}
                   onChange={(e) => setLast(e.target.value)}
                 />
               </FormControl>
@@ -150,7 +149,7 @@ export const ProfilePage = () => {
                 <FormLabel>Email</FormLabel>
                 <Input
                   type="email"
-                  value={email}
+                  placeholder={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormControl>
@@ -158,16 +157,8 @@ export const ProfilePage = () => {
                 <FormLabel>Password</FormLabel>
                 <Input
                   type="password"
-                  value={createpword}
+                  placeholder={createpword}
                   onChange={(e) => setCreatepword(e.target.value)}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Confirm Password</FormLabel>
-                <Input
-                  type="password"
-                  value={confirmpword}
-                  onChange={(e) => setConfirmpword(e.target.value)}
                 />
               </FormControl>
               <Button colorScheme="teal" onClick={handleUpdateProfile}>

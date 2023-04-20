@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter, Container} from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Container, Box} from '@chakra-ui/react'
 import { VStack, HStack } from '@chakra-ui/react';
 import {
     Popover,
@@ -93,6 +93,7 @@ export const BookList = ({book}) => {
 
     
     return (
+        <Box zIndex={1}>
         <stack>
         <Container>
             <Card maxW='sm'>
@@ -176,8 +177,7 @@ export const BookList = ({book}) => {
                         isOpen={isOpen}
                         placement='right'
                         onClose={onClose}
-                        finalFocusRef={btnRef}
-                        zIndex={0}>
+                        finalFocusRef={btnRef}>
                         <DrawerOverlay />
                         <DrawerContent>
                             <DrawerCloseButton />
@@ -226,6 +226,7 @@ export const BookList = ({book}) => {
             </Card>
         </Container>
         </stack>
+        </Box>
         );
     };
 

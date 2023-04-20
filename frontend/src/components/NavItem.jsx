@@ -20,7 +20,7 @@ export default function NavItem({ icon, title, description, active, navSize, act
             w="100%"
             alignItems={navSize == "small" ? "center" : "flex-start"}
         >
-            <Menu placement="right" zIndex={10}>
+            <Menu placement="right" >
 
                 <Link
                 onClick={action}

@@ -110,7 +110,7 @@ export const Dashboard = () => {
     <Grid
       templateAreas={`"header header"
                       "nav main"
-                      "nav footer"`}
+                      "footer footer"`}
       gridTemplateRows={"auto 1fr auto"}
       gridTemplateColumns={"12% 1fr"}
       h="auto"
@@ -141,22 +141,21 @@ export const Dashboard = () => {
         pl="1"
         bgColor="#82AAAD"
         area={"main"}
-        marginLeft={navSize == "small" ? "75px" : "200px"}
         h="30rem"
         display="flex"
         flexDirection="column"
         overflowY="auto"
-        position="relative" // Add this line
+// Add this line
       >
         <Box
           p={4}
         >
           <Text color="white">Current Listings</Text>
-          <Wrap spacing={2} mx="2" w="fit-content">
+          <Wrap spacing={2}>
             {books.map((book) => (
               <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center">
                 <BookList book={book} />
-            </Box>
+              </Box>
             ))}
           </Wrap>
         </Box>
@@ -186,42 +185,6 @@ export const Dashboard = () => {
             </Wrap>
         </Box>
       </GridItem>
-
-            {/* <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearchTermChange}
-        placeholder="Search by title, author, or filter by price"
-      /> */}
-      {/* <CUIAutoComplete
-            label="Search"
-            items={books.map(book => ({ label: book.Title, value: book.Title }))}
-            inputValue={searchTerm}
-            onInputValueChange={(value) => setSearchTerm(value)}
-            onSelectItem={(item) => setSearchTerm(item.label)}
-            renderInput={(props) => (
-              <Input
-                type="text"
-                value={props.inputValue}
-                onChange={props.onInputChange}
-                placeholder="Search by title, author, or filter by price"
-              />
-            )}
-          /> */}
-        
-      
-      {/* Display books */}
-      {/* <Wrap spacing={4}>
-        {books.map((book) => (
-          <WrapItem key={book.IBSN}>
-            <Box p={4} borderWidth={1} borderRadius="md">
-              <Text fontWeight="bold">{book.Title}</Text>
-              <Text>{book.Author}</Text>
-              <Text>{`Price: $${book.Cost}`}</Text>
-            </Box>
-          </WrapItem>
-        ))}
-      </Wrap> */}
 
     </Grid>
 
