@@ -3,28 +3,18 @@ import {
   InputLeftElement,
   Box,
   Wrap,
-  WrapItem,
-  Checkbox,
-  CheckboxGroup,
   Text,
   Input,
-  Button,
   Grid,
   GridItem,
   Stack,
-  Menu,
-  MenuButton,
-  IconButton,
-  useColorMode,
 } from "@chakra-ui/react";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { CreateListing, BookList } from "../components";
-
-import { CUIAutoComplete } from "chakra-ui-autocomplete";
-import { MdDensityMedium, MdSearch } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { BookList } from "../components";
+import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 
 export const Dashboard = () => {

@@ -83,7 +83,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
             />
             <Text
               ml={5}
-              display={navSize == "small" ? "none" : "flex"}
+              display={{ base: "none", lg: "flex" }}
             >
               {title}
             </Text>

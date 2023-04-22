@@ -123,8 +123,8 @@ export const Listings = () => {
     <>
       <Grid
         templateAreas={`"header header"
-                      "nav main"
-                      "footer footer"`}
+                        "nav main"
+                        "footer footer"`}
         gridTemplateRows={""}
         gridTemplateColumns={"15% 1fr"}
         h="auto"
@@ -134,29 +134,28 @@ export const Listings = () => {
       >
         <GridItem p={2} className="header-color" area={"header"}>
           <Stack direction="column">
-          <InputGroup className="input-group" m="2rem auto" w="50%">
-            <InputLeftElement
-              pointerEvents="none"
-              children={<MdSearch color="#606060" />}
-            />
-            <Input
-              variant="filled"
-              bgColor="#82AAAD"
-              color="#606060"
-              placeholder="Search for a textbook"
-              mb={4}
-              value={searchTerm}
-              onChange={(event) => searchBooks(event.target.value)}
-            />
-          </InputGroup>
+            <InputGroup className="input-group" mx="auto" my="auto" w="50%">
+              <InputLeftElement
+                pointerEvents="none"
+                children={<MdSearch color="#606060" />}
+              />
+              <Input
+                variant="filled"
+                bgColor="#82AAAD"
+                color="#606060"
+                placeholder="Search for a textbook"
+                mb={4}
+                value={searchTerm}
+                onChange={(event) => searchBooks(event.target.value)}
+              />
+            </InputGroup>
 
-          <BookFilter
-            selectedBooks={selectedBooks}
-            setSelectedBooks={setSelectedBooks}
-          />
-          <Wrap spacing={4} mb={4}>
-            <WrapItem>
-              <InputGroup className="input-group" m="2rem auto" w="50%">
+            <BookFilter
+              selectedBooks={selectedBooks}
+              setSelectedBooks={setSelectedBooks}
+            />
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <InputGroup className="input-group"  w="10rem">
                 <InputLeftElement
                   pointerEvents="none"
                   children={<MdSearch color="#606060" />}
@@ -171,51 +170,48 @@ export const Listings = () => {
                   onChange={handleMinPriceChange}
                 />
               </InputGroup>
-            </WrapItem>
-            <WrapItem>
-            <InputGroup className="input-group" m="2rem auto" w="50%">
-              <InputLeftElement
-                pointerEvents="none"
-                children={<MdSearch color="#606060" />}
-              />
-              <Input
-                mt="2rem"
-                ml="auto"
-                mr="auto"                
-                variant="filled"
-                bgColor="#82AAAD"
-                color="#606060"
-                type="number"
-                placeholder="Max Price"
-                value={maxPrice}
-                onChange={handleMaxPriceChange}
-              />
-            </InputGroup>
-            </WrapItem>
-          </Wrap>
-          {/* Clear filters button */}
-          {(minPrice || maxPrice) && (
-            <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
-              Clear Filters
-            </Button>
-          )}
-          {/* Seller filter */}
-          <SellerFilter
-            selectedSellers={selectedSellers}
-            setSelectedSellers={setSelectedSellers}
-          />
+
+              <InputGroup className="input-group"  w="10rem">
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<MdSearch color="#606060" />}
+                />
+                <Input
+                  variant="filled"
+                  bgColor="#82AAAD"
+                  color="#606060"
+                  type="number"
+                  placeholder="Max Price"
+                  value={maxPrice}
+                  onChange={handleMaxPriceChange}
+                />
+              </InputGroup>
+            </Stack>
+
+            {/* Clear filters button */}
+            {(minPrice || maxPrice) && (
+              <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
+                Clear Filters
+              </Button>
+            )}
+            {/* Seller filter */}
+            <SellerFilter
+              selectedSellers={selectedSellers}
+              setSelectedSellers={setSelectedSellers}
+            />
           </Stack>
         </GridItem>
 
-        <GridItem pl="2" area={"nav"} h="80vh">
+        <GridItem pl="2" h="30rem" area={"nav"}>
           <Sidebar />
         </GridItem>
         <GridItem
-          p={2}
-          pl="1"
-          bg="green.300"
+          p={5}
+          bgColor="#82AAAD"
           area={"main"}
-          marginLeft={navSize == "small" ? "75px" : "200px"}
+          display="flex"
+          flexDirection="column"
+          overflowY="auto"
         >
           <Wrap spacing={4} width="100%">
             {books.map((book) => (

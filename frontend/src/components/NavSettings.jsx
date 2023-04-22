@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Settings({
   icon,
   title,
@@ -40,7 +39,7 @@ export default function Settings({
                 fontSize="xl"
                 color={active ? "#82AAAD" : "gray.500"}
               />
-              <Text ml={5} display={navSize == "small" ? "none" : "flex"}>
+              <Text ml={5} display={{ base: "none", lg: "flex" }}>
                 {title}
               </Text>
             </Flex>

@@ -35,6 +35,7 @@ import SellerPopup from './SellerPopup';
 
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from 'react-icons/md';
 //import css from '../css/bookList.css';
 export const BookList = ({book}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -106,7 +107,7 @@ export const BookList = ({book}) => {
               size="sm"
               onClick={handleRemoveBook}
             >
-              X
+              <MdDelete size={18} color="darkred" />
             </Button>
                 <CardBody>
                     {/* <Image

@@ -14,9 +14,11 @@
     InputGroup,
     InputRightElement,
     VStack,
+    InputLeftElement,
 } from "@chakra-ui/react";
 import axios from "axios";
   import { Search2Icon } from "@chakra-ui/icons";
+import { MdSearch } from "react-icons/md";
   
   // ...
   
@@ -50,17 +52,24 @@ import axios from "axios";
   
     return (
       <Box>
-        <InputGroup>
+        <InputGroup className="input-group" mx="auto" w="50%">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<MdSearch color="#606060" />}
+          />
           <Input
-            placeholder="Search for a book..."
+            variant="filled"
+            bgColor="#82AAAD"
+            color="#606060"
+            placeholder="Search for a book"
             value={searchValue}
             onChange={(event) => setSearchValue(event.target.value)}
           />
-          <InputRightElement children={<Search2Icon />} />
         </InputGroup>
-        <VStack spacing={2} maxH="200px" overflowY="auto">
+        <VStack spacing={2} maxH="5rem" overflowY="auto">
           {filteredBooks.map((book) => (
             <Button
+              color="grey"
               key={book}
               size="sm"
               variant="outline"
