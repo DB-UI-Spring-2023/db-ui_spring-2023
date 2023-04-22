@@ -31,6 +31,7 @@ app.use(
 );
 
 // Enable JSON parsing
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect to mysql
@@ -82,6 +83,22 @@ app.post('/post-listing', (req,res) => {
         
     })
 })
+
+app.post('/remove-listing', (req, res) => {
+
+  const bookID = req.body.bookID;
+
+  connection.query(
+      "DELETE FROM DB_UI.Books WHERE bookID = ?",
+      [bookID], (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("An error occurred while removing the listing.");
+        } else {
+          res.status(200).send("Listing removed successfully.");
+        }
+  });
+});
 
 app.get('/login', (req,res) => {
     if (req.session.user) {
@@ -170,38 +187,55 @@ app.get('/sellers/:email', (req, res) => {
 });
 
 app.get('/users/:email', (req, res) => {
-  const { email } = req.params;
-  connection.query(
-    'SELECT * FROM DB_UI.Users WHERE email = ?',
-    [email],
-    (err, results) => {
-      if (err) {
-        console.error('Error querying user data:', err);
-        return res.status(500).json({ error: 'Failed to fetch user data' });
-      }
-      if (results.length > 0) {
-        res.json(results[0]);
-      } else {
-        res.status(404).json({ error: 'User not found' });
-      }
-    }
-  );
-});
+  const email = req.params.email;
 
-// Update profile
-app.put('/profile/update', async (req, res) => {
-  const { email, firstName, lastName, password } = req.body;
-
-  const query = 'UPDATE DB_UI.Users SET firstName = ?, lastName = ?, createPass = ? WHERE email = ?';
-
-  connection.query(query, [firstName, lastName, password, email], (err, result) => {
+  const sql = 'SELECT * FROM DB_UI.Users WHERE email = ?';
+  connection.query(sql, [email], (err, results) => {
     if (err) {
-      res.status(500).json({ message: 'Error updating profile', err });
+      res.status(500).json({ error: 'Error fetching users from the database.' });
     } else {
-      res.status(200).json({ message: 'Profile updated successfully', result });
+      res.status(200).json(results);
     }
   });
 });
+
+// Update profile
+app.put('/profile/update-name', async (req, res) => {
+  const { email, firstName, lastName } = req.body;
+  const query = 'UPDATE DB_UI.Users SET firstName = ?, lastName = ? WHERE email = ?';
+
+  connection.query(query, [firstName, lastName, email], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: 'Error updating profile', err });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'User not found' });
+      } else {
+
+        res.status(200).json({ message: 'Profile updated successfully' });
+      }
+    }
+  });
+});
+app.put('/profile/update-password', async (req, res) => {
+  const { email, password } = req.body;
+  const query = 'UPDATE DB_UI.Users SET createPass = ? WHERE email = ?';
+
+  connection.query(query, [password, email], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: 'Error updating profile', err });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(404).json({ message: 'User not found' });
+      } else {
+
+        res.status(200).json({ message: 'Profile updated successfully' });
+      }
+    }
+  });
+});
+
+
 
 // Delete listing
 app.delete('/listing/:id', async (req, res) => {
@@ -218,31 +252,17 @@ app.delete('/listing/:id', async (req, res) => {
   });
 });
 
+// app.get('/dashboard-books', (req, res) => {
+//   const searchTerm = req.query;
+
+//   const query = `
+//     SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
+//     FROM DB_UI.Books B
+//     JOIN DB_UI.Users U ON B.Seller = U.email
+//     WHERE B.Title LIKE '%${searchTerm}%' OR B.Author LIKE '%${searchTerm}%'`;
 
 
-
-// app.get('/books', (req, res) => {
-//   const { searchTerm, minPrice, maxPrice, sellers } = req.query;
-
-//   let query = `
-//     SELECT * FROM DB_UI.Books WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost <= ?`;
-
-//   if (sellers) {
-//     query += ` AND Seller IN (?)`;
-//   }
-
-//   const values = [
-//     `%${searchTerm}%`,
-//     `%${searchTerm}%`,
-//     parseFloat(minPrice) || 0,
-//     parseFloat(maxPrice) || Number.MAX_VALUE,
-//   ];
-
-//   if (sellers) {
-//     values.push(sellers.split(","));
-//   }
-
-//   connection.query(query, values, (error, results) => {
+//   connection.query(query, (error, results) => {
 //     if (error) {
 //       console.error("Error querying books data:", error);
 //       return res.status(500).json({ error: "Failed to fetch books data" });
@@ -252,27 +272,49 @@ app.delete('/listing/:id', async (req, res) => {
 //   });
 // });
 
+app.get('/dashboard-books', (req, res) => {
+  const searchTerm = req.query;
+
+  let query = `
+    SELECT * FROM DB_UI.Books
+    WHERE Title LIKE ? OR Author LIKE ?`;
+
+  const values = [
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+  ];
+
+
+  connection.query(query, values, (error, results) => {
+    if (error) {
+      console.error("Error querying books data:", error);
+      return res.status(500).json({ error: "Failed to fetch books data" });
+    }
+    // Send the fetched books data as JSON response
+    res.json(results);
+  });
+});
 
 // API endpoint for fetching books data
 app.get('/books', (req, res) => {
-  const { searchTerm, minPrice, maxPrice, sellers } = req.query;
+  const { searchTerms, minPrice, maxPrice, sellers } = req.query;
+
+  const searchTermsArray = searchTerms.split(",");
+  let searchConditions = searchTermsArray.map((_, i) => "(B.Title LIKE ? OR B.Author LIKE ?)").join(" OR ");
+  let values = searchTermsArray.flatMap(term => [`%${term}%`, `%${term}%`]);
 
   let query = `
     SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
     FROM DB_UI.Books B
     JOIN DB_UI.Users U ON B.Seller = U.email
-    WHERE (B.Title LIKE ? OR B.Author LIKE ?) AND B.Cost >= ? AND B.Cost <= ?`;
+    WHERE (${searchConditions}) AND B.Cost >= ? AND B.Cost <= ?`;
 
   if (sellers) {
     query += ` AND Seller IN (?)`;
   }
 
-  const values = [
-    `%${searchTerm}%`,
-    `%${searchTerm}%`,
-    parseFloat(minPrice) || 0,
-    parseFloat(maxPrice) || Number.MAX_VALUE,
-  ];
+  values.push(parseFloat(minPrice) || 0);
+  values.push(parseFloat(maxPrice) || Number.MAX_VALUE);
 
   if (sellers) {
     values.push(sellers.split(","));
@@ -287,6 +329,9 @@ app.get('/books', (req, res) => {
     res.json(results);
   });
 });
+
+
+
 
 
 // API endpoint for fetching books data

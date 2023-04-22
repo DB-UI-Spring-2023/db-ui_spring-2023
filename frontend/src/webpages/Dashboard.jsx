@@ -21,8 +21,6 @@ export const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
 
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
@@ -52,64 +50,57 @@ export const Dashboard = () => {
   }, [email]);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/books", {
-          params: {
-            searchTerm,
-            minPrice,
-            maxPrice,
-          },
-        });
-        setBooks(response.data);
-      } catch (error) {
-        console.error("Error fetching books data:", error);
-      }
-    };
-    fetchBooks();
-  }, [searchTerm, minPrice, maxPrice]);
+      const fetchBooks = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8000/dashboard-books`,{
+            params: {
+              searchTerm: searchTerm,
+            },
+          });
+          setBooks(response.data);
+        } catch (error) {
+          console.error("Error fetching books data:", error);
+        }
+      };
+      fetchBooks();
+    },[searchTerm]);
 
   const nav = useNavigate();
 
   const [loginStatus, setLoginStatus] = useState("");
 
-  useEffect(() => {
-    axios.get("http://localhost:8000/login").then((response) => {
-      if (response.data.loggedIn == true) {
-        setLoginStatus(response.data.user[0].email);
-        setFirst(response.data.user[0].firstName);
-        setEmail(response.data.user[0].email);
-        setLast(response.data.user[0].lastName);
-        setPrivileges(response.data.user[0].privileges);
-      } else {
-        nav("/");
-        setLoginStatus("Not logged in.");
-      }
-    });
-  });
+    useEffect(() => {
+        axios.get("http://localhost:8000/login").then((response) => {
+          if (response.data.loggedIn == true){
+            setLoginStatus(response.data.user[0].email)
+            setEmail(response.data.user[0].email)
 
-  // useEffect(() => {
-  //   fetchBooks();
-  // }, [searchTerm, minPrice, maxPrice]);
+          } else {
+            nav("/")
+            setLoginStatus("Not logged in.")
+          }
+        })
+      })
 
-  // const fetchBooks = async () => {
-  //   try {
-  //     // Construct query string for filters
-  //     let queryString = `http://localhost:8000/books?search=${searchTerm}`;
-  //     if (minPrice) {
-  //       queryString += `&minPrice=${minPrice}`;
-  //     }
-  //     if (maxPrice) {
-  //       queryString += `&maxPrice=${maxPrice}`;
-  //     }
+      useEffect(() => {
+        const fetchUserInfo = async (email) => {
+            try {
+              const response = await axios.get(`http://localhost:8000/users/${email}`);
+              console.log('User info fetched successfully:', response.data);
+              setFirst(response.data[0].firstName);
+              setLast(response.data[0].lastName);
+              setEmail(response.data[0].email);
+              setPrivileges(response.data[0].privileges)
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching User:', error);
+            }
+          };
+        fetchUserInfo(email);
+      },[loginStatus]);
 
-  //     const response = await axios.get(queryString);
-  //     const data = response.data;
-  //     setBooks(data);
-  //   } catch (error) {
-  //     console.error("Error fetching books:", error);
-  //   }
-  // };
+
+  
 
   return (
     <Grid
@@ -155,18 +146,13 @@ export const Dashboard = () => {
         display="flex"
         flexDirection="column"
         overflowY="auto"
-        // Add this line
       >
         
           <Text color="white">Current Listings</Text>
-          <Wrap spacing={2}>
+          <Wrap spacing={2} zIndex={1}>
             {books.map((book) => (
-              <Box
-                key={book.IBSN}
-                transform="scale(0.8)"
-                transformOrigin="center"
-              >
-                <BookList book={book} />
+              <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center" zIndex={1}>
+                <BookList book={book} privileges={privileges} />
               </Box>
             ))}
           </Wrap>
@@ -199,6 +185,31 @@ export const Dashboard = () => {
         </Box>
       </GridItem>
       
+
+      <GridItem 
+        p={2}
+        pl="1"
+        bgColor="#82AAAD"
+        area={"footer"}
+        marginLeft={navSize == "small" ? "75px" : "200px"}
+        h="30rem"
+        display="flex"
+        flexDirection="column"
+      
+        overflowY="auto"
+      >
+        <Box flexGrow="1">
+            <Text color="white">Your Listings</Text>
+            <Wrap spacing={2}  mx="2">
+              {myBooks.map((book2) => (
+                <Box key={book2.IBSN} transform="scale(0.8)" transformOrigin="center" >
+                  <BookList book={book2} privileges={"Admin"} />
+              </Box>
+              ))}
+            </Wrap>
+        </Box>
+      </GridItem>
+
     </Grid>
   );
 };

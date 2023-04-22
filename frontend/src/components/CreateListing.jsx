@@ -113,6 +113,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
           borderRadius="10px"
           color="#fff"
           textAlign="center"
+          zIndex={10}
         >
           {/* <Icon as={icon} fontSize="3xl" mb={4} /> */}
           <Heading size="md" fontWeight="normal">
