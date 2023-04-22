@@ -96,7 +96,7 @@ export const BookList = ({book}) => {
         <Box zIndex={1}>
         <stack>
         <Container>
-            <Card maxW='sm'>
+            <Card maxW='sm' >
             <Button
               position="absolute"
               top={2}

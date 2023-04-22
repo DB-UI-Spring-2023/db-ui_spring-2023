@@ -1,5 +1,5 @@
 
-  import { useState, useEffect, useDisclosure, useNavigate } from "react";
+  import { useState, useEffect, useNavigate } from "react";
   import "../css/CreateListing.css";
   import { useRouter } from "react-router-dom";
   import axios from 'axios';
@@ -19,11 +19,12 @@ import {
   Text,
   MenuList,
   Heading,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 export default function CreateListing({ icon, title, description, active, navSize }) {
 
-    //const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
   
     const [input, setInput] = useState("");
     const handleInputChange = (e) => setInput(e.target.value);
@@ -35,7 +36,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
     const [format, setFormat] = useState("");
     const [cost, setCost] = useState("");
     const [seller, setSeller ] = useState("");
-
+    
     const postListing = () => {
         axios.post("http://localhost:8000/post-listing", {
           ibsn: ibsn,
@@ -61,7 +62,6 @@ export default function CreateListing({ icon, title, description, active, navSiz
           }
         })
       },[seller])
-  
 
 
   return (
@@ -94,19 +94,18 @@ export default function CreateListing({ icon, title, description, active, navSiz
         <Flex
            
           pos="absolute"
-          mt="calc(100px - 7.5px)"
+          mt="9.5rem"
           ml="-10px"
           width={0}
           height={0}
           borderTop="10px solid transparent"
           borderBottom="10px solid transparent"
-          borderRight="10px solid #82AAAD"
+          borderRight="10px solid #19252e"
         />
         <Flex
-          className="menu-listing"
+          className="listing-modal"
           h={600}
           w={500}
-          // w="100%"
           flexDir="column"
           alignItems="center"
           justify="center"

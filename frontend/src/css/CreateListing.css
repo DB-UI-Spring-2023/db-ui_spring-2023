@@ -1,3 +1,17 @@
+.listing-input {
+    color:#26696e;
+}
+
+.listing-input:focus {
+    border-color: rgb(255, 255, 255);
+}
+
+.listing-modal {
+    background-image: linear-gradient(135deg, #19252e, #156b72);
+    z-index: 2;
+    color:#4ba5ad
+}
+
 .menu-listing {
     z-index: 9999;
 }
