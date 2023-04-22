@@ -49,8 +49,13 @@ export const ProfilePage = () => {
     const [email, setEmail] = useState("");
     const [privileges, setPrivileges] = useState("");
     const [createpword, setCreatepword] = useState("");
-    const [confirmpword, setConfirmpword] = useState("");
+    
     const [books, setBooks] = useState([]);
+
+    const [confirmpword, setConfirmpword] = useState("");
+    const [updateFirst, setUpdateFirst] = useState("");
+    const [updateLast, setUpdateLast] = useState("");
+    const [updatePass, setUpdatePass] = useState("");
 
     const nav = useNavigate();
 
@@ -69,21 +74,84 @@ export const ProfilePage = () => {
       },[email]);
 
       useEffect(() => {
+        const fetchUserInfo = async (email) => {
+            try {
+              const response = await axios.get(`http://localhost:8000/users/${email}`);
+              console.log('User info fetched successfully:', response.data);
+              setFirst(response.data[0].firstName);
+              setLast(response.data[0].lastName);
+              setEmail(response.data[0].email);
+              setCreatepword(response.data[0].createPass);
+              setPrivileges(response.data[0].privileges)
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching User:', error);
+            }
+          };
+        fetchUserInfo(email);
+      });
+
+      useEffect(() => {
         axios.get(`http://localhost:8000/login`).then((response) => {
           if (response.data.loggedIn == true){
-            setFirst(response.data.user[0].firstName)
             setEmail(response.data.user[0].email)
-            setLast(response.data.user[0].lastName)
-            setPrivileges(response.data.user[0].privileges)
 
           } else {
-            setFirst("Not logged in.")
+            nav('/');
             }
          })
         });
 
-        const handleUpdateProfile = () => {
-          
+        
+
+        const handleUpdateName = async () => {
+          try {
+            const updatedProfile = {
+              firstName: updateFirst,
+              lastName: updateLast,
+              email: email,
+            };
+        
+            const response = await axios.put(`http://localhost:8000/profile/update-name`, updatedProfile);
+        
+            if (response.status === 200) {
+              alert('Profile updated successfully');
+              setFirst(updateFirst);
+              setLast(updateLast);
+              handleTogglePersonalInfo();
+
+            } else {
+              alert('Error updating profile');
+            }
+          } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('Error updating profile');
+          }
+        };
+
+        const handleUpdatePassword = async () => {
+          if (createpword == confirmpword) {
+          try {
+            const updatedProfile = {
+              password: updatePass,
+              email: email,
+            };
+        
+            const response = await axios.put(`http://localhost:8000/profile/update-password`, updatedProfile);
+        
+            if (response.status === 200) {
+              alert('Profile updated successfully');
+              handleTogglePasswordReset();
+            } else {
+              alert('Error updating profile');
+            }
+          } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('Error updating profile');
+          }
+        } else {
+          alert("Current Password Incorrect")
+        }
         };
       
         const handleDeleteListing = (listingId) => {
@@ -93,10 +161,15 @@ export const ProfilePage = () => {
 
         // useState hook to manage the visibility of personal information
         const [showPersonalInfo, setShowPersonalInfo] = useState(false);
+        const [showPasswordReset, setShowPasswordRest] = useState(false);
 
         // Function to toggle the visibility of personal information
         const handleTogglePersonalInfo = () => {
           setShowPersonalInfo(!showPersonalInfo);
+        };
+        // Function to toggle the visibility of personal information
+        const handleTogglePasswordReset = () => {
+          setShowPasswordRest(!showPasswordReset);
         };
       
 
@@ -117,11 +190,11 @@ export const ProfilePage = () => {
               onClick={handleTogglePersonalInfo}
               mb={4}
             >
-              Update Personal Information
+              Update Name
             </Button>
             <Collapse in={showPersonalInfo}>
               {/* Personal Information */}
-              <Box>
+        <Box>
         <Flex justifyContent="center">
           <Box mt="4">
             <Text fontSize="2xl" fontWeight="bold">
@@ -134,7 +207,7 @@ export const ProfilePage = () => {
                 <Input
                   type="text"
                   placeholder={first}
-                  onChange={(e) => setFirst(e.target.value)}
+                  onChange={(e) => setUpdateFirst(e.target.value)}
                 />
               </FormControl>
               <FormControl>
@@ -142,27 +215,58 @@ export const ProfilePage = () => {
                 <Input
                   type="text"
                   placeholder={last}
-                  onChange={(e) => setLast(e.target.value)}
+                  onChange={(e) => setUpdateLast(e.target.value)}
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type="email"
-                  placeholder={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password</FormLabel>
+              <Button colorScheme="teal" onClick={handleUpdateName}>
+                Update Name
+              </Button>
+            </Stack>
+          </Box>
+        </Flex>
+      </Box>
+            </Collapse>
+          </Box>
+        </Flex>
+      </Box>
+      <Box>
+        <Flex justifyContent="center">
+          <Box mt="4">
+            <Button
+              colorScheme="teal"
+              onClick={handleTogglePasswordReset}
+              mb={4}
+            >
+              Reset Password
+            </Button>
+            <Collapse in={showPasswordReset}>
+              {/* Personal Information */}
+        <Box>
+        <Flex justifyContent="center">
+          <Box mt="4">
+            <Text fontSize="2xl" fontWeight="bold">
+              Password Reset
+            </Text>
+            <Divider />
+            <Stack spacing={4}>
+            <FormControl>
+                <FormLabel> Current Password</FormLabel>
                 <Input
                   type="password"
                   placeholder={createpword}
-                  onChange={(e) => setCreatepword(e.target.value)}
+                  onChange={(e) => setConfirmpword(e.target.value)}
                 />
               </FormControl>
-              <Button colorScheme="teal" onClick={handleUpdateProfile}>
-                Update Profile
+              <FormControl>
+                <FormLabel> New Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder={createpword}
+                  onChange={(e) => setUpdatePass(e.target.value)}
+                />
+              </FormControl>
+              <Button colorScheme="teal" onClick={handleUpdatePassword}>
+                Reset Password
               </Button>
             </Stack>
           </Box>

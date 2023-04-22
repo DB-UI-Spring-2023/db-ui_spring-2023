@@ -1,5 +1,5 @@
 
-  import { useState, useEffect, useDisclosure, useNavigate } from "react";
+  import { useState, useEffect, useNavigate } from "react";
   import "../css/CreateListing.css";
   import { useRouter } from "react-router-dom";
   import axios from 'axios';
@@ -19,11 +19,12 @@ import {
   Text,
   MenuList,
   Heading,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 export default function CreateListing({ icon, title, description, active, navSize }) {
 
-    //const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
   
     const [input, setInput] = useState("");
     const handleInputChange = (e) => setInput(e.target.value);
@@ -114,6 +115,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
           borderRadius="10px"
           color="#fff"
           textAlign="center"
+          zIndex={10}
         >
           {/* <Icon as={icon} fontSize="3xl" mb={4} /> */}
           <Heading size="md" fontWeight="normal">

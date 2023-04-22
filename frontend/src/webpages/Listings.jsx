@@ -19,7 +19,7 @@ import {
   } from "@chakra-ui/react";
   
   import "../css/Listings.css";
-  import { useState, useRef, useEffect } from "react";
+  import { useState, useRef, useEffect, useCallback, useMemo } from "react";
   import axios from "axios";
   import { Link, useNavigate } from "react-router-dom";
   import { CreateListing, BookList } from "../components";
@@ -39,26 +39,44 @@ import {
     const [selectedBooks, setSelectedBooks] = useState([]);
     const [sellersFilter, setSellersFilter] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [suggestedBooks, setSuggestedBooks] = useState([]);
+    const [tags, setTags] = useState([]);
     const sellersRef = useRef();
   
+
+    
+
+    const fetchBooks = async (searchTerms) => {
+      try {
+        const response = await axios.get("http://localhost:8000/books", {
+          params: {
+            searchTerms: searchTerms.join(","),
+            minPrice,
+            maxPrice,
+            sellers: selectedSellers.join(","),
+          },
+        });
+        setBooks(response.data);
+      } catch (error) {
+        console.error("Error fetching books data:", error);
+      }
+    };
+  
     useEffect(() => {
-        const fetchBooks = async () => {
+      fetchBooks(tags);
+    }, [tags, minPrice, maxPrice, selectedSellers]);
+
+      useEffect(() => {
+        const fetchSuggestedBooks = async () => {
           try {
-            const response = await axios.get("http://localhost:8000/books", {
-              params: {
-                searchTerm,
-                minPrice,
-                maxPrice,
-                sellers: selectedSellers.join(","),
-              },
-            });
-            setBooks(response.data);
+            const response = await axios.get("http://localhost:8000/book-titles");
+            setSuggestedBooks(response.data);
           } catch (error) {
-            console.error("Error fetching books data:", error);
+            console.error("Error fetching suggested books data:", error);
           }
         };
-        fetchBooks();
-      }, [searchTerm, minPrice, maxPrice, selectedSellers]);
+        fetchSuggestedBooks();
+      }, []);
       
   
     useEffect(() => {
@@ -87,7 +105,23 @@ import {
   
     const handleSearchTermChange = (event) => {
       setSearchTerm(event.target.value);
+      setShowSuggestions(true);
     };
+  
+    const onEnterPress = (event) => {
+      if (event.key === "Enter" && searchTerm) {
+        if (!tags.includes(searchTerm)) {
+          setTags([...tags, searchTerm]);
+        }
+        setSearchTerm("");
+      }
+    };
+  
+    const filteredSuggestions = useMemo(() => {
+      return suggestedBooks.filter((book) =>
+        book.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }, [searchTerm, suggestedBooks]);
   
     const handleMinPriceChange = (event) => {
       setMinPrice(event.target.value);
@@ -115,8 +149,29 @@ import {
       setShowSuggestions(false);
     };
 
-    const searchBooks = (searchValue) => {
+    
+
+      const searchBooks = (searchValue) => {
         setSearchTerm(searchValue);
+        setShowSuggestions(false);
+        if (searchValue && !tags.includes(searchValue)) {
+          setTags([...tags, searchValue]);
+        }
+      };
+
+      const handleSuggestionClick = (title) => {
+        setSearchTerm(title);
+        setShowSuggestions(false);
+        if (title && !tags.includes(title)) {
+          setTags([...tags, title]);
+          fetchBooks([...tags, title]); // Fetch books when a new tag is added
+        }
+      };
+    
+      const handleTagRemove = (tag) => {
+        const newTags = tags.filter((t) => t !== tag);
+        setTags(newTags);
+        fetchBooks(newTags); // Fetch books when a tag is removed
       };
   
     
@@ -126,56 +181,69 @@ import {
           <Grid
             templateAreas={`"header header"
                             "nav main"
-                            "nav footer"`}
-            gridTemplateRows={""}
-            gridTemplateColumns={"3 1fr"}
-            h="20rem"
-            gap="1"
+                            "footer footer"`}
+            gridTemplateRows={"auto 1fr auto"}
+            gridTemplateColumns={"12% 1fr"}
+            h="auto"
+            gap="2"
             color="blackAlpha.700"
             fontWeight="bold"
           >
             <GridItem p={2} bg="salmon" area={"header"}>
-            <Input
-                mt="2rem"
-                ml="auto"
-                mr="auto"
-                w="90%"
-                variant="filled"
-                type="text"
-                placeholder="Search for a book..."
-                mb={4}
-                value={searchTerm}
-                onChange={(event) => searchBooks(event.target.value)}
-                />
-              <BookFilter selectedBooks={selectedBooks} setSelectedBooks={setSelectedBooks} />
-              <Wrap spacing={4} mb={4}>
-                <WrapItem>
-                  <Input
-                    mt="2rem"
-                    ml="auto"
-                    mr="auto"
-                    w="90%"
-                    variant="filled"
-                    type="number"
-                    placeholder="Min Price"
-                    value={minPrice}
-                    onChange={handleMinPriceChange}
-                  />
-                </WrapItem>
-                <WrapItem>
-                  <Input
-                    mt="2rem"
-                    ml="auto"
-                    mr="auto"
-                    w="90%"
-                    variant="filled"
-                    type="number"
-                    placeholder="Max Price"
-                    value={maxPrice}
-                    onChange={handleMaxPriceChange}
-                  />
-                </WrapItem>
-              </Wrap>
+          <Input
+            mt="2rem"
+            ml="auto"
+            mr="auto"
+            w="90%"
+            variant="filled"
+            type="text"
+            placeholder="Search for a book..."
+            mb={4}
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            onFocus={() => setShowSuggestions(true)}
+            onKeyDown={onEnterPress}
+          />
+          {showSuggestions && (
+            <VStack
+              borderWidth="1px"
+              borderRadius="lg"
+              borderColor="gray.200"
+              p={2}
+              mt={2}
+              w="90%"
+              ml="auto"
+              mr="auto"
+              maxH="200px"
+              overflowY="scroll"
+            >
+              {filteredSuggestions.map((book) => (
+            <Button
+              key={book}
+              size="sm"
+              variant="outline"
+              onClick={() => handleSuggestionClick(book)}
+            >
+              {book}
+            </Button>
+          ))}
+            </VStack>
+          )}
+          <Wrap mt={4} mb={4}>
+            {tags.map((tag) => (
+              <WrapItem
+                key={tag}
+                bg="gray.200"
+                borderRadius="md"
+                px={2}
+                py={1}
+                cursor="pointer"
+                onClick={() => handleTagRemove(tag)}
+              >
+                {tag}
+              </WrapItem>
+            ))}
+          </Wrap>
               {/* Clear filters button */}
               {(minPrice || maxPrice) && (
                 <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
@@ -196,11 +264,10 @@ import {
               pl="1"
               bg="green.300"
               area={"main"}
-              marginLeft={navSize == "small" ? "75px" : "200px"}
             >
               <Wrap spacing={4} width="100%">
                 {books.map((book) => (
-                  <BookList key={book.IBSN} book={book} />
+                  <BookList key={book.IBSN} book={book}  />
                 ))}
               </Wrap>
             </GridItem>

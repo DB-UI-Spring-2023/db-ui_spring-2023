@@ -76,7 +76,7 @@ export const HomePage = () => {
         setLoginStatus("Not logged in.")
       }
     })
-  },[loginStatus])
+  },[loginStatus, email])
   
   return (
     <>
