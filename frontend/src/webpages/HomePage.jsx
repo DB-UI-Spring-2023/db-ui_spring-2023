@@ -127,9 +127,9 @@ export const HomePage = () => {
           </Flex>
           </FormControl>
           
-          <a class="login-button" href="/">
+          <button type="button" class="login-button" href="/">
             <span onClick={login} class="login-button-span">Login</span>
-          </a>
+          </button>
           <div className="left-right-divider">
             <p className="divider-text">or</p>
           </div>
