@@ -161,6 +161,7 @@ export default function CreateListing({
               >
                 <option>Hard cover</option>
                 <option>Paperback</option>
+                <option>eBook</option>
               </Select>
               <FormLabel mt=".5rem">Price:</FormLabel>
               <Input
