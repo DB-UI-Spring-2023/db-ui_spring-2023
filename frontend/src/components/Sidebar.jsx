@@ -21,6 +21,8 @@ import CreateListing from "./CreateListing";
 import Home from "./Home";
 import ViewListings from "./ViewListings";
 import NavSettings from "./NavSettings";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Sidebar() {
   const nav = useNavigate();
@@ -46,7 +48,7 @@ export default function Sidebar() {
       pos="sticky"
       left="5"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
-      borderRadius={navSize == "small" ? "15px" : "30px"}
+      borderRadius={navSize === "small" ? "15px" : "30px"}
       flexDir="column"
       justifyContent="space-between"
     >
@@ -70,7 +72,7 @@ export default function Sidebar() {
         icon={FiPackage}
         id="view-listing"
         title="View Listings"
-      /> */}
+      />
       <NavSettings
         navSize={navSize}
         icon={FiSettings}
