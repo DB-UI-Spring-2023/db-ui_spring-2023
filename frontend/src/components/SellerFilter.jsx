@@ -79,7 +79,7 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
               >
                 Sellers <ChevronDownIcon />
               </MenuButton>
-              <MenuList>
+              <MenuList style={{ zIndex: 9999 }}>
                 {filteredSellers.map((seller, index) => (
                   <MenuItem
                     color="black"
