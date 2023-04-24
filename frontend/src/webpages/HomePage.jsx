@@ -84,7 +84,7 @@ export const HomePage = () => {
         setLoginStatus("Not logged in.")
       }
     })
-  },[loginStatus])
+  },[loginStatus, email])
   
   return (
     <>
@@ -134,16 +134,10 @@ export const HomePage = () => {
             )}
           </Flex>
           </FormControl>
-          <Center>
-            {errorMessage && (
-              <p className="error-message">
-                <b>{errorMessage}</b>
-              </p>
-            )}
-          </Center>
-          <a className="login-button" href="/" onClick={login}>
-            <span className="login-button-span">Login</span>
-          </a>
+          
+          <button type="button" class="login-button" href="/">
+            <span onClick={login} class="login-button-span">Login</span>
+          </button>
           <div className="left-right-divider">
             <p className="divider-text">or</p>
           </div>

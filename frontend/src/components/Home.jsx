@@ -25,6 +25,7 @@ export default function Home({
   };
 
   return (
+    
       <Menu placement="right">
         <Link
           backgroundColor={active && "#AEC8CA"}
@@ -40,7 +41,7 @@ export default function Home({
                 fontSize="xl"
                 color={active ? "#82AAAD" : "gray.500"}
               />
-              <Text ml={5} display={navSize == "small" ? "none" : "flex"}>
+              <Text ml={5} display={{ base: "none", lg: "flex" }}>
                 {title}
               </Text>
             </Flex>
@@ -48,5 +49,6 @@ export default function Home({
         </Link>
         
       </Menu>
+
   );
 }

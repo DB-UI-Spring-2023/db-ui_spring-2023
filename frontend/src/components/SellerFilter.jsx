@@ -7,9 +7,13 @@ import {
   MenuList,
   MenuItem,
   Button,
+  InputLeftElement,
+  InputGroup,
+  Stack,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import axios from "axios";
+import { MdSearch } from "react-icons/md";
 
 const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
   const [sellers, setSellers] = useState([]);
@@ -40,32 +44,37 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
   );
 
   return (
-    <Box>
-      <Input
-        mt="2rem"
-        ml="auto"
-        mr="auto"
-        w="80%"
-        variant="filled"
-        type="text"
-        placeholder="Search by seller..."
-        mb={4}
-        value={sellerSearch}
-        onChange={(e) => setSellerSearch(e.target.value)}
-      />
-      <Menu>
+    <Stack direction="row" justifyContent="center" alignItems="center">
+      <InputGroup className="input-group" w="50%">
+        <InputLeftElement
+          pointerEvents="none"
+          children={<MdSearch color="#606060" />}
+        />
+        <Input
+          variant="filled"
+          bgColor="#82AAAD"
+          color="#606060"
+          placeholder="Search by seller"
+          type="text"
+          mb={4}
+          value={sellerSearch}
+          onChange={(e) => setSellerSearch(e.target.value)}  
+        />
+        <Menu ml="1rem">
         {({ isOpen }) => (
           <>
             <MenuButton
               isActive={isOpen}
               as={Button}
-              rightIcon={<ChevronDownIcon />}
+              rightIcon={<ChevronDownIcon />}z
+              color="black"
             >
               Sellers
             </MenuButton>
             <MenuList>
               {filteredSellers.map((seller, index) => (
                 <MenuItem
+                  color="black"
                   key={index}
                   onClick={() =>
                     selectedSellers.includes(seller)
@@ -84,7 +93,9 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
           </>
         )}
       </Menu>
-    </Box>
+      </InputGroup>
+      
+    </Stack>
   );
 };
 

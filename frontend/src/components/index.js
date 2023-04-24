@@ -4,7 +4,6 @@ export * from "./CreateListing";
 export * from "./BookList";
 export * from "./BookSearch";
 export * from "./Sidebar";
-export * from "./NavHoverBox";
 export * from "./Profile";
 export * from "./SellerFilter";
 export * from "./BookFilter";

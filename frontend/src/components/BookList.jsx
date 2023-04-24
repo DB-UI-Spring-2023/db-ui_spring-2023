@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter, Container} from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Container, Box} from '@chakra-ui/react'
 import { VStack, HStack } from '@chakra-ui/react';
 import {
     Popover,
@@ -29,13 +29,14 @@ import { Divider } from '@chakra-ui/react'
 //import SorcererStone from '../images/sorcererStone.png'
 import { useDisclosure } from '@chakra-ui/react'
 import SellerPopup from './SellerPopup';
-
+import axios from 'axios';
 
 
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from 'react-icons/md';
 //import css from '../css/bookList.css';
-export const BookList = ({book}) => {
+export const BookList = ({book, privileges}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
     const [summary, setSummary] = useState("Summary Loading...");
@@ -77,24 +78,37 @@ export const BookList = ({book}) => {
         onOpen();
     }
 
-    const [isAdmin, setIsAdmin] = useState(false); // Add a new state for isAdmin (set it to true for admin users)
+    
 
-  // Add a new function to handle book removal
-  const handleRemoveBook = () => {
-    if (!isAdmin) {
-      alert("You don't have the permissions to remove this book.");
-      return;
-    }
 
-    // Logic to remove the book from the database
-    // ...
-  };
+    const handleRemoveBook = async () => {
+
+        if (privileges != "Admin") {
+            alert("You don't have the permissions to remove this book.");
+            return;
+          }
+        try {
+          const response = await axios.post('http://localhost:8000/remove-listing', { bookID: book.bookID, });
+          if (response.status === 200) {
+            alert('Listing removed successfully.');
+          } else {
+            alert('An error occurred while removing the listing.');
+          }
+        } catch (error) {
+          console.error(error);
+          alert('An error occurred while removing the listing.');
+        }
+      };
+
+
+  
 
     
     return (
+        <Box zIndex={1}>
         <stack>
         <Container>
-            <Card maxW='sm'>
+            <Card maxW='sm' >
             <Button
               position="absolute"
               top={2}
@@ -104,7 +118,7 @@ export const BookList = ({book}) => {
               size="sm"
               onClick={handleRemoveBook}
             >
-              X
+              <MdDelete size={18} color="darkred" />
             </Button>
                 <CardBody>
                     {/* <Image
@@ -115,6 +129,7 @@ export const BookList = ({book}) => {
                     /> */}
                     <Stack mt='6' spacing='3'>
                     <Heading size='md'>{book.Title}</Heading>
+                    <Heading size='sm'>{book.Author}</Heading>
                     <Text color='purple' fontSize='2xl'>
                         {book.Cost}  ({book.bookFormat})
                     </Text>
@@ -175,8 +190,7 @@ export const BookList = ({book}) => {
                         isOpen={isOpen}
                         placement='right'
                         onClose={onClose}
-                        finalFocusRef={btnRef}
-                        zIndex={0}>
+                        finalFocusRef={btnRef}>
                         <DrawerOverlay />
                         <DrawerContent>
                             <DrawerCloseButton />
@@ -225,6 +239,7 @@ export const BookList = ({book}) => {
             </Card>
         </Container>
         </stack>
+        </Box>
         );
     };
 

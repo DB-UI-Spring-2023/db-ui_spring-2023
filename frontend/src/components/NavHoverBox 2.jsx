@@ -5,12 +5,8 @@ import {
     Text,
     Icon
 } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom';
 
-
-
-export default function NavHoverBox({ title, icon, description, id, action }) {
-    const nav = useNavigate();
+export default function NavHoverBox({ title, icon, description, id }) {
     return (
         <>
             <Flex
@@ -34,15 +30,8 @@ export default function NavHoverBox({ title, icon, description, id, action }) {
                 borderRadius="10px"
                 color="#fff"
                 textAlign="center"
-                zIndex={10}
             >
-                <Icon
-                as={icon}
-                fontSize="3xl"
-                mb={4}
-                onClick={action}
-                />
-
+                <Icon as={icon} fontSize="3xl" mb={4} />
                 <Heading size="md" fontWeight="normal">{title}</Heading>
                 <Text>{description}</Text>
             </Flex>

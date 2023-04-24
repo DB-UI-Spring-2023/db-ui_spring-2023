@@ -1,5 +1,6 @@
 
-  import { useState, useEffect, useDisclosure, useNavigate } from "react";
+  import { useState, useEffect, useNavigate } from "react";
+  import "../css/CreateListing.css";
   import { useRouter } from "react-router-dom";
   import axios from 'axios';
 
@@ -17,8 +18,7 @@ import {
   Text,
   MenuList,
   Heading,
-  Modal,
-  MenuItem,
+  useDisclosure,
 } from "@chakra-ui/react";
 import "../css/CreateListing.css";
 
@@ -36,7 +36,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
     const [format, setFormat] = useState("");
     const [cost, setCost] = useState("");
     const [seller, setSeller ] = useState("");
-
+    
     const postListing = () => {
         axios.post("http://localhost:8000/post-listing", {
           ibsn: ibsn,
@@ -62,7 +62,6 @@ export default function CreateListing({ icon, title, description, active, navSiz
           }
         })
       },[seller])
-  
 
 
   return (
@@ -84,15 +83,16 @@ export default function CreateListing({ icon, title, description, active, navSiz
             />
             <Text
               ml={5}
-              display={navSize == "small" ? "none" : "flex"}
+              display={{ base: "none", lg: "flex" }}
             >
               {title}
             </Text>
           </Flex>
         </MenuButton>
       </Link>
-      <MenuList isOpen={isOpen} onClose={onClose} py={0} border="none" h="20rem" ml={4} >
+      <MenuList py={0} border="none" w={200} h={200} ml={5}>
         <Flex
+           
           pos="absolute"
           mt="9.5rem"
           ml="-10px"
@@ -112,6 +112,7 @@ export default function CreateListing({ icon, title, description, active, navSiz
           borderRadius="10px"
           color="#fff"
           textAlign="center"
+          zIndex={10}
         >
           <Heading size="md" fontWeight="normal">
             {title}

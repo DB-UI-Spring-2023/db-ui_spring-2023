@@ -16,7 +16,6 @@ import {
   FiAlignLeft,
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
-import NavSettings from "./NavSettings";
 import Profile from "./Profile";
 import CreateListing from "./CreateListing";
 import Home from "./Home";
@@ -48,9 +47,9 @@ export default function Sidebar() {
 
   return (
     <Flex
-    pos="sticky"
+      pos="sticky"
       left="5"
-      h="100%"
+      h="70%"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
       borderRadius={navSize == "small" ? "15px" : "30px"}
       flexDir="column"

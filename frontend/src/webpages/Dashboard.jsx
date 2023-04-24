@@ -1,28 +1,33 @@
+import {
+  InputGroup,
+  InputLeftElement,
+  Box,
+  Wrap,
+  Text,
+  Input,
+  Grid,
+  GridItem,
+  Stack,
+} from "@chakra-ui/react";
 
-import { InputGroup,InputLeftElement,Box, Wrap, WrapItem, Checkbox, CheckboxGroup, Text, Input, Button, Grid, GridItem, Stack, Menu, MenuButton, IconButton, useColorMode } from "@chakra-ui/react";
-
-import { useState, useRef, useEffect } from "react"
-import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
-import { CreateListing, BookList } from "../components";
-
-import { MdDensityMedium, MdSearch } from 'react-icons/md';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { BookList } from "../components";
+import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 
 import "../css/Dashboard.css";
 
 export const Dashboard = () => {
-  
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
 
   const [first, setFirst] = useState("");
-    const [last, setLast] = useState("");
-    const [email, setEmail] = useState("");
-    const [privileges, setPrivileges] = useState("");
+  const [last, setLast] = useState("");
+  const [email, setEmail] = useState("");
+  const [privileges, setPrivileges] = useState("");
 
   const [navSize, setNavSize] = useState("large");
 
@@ -32,26 +37,26 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const fetchBooksBySeller = async (email) => {
-        try {
-          const response = await axios.get(`http://localhost:8000/books/${email}`);
-          console.log('Books fetched successfully:', response.data);
-          setMyBooks(response.data);
-          return response.data;
-        } catch (error) {
-          console.error('Error fetching books:', error);
-        }
-      };
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/books/${email}`
+        );
+        console.log("Books fetched successfully:", response.data);
+        setMyBooks(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
     fetchBooksBySeller(email);
-  },[email]);
+  }, [email]);
 
   useEffect(() => {
       const fetchBooks = async () => {
         try {
-          const response = await axios.get("http://localhost:8000/books", {
+          const response = await axios.get(`http://localhost:8000/dashboard-books`,{
             params: {
-              searchTerm,
-              minPrice,
-              maxPrice,
+              searchTerm: searchTerm,
             },
           });
           setBooks(response.data);
@@ -60,20 +65,18 @@ export const Dashboard = () => {
         }
       };
       fetchBooks();
-    }, [searchTerm, minPrice, maxPrice]);
+    },[searchTerm]);
 
   const nav = useNavigate();
 
-    const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
 
     useEffect(() => {
         axios.get("http://localhost:8000/login").then((response) => {
           if (response.data.loggedIn == true){
             setLoginStatus(response.data.user[0].email)
-            setFirst(response.data.user[0].firstName)
             setEmail(response.data.user[0].email)
-            setLast(response.data.user[0].lastName)
-            setPrivileges(response.data.user[0].privileges)
+
           } else {
             nav("/")
             setLoginStatus("Not logged in.")
@@ -81,83 +84,104 @@ export const Dashboard = () => {
         })
       })
 
-      // useEffect(() => {
-      //   fetchBooks();
-      // }, [searchTerm, minPrice, maxPrice]);
+      useEffect(() => {
+        const fetchUserInfo = async (email) => {
+            try {
+              const response = await axios.get(`http://localhost:8000/users/${email}`);
+              console.log('User info fetched successfully:', response.data);
+              setFirst(response.data[0].firstName);
+              setLast(response.data[0].lastName);
+              setEmail(response.data[0].email);
+              setPrivileges(response.data[0].privileges)
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching User:', error);
+            }
+          };
+        fetchUserInfo(email);
+      },[loginStatus]);
 
-  // const fetchBooks = async () => {
-  //   try {
-  //     // Construct query string for filters
-  //     let queryString = `http://localhost:8000/books?search=${searchTerm}`;
-  //     if (minPrice) {
-  //       queryString += `&minPrice=${minPrice}`;
-  //     }
-  //     if (maxPrice) {
-  //       queryString += `&maxPrice=${maxPrice}`;
-  //     }
-
-  //     const response = await axios.get(queryString);
-  //     const data = response.data;
-  //     setBooks(data);
-  //   } catch (error) {
-  //     console.error("Error fetching books:", error);
-  //   }
-  // };
 
   
 
   return (
-
     <Grid
       templateAreas={`"header header"
                       "nav main"
-                      "nav footer"`}
-      gridTemplateRows={"auto 1fr auto"}
-      gridTemplateColumns={"12% 1fr"}
+                      "footer footer"`}
+      gridTemplateRows={""}
+      gridTemplateColumns={"15% 1fr"}
       h="auto"
       gap="2"
       color="blackAlpha.700"
       fontWeight="bold"
     >
-    
       <GridItem className="header-color" area={"header"}>
         <Stack direction="row">
           <InputGroup className="input-group" m="2rem auto" w="50%">
             <InputLeftElement
-              pointerEvents='none'
-              children={<MdSearch color='#606060' />}
+              pointerEvents="none"
+              children={<MdSearch color="#606060" />}
             />
-            <Input value={searchTerm} onChange={handleSearchTermChange} variant='filled' bgColor="#82AAAD" color="#606060" placeholder='Search for a textbook' />
+            <Input
+              value={searchTerm}
+              onChange={handleSearchTermChange}
+              variant="filled"
+              bgColor="#82AAAD"
+              color="#606060"
+              placeholder="Search for a textbook"
+            />
           </InputGroup>
         </Stack>
       </GridItem>
 
-      
       <GridItem pl="2" area={"nav"}>
       <Sidebar />
       </GridItem>
-      
+
       <GridItem
-        p={2}
-        pl="1"
+        p={5}
+        
         bgColor="#82AAAD"
         area={"main"}
-        marginLeft={navSize == "small" ? "75px" : "200px"}
         h="30rem"
         display="flex"
         flexDirection="column"
         overflowY="auto"
-        position="relative" // Add this line
       >
-        <Box
-          p={4}
-        >
+        
           <Text color="white">Current Listings</Text>
-          <Wrap spacing={2} mx="2" w="fit-content">
+          <Wrap spacing={2} zIndex={1}>
             {books.map((book) => (
-              <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center">
-                <BookList book={book} />
-            </Box>
+              <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center" zIndex={1}>
+                <BookList book={book} privileges={privileges} />
+              </Box>
+            ))}
+          </Wrap>
+      </GridItem>
+
+      <GridItem
+        p={2}
+        pl="1"
+        bgColor="#82AAAD"
+        area={"footer"}
+        marginLeft={navSize == "small" ? "75px" : "235px"}
+        h="30rem"
+        display="flex"
+        flexDirection="column"
+        overflowY="auto"
+      >
+        <Box flexGrow="1">
+          <Text color="white">Your Listings</Text>
+          <Wrap spacing={2} mx="2">
+            {myBooks.map((book2) => (
+              <Box
+                key={book2.IBSN}
+                transform="scale(0.8)"
+                transformOrigin="center"
+              >
+                <BookList book={book2} />
+              </Box>
             ))}
           </Wrap>
         </Box>
@@ -181,59 +205,13 @@ export const Dashboard = () => {
             <Wrap spacing={2}  mx="2">
               {myBooks.map((book2) => (
                 <Box key={book2.IBSN} transform="scale(0.8)" transformOrigin="center" >
-                  <BookList book={book2} />
+                  <BookList book={book2} privileges={"Admin"} />
               </Box>
               ))}
             </Wrap>
         </Box>
       </GridItem>
 
-            {/* <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearchTermChange}
-        placeholder="Search by title, author, or filter by price"
-      /> */}
-      {/* <CUIAutoComplete
-            label="Search"
-            items={books.map(book => ({ label: book.Title, value: book.Title }))}
-            inputValue={searchTerm}
-            onInputValueChange={(value) => setSearchTerm(value)}
-            onSelectItem={(item) => setSearchTerm(item.label)}
-            renderInput={(props) => (
-              <Input
-                type="text"
-                value={props.inputValue}
-                onChange={props.onInputChange}
-                placeholder="Search by title, author, or filter by price"
-              />
-            )}
-          /> */}
-        
-      
-      {/* Display books */}
-      {/* <Wrap spacing={4}>
-        {books.map((book) => (
-          <WrapItem key={book.IBSN}>
-            <Box p={4} borderWidth={1} borderRadius="md">
-              <Text fontWeight="bold">{book.Title}</Text>
-              <Text>{book.Author}</Text>
-              <Text>{`Price: $${book.Cost}`}</Text>
-            </Box>
-          </WrapItem>
-        ))}
-      </Wrap> */}
-
     </Grid>
-
   );
 };
-
-
-
-
-
-
-
-
-
