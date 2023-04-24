@@ -20,6 +20,7 @@ import Profile from "./Profile";
 import CreateListing from "./CreateListing";
 import Home from "./Home";
 import ViewListings from "./ViewListings";
+import NavSettings from "./NavSettings";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
