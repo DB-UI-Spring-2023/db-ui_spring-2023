@@ -46,7 +46,7 @@ export const Dashboard = () => {
         try {
           const response = await axios.get(`http://localhost:8000/dashboard-books`,{
             params: {
-              searchTerm: searchTerm,
+              searchTerm,
             },
           });
           setBooks(response.data);

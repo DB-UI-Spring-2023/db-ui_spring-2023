@@ -16,6 +16,7 @@ import {
     VStack,
     List,
     ListItem,
+    HStack,
   } from "@chakra-ui/react";
   
   import "../css/Listings.css";
@@ -42,6 +43,8 @@ import {
     const [suggestedBooks, setSuggestedBooks] = useState([]);
     const [tags, setTags] = useState([]);
     const sellersRef = useRef();
+    const [authorSearch,setAuthorSearch] = useState("");
+
   
 
     
@@ -54,6 +57,7 @@ import {
             minPrice,
             maxPrice,
             sellers: selectedSellers.join(","),
+            author: authorSearch,
           },
         });
         setBooks(response.data);
@@ -189,21 +193,30 @@ import {
             color="blackAlpha.700"
             fontWeight="bold"
           >
-            <GridItem p={2} bg="salmon" area={"header"}>
-          <Input
-            mt="2rem"
-            ml="auto"
-            mr="auto"
-            w="90%"
-            variant="filled"
-            type="text"
-            placeholder="Search for a book..."
-            mb={4}
-            value={searchTerm}
-            onChange={handleSearchTermChange}
-            onFocus={() => setShowSuggestions(true)}
-            onKeyDown={onEnterPress}
-          />
+            <GridItem p={2} area={"header"} className="header-color">
+              <HStack>
+              <Input
+                mt="2rem"
+                ml="auto"
+                mr="auto"
+                w="90%"
+                variant="filled"
+                type="text"
+                placeholder="Search for a book..."
+                mb={4}
+                value={searchTerm}
+                onChange={handleSearchTermChange}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setShowSuggestions(false)} 
+                onKeyDown={onEnterPress}
+              />
+              {/* Seller filter */}
+              <SellerFilter
+                    selectedSellers={selectedSellers}
+                    setSelectedSellers={setSelectedSellers}
+                  />
+              </HStack>
+          
           {showSuggestions && (
             <VStack
               borderWidth="1px"
@@ -244,17 +257,34 @@ import {
               </WrapItem>
             ))}
           </Wrap>
+          <Wrap spacing={4} mb={4}>
+         <WrapItem>
+           <Input
+             mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
+             type="number"
+             placeholder="Min Price"
+             value={minPrice}
+            onChange={handleMinPriceChange}
+          />
+        </WrapItem>
+         <WrapItem>
+
+           <Input
+             mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
+             type="number"
+             placeholder="Max Price"
+             value={maxPrice}
+            onChange={handleMaxPriceChange}
+          />
+        </WrapItem>
+      </Wrap>
               {/* Clear filters button */}
               {(minPrice || maxPrice) && (
                 <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
                   Clear Filters
                 </Button>
               )}
-              {/* Seller filter */}
-              <SellerFilter
-                selectedSellers={selectedSellers}
-                setSelectedSellers={setSelectedSellers}
-              />
+              
             </GridItem>
             <GridItem pl="2" area={"nav"} h="80vh">
               <Sidebar />
@@ -262,7 +292,7 @@ import {
             <GridItem
               p={2}
               pl="1"
-              bg="green.300"
+              bgColor="#82AAAD"
               area={"main"}
             >
               <Wrap spacing={4} width="100%">

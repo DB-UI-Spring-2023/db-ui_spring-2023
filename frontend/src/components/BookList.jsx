@@ -178,9 +178,10 @@ export const BookList = ({book, privileges}) => {
                                 <Text>Name: {book.SellerFirstName} {book.SellerLastName}</Text>
                                 <Text>Email: {book.SellerEmail}</Text>
 
-                                <Button mt={2} colorScheme="teal" onClick={() => nav(`/profile/${book.SellerEmail}`)}>
+                                <Button mt={2} colorScheme="teal" onClick={() => nav(`/seller-profile/${book.SellerEmail}`)}>
                                 View Profile
                                 </Button>
+
                             </PopoverBody>
                             </PopoverContent>
                         </Popover>

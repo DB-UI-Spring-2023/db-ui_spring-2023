@@ -13,3 +13,4 @@ export * from "./SellerPopup";
 export * from "./ViewListings";
 export * from "./Settings";
 export * from "./NavSettings";
+export * from "./Rating";

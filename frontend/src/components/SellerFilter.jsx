@@ -41,18 +41,6 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
 
   return (
     <Box>
-      <Input
-        mt="2rem"
-        ml="auto"
-        mr="auto"
-        w="80%"
-        variant="filled"
-        type="text"
-        placeholder="Search by seller..."
-        mb={4}
-        value={sellerSearch}
-        onChange={(e) => setSellerSearch(e.target.value)}
-      />
       <Menu>
         {({ isOpen }) => (
           <>

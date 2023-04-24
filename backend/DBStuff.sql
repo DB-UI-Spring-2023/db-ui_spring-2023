@@ -42,6 +42,7 @@ CREATE TABLE `Users` (
   `email` varchar(45) NOT NULL,
   `createPass` varchar(45) NOT NULL,
   `privileges` varchar(45) NOT NULL,
+  `Rating` DECIMAL(3, 2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`email`),
   UNIQUE KEY `Email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -56,4 +57,59 @@ INSERT INTO Users (firstName, lastName, email, createPass, privileges) VALUES
   ('Quick','Test','test','pass', 'Student'),
   ('Jane','Doe','test2@gmail.com','password', 'Student'),
   ('John','Smith','user@example.com','password', 'Student');
+
+  CREATE TABLE seller_reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  seller_email VARCHAR(255) NOT NULL,
+  rating INT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+DELIMITER $$
+CREATE TRIGGER update_user_rating
+AFTER INSERT ON seller_reviews
+FOR EACH ROW
+BEGIN
+  DECLARE total_rating DECIMAL(5, 2);
+  DECLARE total_reviews INT;
+
+  SELECT SUM(rating), COUNT(*)
+  INTO total_rating, total_reviews
+  FROM seller_reviews
+  WHERE seller_email = NEW.seller_email;
+
+  UPDATE Users
+  SET Rating = total_rating / total_reviews
+  WHERE email = NEW.seller_email;
+END$$
+DELIMITER ;
+
+
+INSERT INTO seller_reviews (seller_email, rating, title, comment) VALUES
+  ('cboeger@smu.edu', 5, 'Great seller!', 'Fast shipping and excellent communication.'),
+  ('cboeger@smu.edu', 4, 'Good experience', 'The book was as described.'),
+  ('cmoore@smu.edu', 3, 'Average seller', 'Shipping took longer than expected.'),
+  ('cmoore@smu.edu', 4, 'Satisfied', 'Book in good condition.'),
+  ('rlucas@smu.edu', 2, 'Not happy', 'The book was damaged.'),
+  ('rlucas@smu.edu', 4, 'Good seller', 'Book arrived on time and well-packaged.'),
+  ('abavare@smu.edu', 5, 'Excellent!', 'Very smooth transaction.'),
+  ('abavare@smu.edu', 4, 'Good overall', 'Book was in decent condition.'),
+  ('test@gmail.com', 1, 'Bad experience', 'Book never arrived.'),
+  ('test@gmail.com', 3, 'Okay seller', 'Communication could be better.'),
+  ('musky@tesla.edu', 5, 'Fantastic seller!', 'Would buy from again.'),
+  ('musky@tesla.edu', 4, 'Good service', 'Book was as advertised.'),
+  ('test', 2, 'Not recommended', 'Book was in poor condition.'),
+  ('test', 3, 'Average experience', 'Nothing special.'),
+  ('test2@gmail.com', 5, 'Great transaction', 'Fast shipping and good communication.'),
+  ('test2@gmail.com', 4, 'Satisfied customer', 'Book as described.'),
+  ('user@example.com', 2, 'Disappointed', 'Shipping was slow and book was damaged.'),
+  ('user@example.com', 3, 'Mediocre seller', 'Book was okay, but not great.');
+
+
+
+
+
 

@@ -18,6 +18,7 @@ import {
   Text,
   Flex,
   Select,
+  Button,
 } from "@chakra-ui/react";
 import { useState, useRef, useEffect } from "react"
 import axios from 'axios';
@@ -127,9 +128,9 @@ export const HomePage = () => {
           </Flex>
           </FormControl>
           
-          <a class="login-button" href="/">
+          <Button class="login-button" href="/">
             <span onClick={login} class="login-button-span">Login</span>
-          </a>
+          </Button>
           <div className="left-right-divider">
             <p className="divider-text">or</p>
           </div>

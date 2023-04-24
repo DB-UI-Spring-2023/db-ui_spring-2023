@@ -1,4 +1,5 @@
 import css from '../css/ProfilePage.css';
+import Rating from "../components/Rating";
 import NavItem from "../components/NavItem";
 import React from 'react';
 import { Button, Heading } from '@chakra-ui/react'
@@ -42,7 +43,9 @@ import { FiHome,
 } from "react-icons/fi";
 
 export const ProfilePage = () => {
-    // const [rating, setRating] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  const [sellerRating, setSellerRating] = useState(0);
+  
 
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -72,6 +75,22 @@ export const ProfilePage = () => {
           };
         fetchBooksBySeller(email);
       },[email]);
+
+      useEffect(() => {
+        const fetchReviewsAndRatings = async (email) => {
+          try {
+            const response = await axios.get(`http://localhost:8000/reviews/${email}`);
+            console.log('Reviews and ratings fetched successfully:', response.data);
+            setReviews(response.data.reviews);
+            setSellerRating(response.data.rating);
+            return response.data;
+          } catch (error) {
+            console.error('Error fetching reviews and ratings:', error);
+          }
+        };
+        fetchReviewsAndRatings(email);
+      }, [email]);
+      
 
       useEffect(() => {
         const fetchUserInfo = async (email) => {
@@ -277,13 +296,21 @@ export const ProfilePage = () => {
         </Flex>
       </Box>
 
-            
+              <h4>Current Rating</h4>
+            <Rating value={sellerRating} />
+            {reviews.length === 0 ? (
+              <Text>No reviews available</Text>
+            ) : (
+              reviews.map((review) => (
+                <Box key={review.id} borderWidth={1} borderRadius="lg" p={4} mb={2}>
+                  <Text fontWeight="bold">{review.title}</Text>
+                  <Rating value={review.rating} />
+                  <Text>{review.comment}</Text>
+                </Box>
+              ))
+            )}
 
-            <h4>Current Rating</h4>
-
-            <h4>Temp #Reviews</h4>
-            <Textarea placeholder='Here is a sample placeholder' />
-            <h4>Temp #Listings</h4>
+            <h4>Listings</h4>
             
             <Wrap spacing={4} width="100%">
                 {books.map((book) => (

@@ -21,7 +21,7 @@ const SellerPopup = ({ sellerEmail }) => {
   }, [sellerEmail]);
 
   const handleClick = () => {
-    navigate(`/profile/${sellerEmail}`);
+    navigate(`/seller-profile/${sellerEmail}`);
   };
 
   return (

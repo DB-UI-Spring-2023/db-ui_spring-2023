@@ -186,6 +186,25 @@ app.get('/sellers/:email', (req, res) => {
   );
 });
 
+app.get('/authors/:name', (req, res) => {
+  const { name } = req.params;
+  connection.query(
+    'SELECT * FROM DB_UI.Users WHERE Author = ?',
+    [name],
+    (err, results) => {
+      if (err) {
+        console.error('Error querying author data:', err);
+        return res.status(500).json({ error: 'Failed to fetch author data' });
+      }
+      if (results.length > 0) {
+        res.json(results[0]);
+      } else {
+        res.status(404).json({ error: 'Author not found' });
+      }
+    }
+  );
+});
+
 app.get('/users/:email', (req, res) => {
   const email = req.params.email;
 
@@ -273,18 +292,22 @@ app.delete('/listing/:id', async (req, res) => {
 // });
 
 app.get('/dashboard-books', (req, res) => {
-  const searchTerm = req.query;
-
-  let query = `
-    SELECT * FROM DB_UI.Books
-    WHERE Title LIKE ? OR Author LIKE ?`;
-
+  const { searchTerm, minPrice, maxPrice } = req.query;
+  // Prepare SQL query with placeholders for dynamic values
+  const query = `
+  SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
+  FROM DB_UI.Books B
+  JOIN DB_UI.Users U ON B.Seller = U.email
+    WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost < ?`;
+  // Prepare values to replace placeholders in the SQL query
+  // console.log(searchTerm,minPrice,maxPrice);
   const values = [
     `%${searchTerm}%`,
     `%${searchTerm}%`,
+    parseFloat(minPrice) || 0,
+    parseFloat(maxPrice) || Number.MAX_VALUE,
   ];
-
-
+  // Execute the SQL query with the values
   connection.query(query, values, (error, results) => {
     if (error) {
       console.error("Error querying books data:", error);
@@ -294,6 +317,8 @@ app.get('/dashboard-books', (req, res) => {
     res.json(results);
   });
 });
+
+
 
 // API endpoint for fetching books data
 app.get('/books', (req, res) => {
@@ -331,9 +356,6 @@ app.get('/books', (req, res) => {
 });
 
 
-
-
-
 // API endpoint for fetching books data
 app.get('/books/:email', (req, res) => {
   const email = req.params.email;
@@ -347,6 +369,48 @@ app.get('/books/:email', (req, res) => {
     }
   });
 });
+
+app.get("/reviews/:email", (req, res) => {
+  const email = req.params.email;
+
+  const query = `
+    SELECT rating, title, comment FROM DB_UI.seller_reviews WHERE seller_email = ?
+  `;
+  connection.query(query, [email], (error, rows) => {
+    if (error) {
+      console.error("Error fetching reviews and ratings:", error);
+      res.status(500).send("Error fetching reviews and ratings.");
+    } else {
+      // Calculate the average rating
+      const averageRating =
+        rows.reduce((acc, review) => acc + review.rating, 0) / rows.length;
+
+      res.json({
+        reviews: rows,
+        rating: averageRating,
+      });
+    }
+  });
+});
+
+app.post("/reviews", (req, res) => {
+  const { seller_email, rating, title, comment } = req.body;
+
+  const query = `
+    INSERT INTO DB_UI.seller_reviews (seller_email, rating, title, comment)
+    VALUES (?, ?, ?, ?)
+  `;
+  connection.query(query, [seller_email, rating, title, comment], (error, result) => {
+    if (error) {
+      console.error("Error submitting review:", error);
+      res.status(500).send("Error submitting review.");
+    } else {
+      res.status(201).send("Review submitted successfully.");
+    }
+  });
+});
+
+
 
 
 // Start server
