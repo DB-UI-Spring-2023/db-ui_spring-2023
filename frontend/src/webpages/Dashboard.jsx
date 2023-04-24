@@ -8,6 +8,9 @@ import {
   Grid,
   GridItem,
   Stack,
+  VStack,
+  Flex,
+  SimpleGrid,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -104,77 +107,45 @@ export const Dashboard = () => {
   }, [loginStatus]);
 
   return (
-    <Grid
-      templateAreas={`"header header"
-                      "nav main"
-                      "footer footer"`}
-      gridTemplateRows={""}
-      gridTemplateColumns={"15% 1fr"}
-      h="auto"
-      gap="2"
-      color="blackAlpha.700"
-      fontWeight="bold"
-    >
-      <GridItem className="header-color" area={"header"}>
-        <Stack direction="row">
-          <InputGroup className="input-group" m="2rem auto" w="50%">
-            <InputLeftElement
-              pointerEvents="none"
-              children={<MdSearch color="#606060" />}
-            />
-            <Input
-              value={searchTerm}
-              onChange={handleSearchTermChange}
-              variant="filled"
-              bgColor="#82AAAD"
-              color="#606060"
-              placeholder="Search for a textbook"
-            />
-          </InputGroup>
-        </Stack>
-      </GridItem>
+    <>
+      <Flex bg="blue">
+        <InputGroup className="input-group" m="2rem auto" w="50%">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<MdSearch color="#606060" />}
+          />
+          <Input
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            variant="filled"
+            bgColor="#82AAAD"
+            color="#606060"
+            placeholder="Search for a textbook"
+          />
+        </InputGroup>
+      </Flex>
+      <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
+        <GridItem>
+          <Sidebar />
+        </GridItem>
 
-      <GridItem pl="2" area={"nav"}>
-        <Sidebar />
-      </GridItem>
-
-      <GridItem
-        p={5}
-        bgColor="#82AAAD"
-        area={"main"}
-        h="30rem"
-        display="flex"
-        flexDirection="column"
-        overflowY="auto"
-      >
-        <Text color="white">Current Listings</Text>
-        <Wrap spacing={2} zIndex={1}>
-          {books.map((book) => (
-            <Box
-              key={book.IBSN}
-              transform="scale(0.8)"
-              transformOrigin="center"
-              zIndex={1}
-            >
-              <BookList book={book} privileges={privileges} />
-            </Box>
-          ))}
-        </Wrap>
-      </GridItem>
-
-      <GridItem
-        p={2}
-        pl="1"
-        bgColor="#82AAAD"
-        area={"footer"}
-        marginLeft={navSize == "small" ? "75px" : "235px"}
-        h="30rem"
-        display="flex"
-        flexDirection="column"
-        overflowY="auto"
-      >
-        <Box flexGrow="1">
-          <Text color="white">Your Listings</Text>
+        <Box gridColumn="2" bg="tomato" height="auto">
+          <Text color="white">Current Listings</Text>
+          <Wrap spacing={2} zIndex={1}>
+            {books.map((book) => (
+              <Box
+                key={book.IBSN}
+                transform="scale(0.8)"
+                transformOrigin="center"
+                zIndex={1}
+              >
+                <BookList book={book} privileges={privileges} />
+              </Box>
+            ))}
+          </Wrap>
+        </Box>
+        <Box gridColumn="2" bg="white" height="auto">
+          <Text bg='green' color="black">Your Listings:</Text>
           <Wrap spacing={2} mx="2">
             {myBooks.map((book2) => (
               <Box
@@ -187,34 +158,7 @@ export const Dashboard = () => {
             ))}
           </Wrap>
         </Box>
-      </GridItem>
-
-      <GridItem
-        p={2}
-        pl="1"
-        bgColor="#82AAAD"
-        area={"footer"}
-        marginLeft={navSize == "small" ? "75px" : "200px"}
-        h="30rem"
-        display="flex"
-        flexDirection="column"
-        overflowY="auto"
-      >
-        <Box flexGrow="1">
-          <Text color="white">Your Listings</Text>
-          <Wrap spacing={2} mx="2">
-            {myBooks.map((book2) => (
-              <Box
-                key={book2.IBSN}
-                transform="scale(0.8)"
-                transformOrigin="center"
-              >
-                <BookList book={book2} privileges={"Admin"} />
-              </Box>
-            ))}
-          </Wrap>
-        </Box>
-      </GridItem>
-    </Grid>
+      </Grid>
+    </>
   );
 };
