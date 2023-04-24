@@ -277,18 +277,22 @@ app.delete('/listing/:id', async (req, res) => {
 // });
 
 app.get('/dashboard-books', (req, res) => {
-  const searchTerm = req.query;
-
-  let query = `
-    SELECT * FROM DB_UI.Books
-    WHERE Title LIKE ? OR Author LIKE ?`;
-
+  const { searchTerm, minPrice, maxPrice } = req.query;
+  // Prepare SQL query with placeholders for dynamic values
+  const query = `
+  SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
+  FROM DB_UI.Books B
+  JOIN DB_UI.Users U ON B.Seller = U.email
+    WHERE (Title LIKE ? OR Author LIKE ?) AND Cost >= ? AND Cost < ?`;
+  // Prepare values to replace placeholders in the SQL query
+  // console.log(searchTerm,minPrice,maxPrice);
   const values = [
     `%${searchTerm}%`,
     `%${searchTerm}%`,
+    parseFloat(minPrice) || 0,
+    parseFloat(maxPrice) || Number.MAX_VALUE,
   ];
-
-
+  // Execute the SQL query with the values
   connection.query(query, values, (error, results) => {
     if (error) {
       console.error("Error querying books data:", error);
@@ -298,6 +302,7 @@ app.get('/dashboard-books', (req, res) => {
     res.json(results);
   });
 });
+
 
 // API endpoint for fetching books data
 app.get('/books', (req, res) => {
