@@ -22,7 +22,9 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
   useEffect(() => {
     const fetchSellers = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/sellers");
+        const response = await axios.get(
+          "http://localhost:8000/sellers"
+        );
         setSellers(response.data);
       } catch (error) {
         console.error("Error fetching sellers data:", error);
@@ -44,7 +46,11 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
   );
 
   return (
-    <Stack direction="row" justifyContent="center" alignItems="center">
+    <Stack
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+    >
       <InputGroup className="input-group" w="50%">
         <InputLeftElement
           pointerEvents="none"
@@ -55,47 +61,47 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
           bgColor="#72bfde"
           color="#FFF"
           placeholder="Search by seller"
-          _placeholder={{ color: '#FFF' }}
+          _placeholder={{ color: "#FFF" }}
           type="text"
           mb={4}
           value={sellerSearch}
-          onChange={(e) => setSellerSearch(e.target.value)}  
+          onChange={(e) => setSellerSearch(e.target.value)}
         />
-        <Menu ml="1rem">
-        {({ isOpen }) => (
-          <>
-            <MenuButton
-              isActive={isOpen}
-              as={Button}
-              rightIcon={<ChevronDownIcon />}z
-              color="black"
-            >
-              Sellers
-            </MenuButton>
-            <MenuList>
-              {filteredSellers.map((seller, index) => (
-                <MenuItem
-                  color="black"
-                  key={index}
-                  onClick={() =>
-                    selectedSellers.includes(seller)
-                      ? handleSellerDeselect(seller)
-                      : handleSellerSelect(seller)
-                  }
-                >
-                  {selectedSellers.includes(seller) ? (
-                    <del>{seller}</del>
-                  ) : (
-                    seller
-                  )}
-                </MenuItem>
-              ))}
-            </MenuList>
-          </>
-        )}
-      </Menu>
+        <Menu>
+          {({ isOpen }) => (
+            <>
+              <MenuButton
+                w="auto"
+                ml="2rem"
+                isActive={isOpen}
+                as={Button}
+                color="black"
+              >
+                Sellers <ChevronDownIcon />
+              </MenuButton>
+              <MenuList>
+                {filteredSellers.map((seller, index) => (
+                  <MenuItem
+                    color="black"
+                    key={index}
+                    onClick={() =>
+                      selectedSellers.includes(seller)
+                        ? handleSellerDeselect(seller)
+                        : handleSellerSelect(seller)
+                    }
+                  >
+                    {selectedSellers.includes(seller) ? (
+                      <del>{seller}</del>
+                    ) : (
+                      seller
+                    )}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </>
+          )}
+        </Menu>
       </InputGroup>
-      
     </Stack>
   );
 };
