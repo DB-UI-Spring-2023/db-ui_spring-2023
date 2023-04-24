@@ -50,57 +50,58 @@ export const Dashboard = () => {
   }, [email]);
 
   useEffect(() => {
-      const fetchBooks = async () => {
-        try {
-          const response = await axios.get(`http://localhost:8000/dashboard-books`,{
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/dashboard-books`,
+          {
             params: {
               searchTerm: searchTerm,
             },
-          });
-          setBooks(response.data);
-        } catch (error) {
-          console.error("Error fetching books data:", error);
-        }
-      };
-      fetchBooks();
-    },[searchTerm]);
+          }
+        );
+        setBooks(response.data);
+      } catch (error) {
+        console.error("Error fetching books data:", error);
+      }
+    };
+    fetchBooks();
+  }, [searchTerm]);
 
   const nav = useNavigate();
 
   const [loginStatus, setLoginStatus] = useState("");
 
-    useEffect(() => {
-        axios.get("http://localhost:8000/login").then((response) => {
-          if (response.data.loggedIn == true){
-            setLoginStatus(response.data.user[0].email)
-            setEmail(response.data.user[0].email)
+  useEffect(() => {
+    axios.get("http://localhost:8000/login").then((response) => {
+      if (response.data.loggedIn == true) {
+        setLoginStatus(response.data.user[0].email);
+        setEmail(response.data.user[0].email);
+      } else {
+        nav("/");
+        setLoginStatus("Not logged in.");
+      }
+    });
+  });
 
-          } else {
-            nav("/")
-            setLoginStatus("Not logged in.")
-          }
-        })
-      })
-
-      useEffect(() => {
-        const fetchUserInfo = async (email) => {
-            try {
-              const response = await axios.get(`http://localhost:8000/users/${email}`);
-              console.log('User info fetched successfully:', response.data);
-              setFirst(response.data[0].firstName);
-              setLast(response.data[0].lastName);
-              setEmail(response.data[0].email);
-              setPrivileges(response.data[0].privileges)
-              return response.data;
-            } catch (error) {
-              console.error('Error fetching User:', error);
-            }
-          };
-        fetchUserInfo(email);
-      },[loginStatus]);
-
-
-  
+  useEffect(() => {
+    const fetchUserInfo = async (email) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/users/${email}`
+        );
+        console.log("User info fetched successfully:", response.data);
+        setFirst(response.data[0].firstName);
+        setLast(response.data[0].lastName);
+        setEmail(response.data[0].email);
+        setPrivileges(response.data[0].privileges);
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching User:", error);
+      }
+    };
+    fetchUserInfo(email);
+  }, [loginStatus]);
 
   return (
     <Grid
@@ -139,7 +140,6 @@ export const Dashboard = () => {
 
       <GridItem
         p={5}
-        
         bgColor="#82AAAD"
         area={"main"}
         h="30rem"
@@ -147,15 +147,19 @@ export const Dashboard = () => {
         flexDirection="column"
         overflowY="auto"
       >
-        
-          <Text color="white">Current Listings</Text>
-          <Wrap spacing={2} zIndex={1}>
-            {books.map((book) => (
-              <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center" zIndex={1}>
-                <BookList book={book} privileges={privileges} />
-              </Box>
-            ))}
-          </Wrap>
+        <Text color="white">Current Listings</Text>
+        <Wrap spacing={2} zIndex={1}>
+          {books.map((book) => (
+            <Box
+              key={book.IBSN}
+              transform="scale(0.8)"
+              transformOrigin="center"
+              zIndex={1}
+            >
+              <BookList book={book} privileges={privileges} />
+            </Box>
+          ))}
+        </Wrap>
       </GridItem>
 
       <GridItem
@@ -184,9 +188,8 @@ export const Dashboard = () => {
           </Wrap>
         </Box>
       </GridItem>
-      
 
-      <GridItem 
+      <GridItem
         p={2}
         pl="1"
         bgColor="#82AAAD"
@@ -195,21 +198,23 @@ export const Dashboard = () => {
         h="30rem"
         display="flex"
         flexDirection="column"
-      
         overflowY="auto"
       >
         <Box flexGrow="1">
-            <Text color="white">Your Listings</Text>
-            <Wrap spacing={2}  mx="2">
-              {myBooks.map((book2) => (
-                <Box key={book2.IBSN} transform="scale(0.8)" transformOrigin="center" >
-                  <BookList book={book2} privileges={"Admin"} />
+          <Text color="white">Your Listings</Text>
+          <Wrap spacing={2} mx="2">
+            {myBooks.map((book2) => (
+              <Box
+                key={book2.IBSN}
+                transform="scale(0.8)"
+                transformOrigin="center"
+              >
+                <BookList book={book2} privileges={"Admin"} />
               </Box>
-              ))}
-            </Wrap>
+            ))}
+          </Wrap>
         </Box>
       </GridItem>
-
     </Grid>
   );
 };
