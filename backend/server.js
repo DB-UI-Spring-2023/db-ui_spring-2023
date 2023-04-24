@@ -81,7 +81,7 @@ app.post('/post-listing', (req,res) => {
 
   const Title = req.body.title
   const Author = req.body.author
-    const ISBN = req.body.isbn
+    const ISBN = req.body.ibsn
     
     const bookCondition = req.body.bookCondition
     const bookFormat = req.body.bookFormat
@@ -89,7 +89,7 @@ app.post('/post-listing', (req,res) => {
     const Seller = req.body.seller
 
     connection.query(
-        "INSERT INTO DB_UI.Books (Title, Author, ISBN, bookCondition, bookFormat, Cost, Seller) VALUES (?,?,?,?,?,?,?)",
+        "INSERT INTO DB_UI.Books (Title, Author, IBSN, bookCondition, bookFormat, Cost, Seller) VALUES (?,?,?,?,?,?,?)",
         [Title, Author, ISBN, bookCondition, bookFormat, Cost, Seller], (err, result) => {
         console.log(err)
         
@@ -99,9 +99,9 @@ app.post('/post-listing', (req,res) => {
 app.post('/remove-listing', (req, res) => {
 
   const bookID = req.body.bookID;
-
+  console.log(bookID);
   connection.query(
-      "DELETE FROM DB_UI.Books WHERE bookID = ?",
+      "DELETE FROM DB_UI.Books WHERE book_id = ?",
       [bookID], (err, result) => {
         if (err) {
           console.log(err);
@@ -198,6 +198,25 @@ app.get('/sellers/:email', (req, res) => {
   );
 });
 
+app.get('/authors/:name', (req, res) => {
+    const { name } = req.params;
+    connection.query(
+      'SELECT * FROM DB_UI.Users WHERE Author = ?',
+      [name],
+      (err, results) => {
+        if (err) {
+          console.error('Error querying author data:', err);
+          return res.status(500).json({ error: 'Failed to fetch author data' });
+        }
+        if (results.length > 0) {
+          res.json(results[0]);
+        } else {
+          res.status(404).json({ error: 'Author not found' });
+        }
+      }
+    );
+  });
+
 app.get('/users/:email', (req, res) => {
   const email = req.params.email;
 
@@ -248,42 +267,6 @@ app.put('/profile/update-password', async (req, res) => {
 });
 
 
-
-// Delete listing
-app.delete('/listing/:id', async (req, res) => {
-  const { id } = req.params;
-
-  const query = 'DELETE FROM DB_UI.Books WHERE IBSN = ?';
-
-  connection.query(query, [id], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error deleting listing', err });
-    } else {
-      res.status(200).json({ message: 'Listing deleted successfully', result });
-    }
-  });
-});
-
-// app.get('/dashboard-books', (req, res) => {
-//   const searchTerm = req.query;
-
-//   const query = `
-//     SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
-//     FROM DB_UI.Books B
-//     JOIN DB_UI.Users U ON B.Seller = U.email
-//     WHERE B.Title LIKE '%${searchTerm}%' OR B.Author LIKE '%${searchTerm}%'`;
-
-
-//   connection.query(query, (error, results) => {
-//     if (error) {
-//       console.error("Error querying books data:", error);
-//       return res.status(500).json({ error: "Failed to fetch books data" });
-//     }
-//     // Send the fetched books data as JSON response
-//     res.json(results);
-//   });
-// });
-
 app.get('/dashboard-books', (req, res) => {
   const { searchTerm, minPrice, maxPrice } = req.query;
   // Prepare SQL query with placeholders for dynamic values
@@ -314,38 +297,38 @@ app.get('/dashboard-books', (req, res) => {
 
 // API endpoint for fetching books data
 app.get('/books', (req, res) => {
-  const { searchTerms, minPrice, maxPrice, sellers } = req.query;
-
-  const searchTermsArray = searchTerms.split(",");
-  let searchConditions = searchTermsArray.map((_, i) => "(B.Title LIKE ? OR B.Author LIKE ?)").join(" OR ");
-  let values = searchTermsArray.flatMap(term => [`%${term}%`, `%${term}%`]);
-
-  let query = `
-    SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
-    FROM DB_UI.Books B
-    JOIN DB_UI.Users U ON B.Seller = U.email
-    WHERE (${searchConditions}) AND B.Cost >= ? AND B.Cost <= ?`;
-
-  if (sellers) {
-    query += ` AND Seller IN (?)`;
-  }
-
-  values.push(parseFloat(minPrice) || 0);
-  values.push(parseFloat(maxPrice) || Number.MAX_VALUE);
-
-  if (sellers) {
-    values.push(sellers.split(","));
-  }
-
-  connection.query(query, values, (error, results) => {
-    if (error) {
-      console.error("Error querying books data:", error);
-      return res.status(500).json({ error: "Failed to fetch books data" });
+    const { searchTerms, minPrice, maxPrice, sellers } = req.query;
+  
+    const searchTermsArray = searchTerms.split(",");
+    let searchConditions = searchTermsArray.map((_, i) => "(B.Title LIKE ? OR B.Author LIKE ?)").join(" OR ");
+    let values = searchTermsArray.flatMap(term => [`%${term}%`, `%${term}%`]);
+  
+    let query = `
+      SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
+      FROM DB_UI.Books B
+      JOIN DB_UI.Users U ON B.Seller = U.email
+      WHERE (${searchConditions}) AND B.Cost >= ? AND B.Cost <= ?`;
+  
+    if (sellers) {
+      query += ` AND Seller IN (?)`;
     }
-    // Send the fetched books data as JSON response
-    res.json(results);
+  
+    values.push(parseFloat(minPrice) || 0);
+    values.push(parseFloat(maxPrice) || Number.MAX_VALUE);
+  
+    if (sellers) {
+      values.push(sellers.split(","));
+    }
+  
+    connection.query(query, values, (error, results) => {
+      if (error) {
+        console.error("Error querying books data:", error);
+        return res.status(500).json({ error: "Failed to fetch books data" });
+      }
+      // Send the fetched books data as JSON response
+      res.json(results);
+    });
   });
-});
 
 
 
@@ -364,6 +347,46 @@ app.get('/books/:email', (req, res) => {
     }
   });
 });
+
+app.get("/reviews/:email", (req, res) => {
+    const email = req.params.email;
+  
+    const query = `
+      SELECT rating, title, comment FROM DB_UI.seller_reviews WHERE seller_email = ?
+    `;
+    connection.query(query, [email], (error, rows) => {
+      if (error) {
+        console.error("Error fetching reviews and ratings:", error);
+        res.status(500).send("Error fetching reviews and ratings.");
+      } else {
+        // Calculate the average rating
+        const averageRating =
+          rows.reduce((acc, review) => acc + review.rating, 0) / rows.length;
+  
+        res.json({
+          reviews: rows,
+          rating: averageRating,
+        });
+      }
+    });
+  });
+  
+  app.post("/reviews", (req, res) => {
+    const { seller_email, rating, title, comment } = req.body;
+  
+    const query = `
+      INSERT INTO DB_UI.seller_reviews (seller_email, rating, title, comment)
+      VALUES (?, ?, ?, ?)
+    `;
+    connection.query(query, [seller_email, rating, title, comment], (error, result) => {
+      if (error) {
+        console.error("Error submitting review:", error);
+        res.status(500).send("Error submitting review.");
+      } else {
+        res.status(201).send("Review submitted successfully.");
+      }
+    });
+  });
 
 
 // Start server
