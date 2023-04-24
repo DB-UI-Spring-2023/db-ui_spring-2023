@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import ViewListings from "./ViewListings";
 import NavSettings from "./NavSettings";
 
-export default function Sidebar() {
+export default function Sidebar({ setRefreshListings, refreshListings }) {
   const nav = useNavigate();
 
   const [navSize, changeNavSize] = useState("large");
@@ -62,6 +62,8 @@ export default function Sidebar() {
       />
 
       <CreateListing
+        setRefreshListings={setRefreshListings}
+        refreshListings={refreshListings}
         navSize={navSize}
         icon={FiPlusCircle}
         id="create-listing"

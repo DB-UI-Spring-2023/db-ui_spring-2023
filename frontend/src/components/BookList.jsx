@@ -46,7 +46,14 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 //import css from '../css/bookList.css';
-export const BookList = ({ book, privileges }) => {
+export const BookList = ({
+  setRefreshListings,
+  refreshListings,
+  book, 
+  privileges,
+  currentUserEmail,
+  addToCart,
+}) => {
   const [isHoverd, setIsHovered] = useState(false);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -90,17 +97,18 @@ export const BookList = ({ book, privileges }) => {
   }
 
   const handleRemoveBook = async () => {
-    if (privileges != "Admin") {
+    if (privileges != "Admin" && book.Seller != currentUserEmail ) {
       alert("You don't have the permissions to remove this book.");
       return;
     }
     try {
       const response = await axios.post(
         "http://localhost:8000/remove-listing",
-        { bookID: book.bookID }
+        { bookID: book.book_id }
       );
       if (response.status === 200) {
         alert("Listing removed successfully.");
+        setRefreshListings(!refreshListings);
       } else {
         alert("An error occurred while removing the listing.");
       }
@@ -126,7 +134,7 @@ export const BookList = ({ book, privileges }) => {
             <Heading size="md" w='80%'>{book.Title}</Heading>
             <Heading size="sm">{book.Author}</Heading>
             <Text color="purple" fontSize="2xl">
-              ${book.Cost} ({book.bookFormat})
+              ${book.Cost} ({book.bookFormat}) {book.book_id}
             </Text>
             <Button
               w="100%"
@@ -159,7 +167,12 @@ export const BookList = ({ book, privileges }) => {
           <VStack alignItems="flex-start" spacing={1}>
             <HStack spacing={1}>
               <Text></Text>
-              <Button variant="ghost" colorScheme="teal" size="sm">
+              <Button 
+                variant="ghost" 
+                colorScheme="teal" 
+                size="sm" 
+                onClick={() => addToCart(book)}
+              >
                 Add to cart
               </Button>
               <Button
@@ -193,7 +206,7 @@ export const BookList = ({ book, privileges }) => {
                       mt={2}
                       colorScheme="teal"
                       onClick={() =>
-                        nav(`/profile/${book.SellerEmail}`)
+                        nav(`/seller-profile/${book.SellerEmail}`)
                       }
                     >
                       View Profile

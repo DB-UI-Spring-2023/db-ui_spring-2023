@@ -26,6 +26,8 @@ import {
 } from "@chakra-ui/react";
 
 export default function CreateListing({
+  setRefreshListings,
+  refreshListings,
   icon,
   title,
   description,
@@ -45,9 +47,9 @@ export default function CreateListing({
   const [cost, setCost] = useState("");
   const [seller, setSeller] = useState("");
 
-  const postListing = () => {
-    axios
-      .post("http://localhost:8000/post-listing", {
+  const postListing = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/post-listing", {
         ibsn: ibsn,
         title: bookTitle,
         author: author,
@@ -55,10 +57,13 @@ export default function CreateListing({
         bookFormat: format,
         cost: cost,
         seller: seller,
-      })
-      .then((response) => {
-        console.log(response);
       });
+      setRefreshListings(!refreshListings);
+      onClose();
+      console.log(response);
+    } catch (error) {
+      console.error("Error posting listing:", error);
+    }
   };
 
   useEffect(() => {
@@ -175,7 +180,7 @@ export default function CreateListing({
                 }}
               />
               <Flex justifyContent="center">
-                <Button mt={4} colorScheme="teal" type="submit">
+                <Button mt={4} colorScheme="teal" type="submit" onClick={postListing}>
                   Submit
                 </Button>
                 <Button

@@ -385,7 +385,7 @@ export const ProfilePage = () => {
                 mb="2rem"
               >
                 {books.map((book) => (
-                  <BookList key={book.IBSN} book={book} />
+                    <BookList book={book} privileges="Admin" />
                 ))}
               </Stack>
 

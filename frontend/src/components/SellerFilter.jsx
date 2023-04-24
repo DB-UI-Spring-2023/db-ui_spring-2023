@@ -56,7 +56,7 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
           pointerEvents="none"
           children={<MdSearch color="#FFF" />}
         />
-        <Input
+        {/* <Input
           variant="filled"
           bgColor="#72bfde"
           color="#FFF"
@@ -66,7 +66,7 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
           mb={4}
           value={sellerSearch}
           onChange={(e) => setSellerSearch(e.target.value)}
-        />
+        /> */}
         <Menu>
           {({ isOpen }) => (
             <>

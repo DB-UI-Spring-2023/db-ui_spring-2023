@@ -20,8 +20,19 @@ import { BookList } from "../components";
 import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 import "../css/Dashboard.css";
+import Cart from "../components/Cart"
 
 export const Dashboard = () => {
+
+  // Cart Stuff
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (item) => {
+    setCartItems([...cartItems, item]);
+  };
+  //Refresh prop passed to sidebar and createListing
+  const [refreshListings, setRefreshListings] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
@@ -51,7 +62,7 @@ export const Dashboard = () => {
       }
     };
     fetchBooksBySeller(email);
-  }, [email]);
+  }, [email, refreshListings]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -70,7 +81,7 @@ export const Dashboard = () => {
       }
     };
     fetchBooks();
-  }, [searchTerm]);
+  }, [searchTerm, refreshListings]);
 
   const nav = useNavigate();
 
@@ -125,15 +136,16 @@ export const Dashboard = () => {
             _placeholder={{ color: '#FFF' }}
           />
         </InputGroup>
+        <Cart cartItems={cartItems} setCartItems={setCartItems} />
       </Flex>
       <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
         <GridItem>
-          <Sidebar />
+        <Sidebar setRefreshListings={setRefreshListings} refreshListings={refreshListings} />
         </GridItem>
 
-        <Box gridColumn="2" bg="tomato" height="auto">
+        <Box gridColumn="2" bg="tomato" height="auto" >
           <Text color="white">Current Listings</Text>
-          <Wrap spacing={2} zIndex={1}>
+          <Wrap spacing={2} zIndex={1} height="40rem"  overflowY="auto">
             {books.map((book) => (
               <Box
                 key={book.IBSN}
@@ -141,21 +153,35 @@ export const Dashboard = () => {
                 transformOrigin="center"
                 zIndex={1}
               >
-                <BookList book={book} privileges={privileges} />
+                <BookList 
+                  book={book} 
+                  privileges={privileges} 
+                  setRefreshListings={setRefreshListings} 
+                  refreshListings={refreshListings} 
+                  currentUserEmail={email}
+                  addToCart={addToCart}
+                  />
               </Box>
             ))}
           </Wrap>
         </Box>
         <Box gridColumn="2" bg="green" height="auto">
           <Text color="white">Your Listings:</Text>
-          <Wrap spacing={2} mx="2">
+          <Wrap spacing={2} mx="2" height="40rem" overflowY="auto">
             {myBooks.map((book2) => (
               <Box
                 key={book2.IBSN}
                 transform="scale(0.8)"
                 transformOrigin="center"
               >
-                <BookList book={book2} />
+                <BookList 
+                  book={book2} 
+                  privileges="Admin"
+                  setRefreshListings={setRefreshListings} 
+                  refreshListings={refreshListings} 
+                  currentUserEmail={email}
+                  addToCart={addToCart}
+                  />
               </Box>
             ))}
           </Wrap>

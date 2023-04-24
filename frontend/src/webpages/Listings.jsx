@@ -32,18 +32,19 @@ import { MdSearch } from "react-icons/md";
 
 export const Listings = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [books, setBooks] = useState([]);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [navSize, setNavSize] = useState("large");
-  const [sellers, setSellers] = useState([]);
-  const [selectedSellers, setSelectedSellers] = useState([]);
-  const [selectedBooks, setSelectedBooks] = useState([]);
-  const [sellersFilter, setSellersFilter] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [suggestedBooks, setSuggestedBooks] = useState([]);
-  const [tags, setTags] = useState([]);
-  const sellersRef = useRef();
+    const [books, setBooks] = useState([]);
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
+    const [navSize, setNavSize] = useState("large");
+    const [sellers, setSellers] = useState([]);
+    const [selectedSellers, setSelectedSellers] = useState([]);
+    const [selectedBooks, setSelectedBooks] = useState([]);
+    const [sellersFilter, setSellersFilter] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const [suggestedBooks, setSuggestedBooks] = useState([]);
+    const [tags, setTags] = useState([]);
+    const sellersRef = useRef();
+    const [authorSearch,setAuthorSearch] = useState("");
 
   const fetchBooks = async (searchTerms) => {
     try {
@@ -190,8 +191,14 @@ export const Listings = () => {
                 value={searchTerm}
                 onChange={handleSearchTermChange}
                 onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setShowSuggestions(false)} 
                 onKeyDown={onEnterPress}
               />
+              {/* Seller filter */}
+            <SellerFilter
+              selectedSellers={selectedSellers}
+              setSelectedSellers={setSelectedSellers}
+            />
             </InputGroup>
           
           {showSuggestions && (
@@ -236,17 +243,34 @@ export const Listings = () => {
               </WrapItem>
             ))}
           </Wrap>
+          <Wrap spacing={4} mb={4}>
+         <WrapItem>
+           <Input
+             mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
+             type="number"
+             placeholder="Min Price"
+             value={minPrice}
+            onChange={handleMinPriceChange}
+          />
+        </WrapItem>
+         <WrapItem>
+
+           <Input
+             mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
+             type="number"
+             placeholder="Max Price"
+             value={maxPrice}
+            onChange={handleMaxPriceChange}
+          />
+        </WrapItem>
+      </Wrap>
           {/* Clear filters button */}
           {(minPrice || maxPrice) && (
             <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
               Clear Filters
             </Button>
           )}
-          {/* Seller filter */}
-          <SellerFilter
-            selectedSellers={selectedSellers}
-            setSelectedSellers={setSelectedSellers}
-          />
+          
       </Flex>
       <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
         <GridItem>
