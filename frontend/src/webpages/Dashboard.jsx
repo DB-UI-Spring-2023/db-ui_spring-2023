@@ -146,8 +146,8 @@ export const Dashboard = () => {
             ))}
           </Wrap>
         </Box>
-        <Box gridColumn="2" bg="white" height="auto">
-          <Text bg='green' color="black">Your Listings:</Text>
+        <Box gridColumn="2" bg="green" height="auto">
+          <Text color="white">Your Listings:</Text>
           <Wrap spacing={2} mx="2">
             {myBooks.map((book2) => (
               <Box

@@ -37,7 +37,7 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Divider } from "@chakra-ui/react";
 //import SorcererStone from '../images/sorcererStone.png'
 import { useDisclosure } from "@chakra-ui/react";
-import { Configuration, OpenAIApi } from "openai"; // Import OpenAI modules
+//import { Configuration, OpenAIApi } from "openai"; // Import OpenAI modules
 import SellerPopup from "./SellerPopup";
 import axios from "axios";
 import hp from "../images/harrypotter.png";
@@ -65,27 +65,27 @@ export const BookList = ({ book, privileges }) => {
     presence_penalty: 0.0,
   };
 
-  async function callAPI() {
-    await fetch("https://api.openai.com/v1/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer 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",
-      },
-      body: JSON.stringify(API_Body),
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setSummary(data.choices[0].text.trim());
-      });
-  }
+  // async function callAPI() {
+  //   await fetch("https://api.openai.com/v1/completions", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization:
+  //         "Bearer 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",
+  //     },
+  //     body: JSON.stringify(API_Body),
+  //   })
+  //     .then((data) => {
+  //       return data.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setSummary(data.choices[0].text.trim());
+  //     });
+  // }
 
   function openChange() {
-    callAPI();
+    //callAPI();
     onOpen();
   }
 
