@@ -6,6 +6,7 @@ import {
   Container,
   Box,
   Flex,
+  Center,
 } from "@chakra-ui/react";
 import { VStack, HStack } from "@chakra-ui/react";
 import {
@@ -113,11 +114,14 @@ export const BookList = ({ book, privileges }) => {
     <>
       <Card maxWidth="sm" borderRadius="1.875rem">
         <CardBody>
+          <Center>
           <Image
             src={hp}
+            width="50%"
             alt="Harry Potter and the Philosopher Stone"
             maxWidth='sm'
-          ></Image>
+          />
+          </Center>
           <Stack mt="6" spacing="3" w='100%'>
             <Heading size="md" w='80%'>{book.Title}</Heading>
             <Heading size="sm">{book.Author}</Heading>

@@ -48,13 +48,14 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
       <InputGroup className="input-group" w="50%">
         <InputLeftElement
           pointerEvents="none"
-          children={<MdSearch color="#606060" />}
+          children={<MdSearch color="#FFF" />}
         />
         <Input
           variant="filled"
-          bgColor="#82AAAD"
-          color="#606060"
+          bgColor="#72bfde"
+          color="#FFF"
           placeholder="Search by seller"
+          _placeholder={{ color: '#FFF' }}
           type="text"
           mb={4}
           value={sellerSearch}

@@ -1,5 +1,11 @@
 *{box-sizing: border-box;}
 
+.header-color {
+    background-image: linear-gradient(135deg, #5fb1d1, #FF2AEF);
+    z-index: 2;
+    color:#606060
+}
+
 .head{
     display: flex;
     flex-direction: row;

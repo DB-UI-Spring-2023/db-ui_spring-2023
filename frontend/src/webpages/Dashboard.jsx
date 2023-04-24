@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { BookList } from "../components";
 import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
+import "../css/Dashboard.css";
 
 export const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -108,19 +109,20 @@ export const Dashboard = () => {
 
   return (
     <>
-      <Flex bg="blue">
+      <Flex className="header-color">
         <InputGroup className="input-group" m="2rem auto" w="50%">
           <InputLeftElement
             pointerEvents="none"
-            children={<MdSearch color="#606060" />}
+            children={<MdSearch color="#FFF" />}
           />
           <Input
             value={searchTerm}
             onChange={handleSearchTermChange}
             variant="filled"
-            bgColor="#82AAAD"
-            color="#606060"
+            bgColor="#72bfde"
+            color="#FFF"
             placeholder="Search for a textbook"
+            _placeholder={{ color: '#FFF' }}
           />
         </InputGroup>
       </Flex>

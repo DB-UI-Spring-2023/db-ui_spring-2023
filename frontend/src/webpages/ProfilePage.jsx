@@ -192,55 +192,16 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <Grid
-        templateAreas={`"header header"
-                      "nav main"
-                      "footer footer"`}
-        gridTemplateRows={""}
-        gridTemplateColumns={"15% 1fr"}
-        h="auto"
-        gap="2"
-        color="blackAlpha.700"
-        fontWeight="bold"
-      >
-        <GridItem className="header-color" area={"header"}>
-          <Stack direction="row">
-            <InputGroup className="input-group" m="2rem auto" w="50%">
-              <InputLeftElement
-                pointerEvents="none"
-                children={<MdSearch color="#606060" />}
-              />
-              <Input
-                value={searchTerm}
-                onChange={handleSearchTermChange}
-                variant="filled"
-                bgColor="#82AAAD"
-                color="#606060"
-                placeholder="Search for a textbook"
-              />
-            </InputGroup>
-          </Stack>
-        </GridItem>
-
-        <GridItem pl="2" area={"nav"}>
+      <Flex direction="column" className="header-color" py="2rem">
+        <h1><b>Profile</b></h1>
+      </Flex>
+      <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
+        <GridItem>
           <Sidebar />
         </GridItem>
 
-        <GridItem
-          p={2}
-          pl="1"
-          bgColor="#82AAAD"
-          area={"main"}
-          h="30rem"
-          display="flex"
-          flexDirection="column"
-          overflowY="auto"
-          // Insert profile elements below
-        >
+        <Box gridColumn="2" bg="tomato" height="auto">
           <div className="container">
-            <Heading marginY="auto" as="h1" textAlign="center" className="head">
-              My Account
-            </Heading>
             <div className="profileInfo">
               <Image
                 mt=".5rem"
@@ -408,7 +369,7 @@ export const ProfilePage = () => {
               </Container>
             </div>
           </div>
-        </GridItem>
+        </Box>
       </Grid>
     </>
   );
