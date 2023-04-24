@@ -25,6 +25,7 @@ import {
   UnorderedList,
   Wrap,
   Collapse,
+  Center,
 } from "@chakra-ui/react";
 import {
   Avatar,
@@ -35,6 +36,7 @@ import {
   Input,
   Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { Form } from "react-router-dom";
@@ -192,53 +194,47 @@ export const ProfilePage = () => {
 
   return (
     <>
+      <Flex bg="blue">
+        <InputGroup className="input-group" m="2rem auto" w="50%">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<MdSearch color="#606060" />}
+          />
+          <Input
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            variant="filled"
+            bgColor="#82AAAD"
+            color="#606060"
+            placeholder="Search for a textbook"
+          />
+        </InputGroup>
+      </Flex>
       <Grid
-        templateAreas={`"header header"
-                      "nav main"
-                      "footer footer"`}
-        gridTemplateRows={""}
-        gridTemplateColumns={"15% 1fr"}
-        h="auto"
-        gap="2"
-        color="blackAlpha.700"
-        fontWeight="bold"
+        templateColumns="12% 1fr"
+        gap={10}
+        m="2rem 2rem auto 2rem"
       >
-        <GridItem className="header-color" area={"header"}>
-          <Stack direction="row">
-            <InputGroup className="input-group" m="2rem auto" w="50%">
-              <InputLeftElement
-                pointerEvents="none"
-                children={<MdSearch color="#606060" />}
-              />
-              <Input
-                value={searchTerm}
-                onChange={handleSearchTermChange}
-                variant="filled"
-                bgColor="#82AAAD"
-                color="#606060"
-                placeholder="Search for a textbook"
-              />
-            </InputGroup>
-          </Stack>
-        </GridItem>
-
-        <GridItem pl="2" area={"nav"}>
+        <GridItem>
           <Sidebar />
         </GridItem>
 
-        <GridItem
-          p={2}
-          pl="1"
-          bgColor="#82AAAD"
-          area={"main"}
-          h="30rem"
+        <Box
+          gridColumn="2"
+          bg="tomato"
+          h="auto"
           display="flex"
           flexDirection="column"
-          overflowY="auto"
+
           // Insert profile elements below
         >
           <div className="container">
-            <Heading marginY="auto" as="h1" textAlign="center" className="head">
+            <Heading
+              marginY="auto"
+              as="h1"
+              textAlign="center"
+              className="head"
+            >
               My Account
             </Heading>
             <div className="profileInfo">
@@ -249,114 +245,148 @@ export const ProfilePage = () => {
                 src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
                 alt="default pic"
               />
-              <Badge>
+              <Badge m="1rem auto">
                 {first} {last}{" "}
               </Badge>
               <h2>({privileges})</h2>
 
-              <Flex justifyContent="center">
-                <Box mt="4">
-                  <Button
-                    colorScheme="teal"
-                    onClick={handleTogglePersonalInfo}
-                    mb={4}
-                  >
-                    Update Name
-                  </Button>
-                  <Collapse in={showPersonalInfo}>
-                    {/* Personal Information */}
-                    <Box>
-                      <Flex justifyContent="center">
-                        <Box mt="4">
-                          <Text fontSize="2xl" fontWeight="bold">
-                            Personal Information
-                          </Text>
-                          <Divider />
-                          <Stack spacing={4}>
-                            <FormControl>
-                              <FormLabel>First Name</FormLabel>
-                              <Input
-                                type="text"
-                                placeholder={first}
-                                onChange={(e) => setUpdateFirst(e.target.value)}
-                              />
-                            </FormControl>
-                            <FormControl>
-                              <FormLabel>Last Name</FormLabel>
-                              <Input
-                                type="text"
-                                placeholder={last}
-                                onChange={(e) => setUpdateLast(e.target.value)}
-                              />
-                            </FormControl>
-                            <Button
-                              colorScheme="teal"
-                              onClick={handleUpdateName}
-                            >
-                              Update Name
-                            </Button>
-                          </Stack>
-                        </Box>
-                      </Flex>
-                    </Box>
-                  </Collapse>
-                </Box>
+              <Flex
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                m="1rem auto"
+              >
+                <Button
+                  onClick={handleTogglePersonalInfo}
+                  color="white"
+                  bg="#0C97FA"
+                  variant="outline"
+                  _hover={{
+                    bg: "white",
+                    color: "#0C97FA",
+                    border: "2px",
+                  }}
+                >
+                  Update Name
+                </Button>
+                <Collapse in={showPersonalInfo}>
+                  {/* Personal Information */}
+                  <Box>
+                    <Flex justifyContent="center">
+                      <Box mt="4">
+                        <Text fontSize="2xl" fontWeight="bold">
+                          Personal Information
+                        </Text>
+
+                        <Stack spacing={4}>
+                          <FormControl>
+                            <FormLabel>First Name</FormLabel>
+                            <Input
+                              type="text"
+                              placeholder={first}
+                              onChange={(e) =>
+                                setUpdateFirst(e.target.value)
+                              }
+                            />
+                          </FormControl>
+                          <FormControl>
+                            <FormLabel>Last Name</FormLabel>
+                            <Input
+                              type="text"
+                              placeholder={last}
+                              onChange={(e) =>
+                                setUpdateLast(e.target.value)
+                              }
+                            />
+                          </FormControl>
+                          <Button
+                            onClick={handleUpdateName}
+                            color="white"
+                            bg="#0C97FA"
+                            variant="outline"
+                            _hover={{
+                              bg: "white",
+                              color: "#0C97FA",
+                              border: "2px",
+                            }}
+                          >
+                            Update Name
+                          </Button>
+                        </Stack>
+                      </Box>
+                    </Flex>
+                  </Box>
+                </Collapse>
               </Flex>
 
-              <Box>
-                <Flex justifyContent="center">
-                  <Box>
-                    <Button
-                      colorScheme="teal"
-                      onClick={handleTogglePasswordReset}
-                      mb={4}
-                    >
-                      Reset Password
-                    </Button>
-                    <Collapse in={showPasswordReset}>
-                      {/* Personal Information */}
-                      <Box>
-                        <Flex justifyContent="center">
-                          <Box mt="4">
-                            <Text fontSize="2xl" fontWeight="bold">
-                              Password Reset
-                            </Text>
-                            <Divider />
-                            <Stack spacing={4}>
-                              <FormControl>
-                                <FormLabel> Current Password</FormLabel>
-                                <Input
-                                  type="password"
-                                  placeholder={createpword}
-                                  onChange={(e) =>
-                                    setConfirmpword(e.target.value)
-                                  }
-                                />
-                              </FormControl>
-                              <FormControl>
-                                <FormLabel> New Password</FormLabel>
-                                <Input
-                                  type="password"
-                                  placeholder={createpword}
-                                  onChange={(e) =>
-                                    setUpdatePass(e.target.value)
-                                  }
-                                />
-                              </FormControl>
-                              <Button
-                                colorScheme="teal"
-                                onClick={handleUpdatePassword}
-                              >
-                                Reset Password
-                              </Button>
-                            </Stack>
-                          </Box>
-                        </Flex>
-                      </Box>
-                    </Collapse>
+              <Flex justifyContent="center">
+                <VStack spacing='4' alignItems='center'>
+                <Button
+                  onClick={handleTogglePasswordReset}
+                  color="#FF176B"
+                  border="1px solid #FF176B"
+                  _hover={{
+                    bgGradient: "linear(to-r, #49C5F6, #FF2AEF)",
+                    color: "#FFF",
+                    border: "2px",
+                  }}
+                >
+                  Reset Password
+                </Button>
+                <Collapse in={showPasswordReset}>
+                  <Box
+                    width="100%"
+                    display="flex"
+                    flexDirection='column'
+                    justifyContent="center"
+                  >
+                    <VStack spacing={6} alignItems="center">
+                      <Center>
+                        <Text fontSize="2xl" fontWeight="bold">
+                          Password Reset
+                        </Text>
+                      </Center>
+
+                      <VStack spacing={4} width="100%">
+                        <FormControl>
+                          <FormLabel>Current Password</FormLabel>
+                          <Input
+                            type="password"
+                            placeholder={createpword}
+                            onChange={(e) =>
+                              setConfirmpword(e.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel>New Password</FormLabel>
+                          <Input
+                            type="password"
+                            placeholder={createpword}
+                            onChange={(e) =>
+                              setUpdatePass(e.target.value)
+                            }
+                          />
+                        </FormControl>
+                        <Button
+                          onClick={handleUpdatePassword}
+                          color="#FF176B"
+                          border="1px solid #FF176B"
+                          _hover={{
+                            bgGradient:
+                              "linear(to-r, #49C5F6, #FF2AEF)",
+                            color: "#FFF",
+                            border: "2px",
+                          }}
+                        >
+                          Reset Password
+                        </Button>
+                      </VStack>
+                    </VStack>
                   </Box>
-                </Flex>
-              </Box>
+                </Collapse>
+                </VStack>
+              </Flex>
 
               <h4>Current Rating</h4>
 
@@ -368,12 +398,17 @@ export const ProfilePage = () => {
                 bgColor="white"
                 mb="1rem"
               />
-              <Button colorScheme="teal">
-                Submit
-              </Button>
+              <Button colorScheme="teal">Submit</Button>
               <h4>Temp #Listings</h4>
 
-              <Stack direction="row" alignItems="center" justifyContent="center" spacing={4} width="100%" mb="2rem">
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                spacing={4}
+                width="100%"
+                mb="2rem"
+              >
                 {books.map((book) => (
                   <BookList key={book.IBSN} book={book} />
                 ))}
@@ -384,31 +419,41 @@ export const ProfilePage = () => {
                 <Box>
                   <List spacing={3}>
                     <ListItem>
-                      <ListIcon as={CheckCircleIcon} color="green.500" />
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit
+                      <ListIcon
+                        as={CheckCircleIcon}
+                        color="green.500"
+                      />
+                      Lorem ipsum dolor sit amet, consectetur
+                      adipisicing elit
                     </ListItem>
                     <ListItem>
-                      <ListIcon as={CheckCircleIcon} color="green.500" />
-                      Assumenda, quia temporibus eveniet a libero incidunt
-                      suscipit
+                      <ListIcon
+                        as={CheckCircleIcon}
+                        color="green.500"
+                      />
+                      Assumenda, quia temporibus eveniet a libero
+                      incidunt suscipit
                     </ListItem>
                     <ListItem>
-                      <ListIcon as={CheckCircleIcon} color="green.500" />
-                      Quidem, ipsam illum quis sed voluptatum quae eum fugit
-                      earum
+                      <ListIcon
+                        as={CheckCircleIcon}
+                        color="green.500"
+                      />
+                      Quidem, ipsam illum quis sed voluptatum quae eum
+                      fugit earum
                     </ListItem>
                     {/* You can also use custom icons from react-icons */}
                     <ListItem>
                       <ListIcon as={WarningIcon} color="green.500" />
-                      Quidem, ipsam illum quis sed voluptatum quae eum fugit
-                      earum
+                      Quidem, ipsam illum quis sed voluptatum quae eum
+                      fugit earum
                     </ListItem>
                   </List>
                 </Box>
               </Container>
             </div>
           </div>
-        </GridItem>
+        </Box>
       </Grid>
     </>
   );

@@ -47,7 +47,6 @@ export default function Sidebar() {
     <Flex
       pos="sticky"
       left="5"
-      h="100%"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
       borderRadius={navSize == "small" ? "15px" : "30px"}
       flexDir="column"
