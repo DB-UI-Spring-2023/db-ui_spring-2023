@@ -23,7 +23,7 @@ app.use(cors({
 
 })) // This has to be before any routes
 
-
+app.options('*', cors())
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -68,25 +68,29 @@ app.post('/register', (req,res) => {
         "INSERT INTO DB_UI.Users (firstName, lastName, email, createPass, privileges) VALUES (?,?,?,?,?)",
         [firstName, lastName, email, createPass, privileges], (err, result) => {
           if (err){
-            res.send({err: err})
+            res.status(500).send({err: err});
           }
-          res.send(result);
-    })
-})
+          else {
+            req.session.user = {userID: result.insertId, email: email };
+            res.sendStatus(201);
+          }
+    });
+});
 
 app.post('/post-listing', (req,res) => {
 
-    const IBSN = req.body.ibsn
-    const Title = req.body.title
-    const Author = req.body.author
+  const Title = req.body.title
+  const Author = req.body.author
+    const ISBN = req.body.isbn
+    
     const bookCondition = req.body.bookCondition
     const bookFormat = req.body.bookFormat
     const Cost = req.body.cost
     const Seller = req.body.seller
 
     connection.query(
-        "INSERT INTO DB_UI.Books (IBSN, Title, Author, bookCondition, bookFormat, Cost, Seller) VALUES (?,?,?,?,?,?,?)",
-        [IBSN, Title, Author, bookCondition, bookFormat, Cost, Seller], (err, result) => {
+        "INSERT INTO DB_UI.Books (Title, Author, ISBN, bookCondition, bookFormat, Cost, Seller) VALUES (?,?,?,?,?,?,?)",
+        [Title, Author, ISBN, bookCondition, bookFormat, Cost, Seller], (err, result) => {
         console.log(err)
         
     })
@@ -141,7 +145,7 @@ app.post('/login', (req,res) => {
         } else {
 
             //console.log({meassage: "Wrong Combination"})
-            res.send({"msg": "Wrong Combination"})
+            res.send({"msg": "Incorrect email or password credentials"})
         }
         
     })

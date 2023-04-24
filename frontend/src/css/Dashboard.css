@@ -1,9 +1,5 @@
 .header-color {
-    background: linear-gradient(135deg, #00C6FB, #005BEA);
+    background-image: linear-gradient(135deg, #5fb1d1, #FF2AEF);
     z-index: 2;
     color:#606060
-}
-
-.input-group {
-    color:#c9c9c9;
 }

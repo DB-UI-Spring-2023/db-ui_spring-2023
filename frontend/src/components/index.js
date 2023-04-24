@@ -9,5 +9,5 @@ export * from "./SellerFilter";
 export * from "./BookFilter";
 export * from "./SellerPopup";
 export * from "./ViewListings";
-export * from "./Settings";
+export * from "../webpages/Settings";
 export * from "./NavSettings";
