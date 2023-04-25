@@ -322,7 +322,8 @@ export const Listings = () => {
           <Sidebar />
         </GridItem>
 
-        <Box gridColumn="2" bg="tomato" height="auto">
+        <Box gridColumn="2" height="auto">
+        <Text m='2rem 2rem' color="#5fb1d1" fontWeight='bold'>Your Listings:</Text>
           <Wrap
             spacing={4}
             width="100%"
