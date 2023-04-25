@@ -7,7 +7,7 @@ import {TbTrashXFilled} from "react-icons/tb";
 import {TbEyeCheck} from "react-icons/tb";
 import { useToast, status } from '@chakra-ui/react'
 
-export const AdminTab = ({}) => {
+export const AdminTab = ({data}) => {
     const toast = useToast()
     const onclick = useState();
     const [open, setOpen] = useState(false);
@@ -16,9 +16,9 @@ export const AdminTab = ({}) => {
             <Card mt= "3px">
             <CardBody>
                 <span>
-                <Text> Data </Text>
+                <Text> {data} </Text>
                 <Wrap spacing="30px" >
-                <ButtonGroup variant="outline" spacing="6" alignContent={'left'}>
+                <ButtonGroup variant="outline" spacing="6" justifyContent="flex-start">
                     <Button colorScheme="blue">
                         <Icon as={TbEyeCheck} w={6} h={6} />
                         View

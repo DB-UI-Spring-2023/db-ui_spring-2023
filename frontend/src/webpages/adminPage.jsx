@@ -40,7 +40,6 @@ import {
     StatGroup,
   } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import {BookSearch} from './bookSearch.jsx'
 import {AdminTab} from '../components/adminTab.jsx'
 
 export const AdminPage = () => {
