@@ -16,7 +16,7 @@ import { useCart } from '../CartContext';
 
 
 export const ShoppingCart = () => {
-  const { cartItems } = useCart();
+  const { cartItems, setCartItems } = useCart();
   const [quantities, setQuantities] = useState(
     cartItems.reduce((acc, item) => {
       acc[item.id] = item.quantity;
@@ -24,11 +24,11 @@ export const ShoppingCart = () => {
     }, {})
   );
 
-  // const removeFromCart = (index) => {
-  //   const newCartItems = [...cartItems];
-  //   newCartItems.splice(index, 1);
-  //   setCartItems(newCartItems);
-  // };
+  const removeFromCart = (index) => {
+    const newCartItems = [...cartItems];
+    newCartItems.splice(index, 1);
+    setCartItems(newCartItems);
+  };
 
   const handleQuantityChange = (itemId, newQuantity) => {
     setQuantities((prevQuantities) => ({
@@ -106,8 +106,8 @@ export const ShoppingCart = () => {
             <Stack spacing="6">
               {cartItems.map((item) => (
                 <CartItem
-                  key={item.id}
-                  itemId={item.id}
+                  key={item.book_id}
+                  itemId={item.book_id}
                   name={item.Title}
                   description={item.Author}
                   imageUrl={item.imageUrl}

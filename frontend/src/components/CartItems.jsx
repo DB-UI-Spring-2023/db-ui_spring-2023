@@ -73,7 +73,7 @@ export const CartItem = (props) => {
         <PriceTag price={price} currency={currency} />
         <CloseButton
           aria-label={`Delete ${name} from cart`}
-          onClick={onClickDelete}
+          onClick={() => onClickDelete()}
         />
       </Flex>
 
@@ -88,7 +88,8 @@ export const CartItem = (props) => {
           md: "none",
         }}
       >
-        <Link fontSize="sm" textDecor="underline">
+        <Link fontSize="sm" textDecor="underline"
+          onClick={() => onClickDelete()}>
           Delete
         </Link>
         <QuantitySelect

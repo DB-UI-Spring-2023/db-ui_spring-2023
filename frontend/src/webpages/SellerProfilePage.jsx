@@ -136,7 +136,6 @@ export const SellerProfilePage = () => {
 
         <Box
           gridColumn="2"
-          bg="tomato"
           h="auto"
           display="flex"
           flexDirection="column"
