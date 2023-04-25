@@ -1,57 +1,30 @@
-import css from "../css/ProfilePage.css";
 import React from "react";
 import {
   Button,
+  Flex,
   Grid,
   GridItem,
-  Heading,
-  InputGroup,
-  InputLeftElement,
 } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { Badge } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { SimpleGrid } from "@chakra-ui/react";
-import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import { Container } from "@chakra-ui/react";
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { BookList } from "../components";
 import Rating from '../components/Rating';
 import {
-  List,
-  ListItem,
-  ListIcon,
-  OrderedList,
-  UnorderedList,
-  Wrap,
   Collapse,
-  Center,
 } from "@chakra-ui/react";
 import {
-  Avatar,
-  Divider,
-  Flex,
   FormControl,
   FormLabel,
   Input,
   Stack,
   Text,
-  VStack,
 } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
-import { Form } from "react-router-dom";
 import axios from "axios";
-import {
-  FiHome,
-  FiSettings,
-  FiPlusCircle,
-  FiPackage,
-  FiUser,
-  FiAlignLeft,
-} from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
-import { MdSearch } from "react-icons/md";
 import StarRating from "../components/StarRating";
 
 
