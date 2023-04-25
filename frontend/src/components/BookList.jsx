@@ -199,7 +199,6 @@ export const BookList = ({
                   size="sm"
                   onClick={() => {
                     addToCart(book);
-                    navigate("/cart");
                   }}
                 >
                   Add to cart

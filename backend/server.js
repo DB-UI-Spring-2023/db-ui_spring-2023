@@ -266,6 +266,17 @@ app.put('/profile/update-password', async (req, res) => {
   });
 });
 
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).send('Failed to destroy session');
+    }
+
+    res.clearCookie('userID');
+    return res.status(200).send('Session destroyed');
+  });
+});
+
 
 app.get('/dashboard-books', (req, res) => {
   const { searchTerm, minPrice, maxPrice } = req.query;
