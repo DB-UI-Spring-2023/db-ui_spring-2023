@@ -9,7 +9,6 @@ import { PriceTag } from "./PriceTag";
 import { CartProductDescription } from "./CartProductDescription";
 
 const QuantitySelect = (props) => {
-    
   return (
     <Select
       maxW="64px"
@@ -17,6 +16,9 @@ const QuantitySelect = (props) => {
       focusBorderColor={useColorModeValue("blue.500", "blue.200")}
       {...props}
     >
+      <option disabled selected value>
+        Qty
+      </option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
