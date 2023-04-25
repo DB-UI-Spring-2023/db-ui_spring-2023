@@ -75,24 +75,21 @@ export const BookList = ({
     presence_penalty: 0.0,
   };
 
-  // async function callAPI() {
-  //   await fetch("https://api.openai.com/v1/completions", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization:
-  //         "Bearer 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",
-  //     },
-  //     body: JSON.stringify(API_Body),
-  //   })
-  //     .then((data) => {
-  //       return data.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       setSummary(data.choices[0].text.trim());
-  //     });
-  // }
+  async function callAPI() {
+    const res = await fetch("https://api.openai.com/v1/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer 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",
+      },
+      body: JSON.stringify(API_Body),
+    });
+    if (res.status !== 200) return;
+    const data = await res.json().catch(() => {});
+    console.log(data);
+    setSummary(data);
+  }
 
   function openChange() {
     //callAPI();
@@ -120,6 +117,10 @@ export const BookList = ({
       alert("An error occurred while removing the listing.");
     }
   };
+
+  useEffect(() => {
+    callAPI();
+  }, []);
 
   return (
     <>

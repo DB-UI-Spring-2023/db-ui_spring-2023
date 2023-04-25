@@ -12,7 +12,8 @@ import { products } from "../api/products";
 import "../css/Dashboard.css";
 import { useState } from "react";
 
-export const ShoppingCart = (cartItems) => {
+export const ShoppingCart = () => {
+  let cartItems = products;
   const [quantities, setQuantities] = useState(
     cartItems.reduce((acc, item) => {
       acc[item.id] = item.quantity;
@@ -86,7 +87,7 @@ export const ShoppingCart = (cartItems) => {
             flex="2"
           >
             <Heading fontSize="2xl" fontWeight="extrabold">
-              Shopping Cart ({ cartItems.length} items)
+              Shopping Cart ({cartItems.length} items)
             </Heading>
 
             <Stack spacing="6">
