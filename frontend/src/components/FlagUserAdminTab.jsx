@@ -12,3 +12,5 @@ export const FlagUserAdminTab = ({ item }) => {
     </div>
   );
 };
+
+export default FlagUserAdminTab;
