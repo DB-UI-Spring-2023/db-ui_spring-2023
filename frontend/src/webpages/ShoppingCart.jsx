@@ -11,6 +11,7 @@ import { CartItem, CartOrderSummary } from "../components";
 import { products } from "../api/products";
 import "../css/Dashboard.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ShoppingCart = () => {
   let cartItems = products;
@@ -33,6 +34,12 @@ export const ShoppingCart = () => {
       (acc, item) => acc + item.price * quantities[item.id],
       0
     );
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/dashboard");
   };
 
   return (
@@ -107,7 +114,7 @@ export const ShoppingCart = () => {
             <CartOrderSummary subtotal={calculateSubtotal()} />
             <HStack mt="6" fontWeight="semibold">
               <p>or</p>
-              <Link color={mode("#49C5F6")}>Continue shopping</Link>
+              <Link onClick={handleNavigation} color={mode("#49C5F6")}>Continue shopping</Link>
             </HStack>
           </Flex>
         </Stack>

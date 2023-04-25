@@ -372,7 +372,7 @@ app.get("/reviews/:email", (req, res) => {
   });
   
   app.post("/post-review", (req, res) => {
-    const { seller_email, rating, comment } = req.body;
+    const { seller_email, rating, title, comment } = req.body;
   
     const query = `
       INSERT INTO DB_UI.seller_reviews (seller_email, rating, title, comment)
