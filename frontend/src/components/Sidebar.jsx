@@ -24,7 +24,7 @@ import NavSettings from "./NavSettings";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function Sidebar({ setRefreshListings, refreshListings }) {
+export default function Sidebar() {
   const nav = useNavigate();
 
   const [navSize, changeNavSize] = useState("large");
@@ -62,8 +62,6 @@ export default function Sidebar({ setRefreshListings, refreshListings }) {
       />
 
       <CreateListing
-        setRefreshListings={setRefreshListings}
-        refreshListings={refreshListings}
         navSize={navSize}
         icon={FiPlusCircle}
         id="create-listing"

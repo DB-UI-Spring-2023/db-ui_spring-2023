@@ -26,7 +26,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateListing, BookList } from "../components";
 import Sidebar from "../components/Sidebar";
-import SellerFilter from "../components/SellerFilter";
+import { SellerFilter } from "../components";
 import BookFilter from "../components/BookFilter";
 import { MdSearch } from "react-icons/md";
 
@@ -278,7 +278,7 @@ export const Listings = () => {
         </GridItem>
 
         <Box gridColumn="2" bg="tomato" height="auto">
-          <Wrap spacing={4} width="100%">
+          <Wrap spacing={4} width="100%" justifyContent='center' alignItems='center'>
             {books.map((book) => (
               <BookList key={book.IBSN} book={book} />
             ))}

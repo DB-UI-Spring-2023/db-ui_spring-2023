@@ -15,7 +15,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { MdSearch } from "react-icons/md";
 
-const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
+export const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
   const [sellers, setSellers] = useState([]);
   const [sellerSearch, setSellerSearch] = useState("");
 
@@ -51,22 +51,11 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <InputGroup className="input-group" w="50%">
+      <InputGroup className="input-group" w="100%">
         <InputLeftElement
           pointerEvents="none"
           children={<MdSearch color="#FFF" />}
         />
-        {/* <Input
-          variant="filled"
-          bgColor="#72bfde"
-          color="#FFF"
-          placeholder="Search by seller"
-          _placeholder={{ color: "#FFF" }}
-          type="text"
-          mb={4}
-          value={sellerSearch}
-          onChange={(e) => setSellerSearch(e.target.value)}
-        /> */}
         <Menu>
           {({ isOpen }) => (
             <>
@@ -79,7 +68,7 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
               >
                 Sellers <ChevronDownIcon />
               </MenuButton>
-              <MenuList style={{ zIndex: 9999 }}>
+              <MenuList>
                 {filteredSellers.map((seller, index) => (
                   <MenuItem
                     color="black"
@@ -105,5 +94,3 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
     </Stack>
   );
 };
-
-export default SellerFilter;
