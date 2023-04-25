@@ -75,8 +75,8 @@ const Cart = () => {
               </Badge>
             </HStack>
           </PopoverHeader>
-          <PopoverBody>
-            <VStack spacing={2}>
+          <PopoverBody mx="1rem">
+            <VStack spacing={2} mb="1rem">
               {cartItems.map((item, index) => (
                 <HStack key={index} justifyContent="space-between" w="100%">
                     <Text>
