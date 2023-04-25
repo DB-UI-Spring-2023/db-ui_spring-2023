@@ -7,3 +7,9 @@
 .input-group {
     color:#c9c9c9;
 }
+
+.modal-content {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    width: 90%;
+}
