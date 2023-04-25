@@ -2,7 +2,7 @@ import { Card, CardBody, Text, VStack, ButtonGroup, Button, Icon, Wrap } from "@
 import { TbFlag3Filled, TbTrashXFilled, TbEyeCheck } from "react-icons/tb";
 import { useToast } from "@chakra-ui/react";
 
-export const ReportAdminTab = ({ item }) => {
+export const ReportAdminTab = ({ item, onFlag }) => {
   const toast = useToast();
 
   return (
@@ -23,21 +23,22 @@ export const ReportAdminTab = ({ item }) => {
                   View
                 </Button>
                 <Button
-                  colorScheme="yellow"
-                  onClick={() =>
-                    toast({
-                      title: "Flagged.",
-                      description:
-                        "This content is now flagged on the database.",
-                      status: "success",
-                      duration: 9000,
-                      isClosable: true,
-                    })
-                  }
-                >
-                  <Icon as={TbFlag3Filled} w={6} h={6} />
-                  Flag
-                </Button>
+                    colorScheme="yellow"
+                    onClick={() => {
+                        onFlag(item);
+                        toast({
+                        title: "Flagged.",
+                        description: "This content is now flagged on the database.",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                        });
+                    }}
+                    >
+                    <Icon as={TbFlag3Filled} w={6} h={6} />
+                    Flag
+                    </Button>
+
                 <Button
                   colorScheme="red"
                   onClick={() =>

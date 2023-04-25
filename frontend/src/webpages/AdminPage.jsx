@@ -55,6 +55,13 @@ export const AdminPage = () => {
     const bg = colors[tabIndex]
     const [data, setData] = useState({ users: [], books: [], sellerReviews: [] });
 
+    const [flaggedItems, setFlaggedItems] = useState([]);
+
+    const handleFlag = (item) => {
+    setFlaggedItems((prevFlaggedItems) => [...prevFlaggedItems, item]);
+    };
+
+
 
     const fetchData = async () => {
         try {
@@ -115,7 +122,7 @@ export const AdminPage = () => {
                                     <Icon as={ TbBooks } w={8} h={8} color='blue.200' />
                                     <Stat>
                                         <StatLabel>Book Count</StatLabel>
-                                        <StatNumber>0.00</StatNumber>
+                                        <StatNumber>{data.books.length}</StatNumber>
                                     </Stat>
                                 </CardBody>
                                 <CardFooter justifyContent='center'>
@@ -130,7 +137,7 @@ export const AdminPage = () => {
                                     <Icon as={ TbReportMoney } w={8} h={8} color='green.200' />
                                     <Stat>
                                         <StatLabel> Shelf Value </StatLabel>
-                                        <StatNumber>0.00</StatNumber>
+                                        <StatNumber>{data.books.length}</StatNumber>
                                     </Stat>
                                 </CardBody>
                                 <CardFooter justifyContent='center'>
@@ -144,8 +151,8 @@ export const AdminPage = () => {
                                 <CardBody>
                                     <Icon as={ TbMessageReport } w={8} h={8} color='red.400' />
                                     <Stat>
-                                        <StatLabel>Number of Report</StatLabel>
-                                        <StatNumber>0.00</StatNumber>
+                                        <StatLabel>Number of Reviews</StatLabel>
+                                        <StatNumber>{data.sellerReviews.length}</StatNumber>
                                     </Stat>
                                 </CardBody>
                                 <CardFooter justifyContent='center'>
@@ -160,7 +167,7 @@ export const AdminPage = () => {
                                     <Icon as={ TbUsers } w={8} h={8} color='pink.200' />
                                     <Stat>
                                         <StatLabel>User Count</StatLabel>
-                                        <StatNumber>0.00</StatNumber>
+                                        <StatNumber>{data.users.length}</StatNumber>
                                     </Stat>
                                 </CardBody>
                                 <CardFooter justifyContent='center'>
@@ -178,18 +185,24 @@ export const AdminPage = () => {
                             </TabList>
                             <TabPanels p='2rem'>
                             <TabPanel>
-                                {data.users.map((user, index) => (
-                                    <UserAdminTab key={index} item={user} />
+                                {data.books.map((book, index) => (
+                                    <BookAdminTab item={book} onFlag={handleFlag} />
                                 ))}
                             </TabPanel>
                             <TabPanel>
                                 {data.books.map((book, index) => (
-                                    <BookAdminTab key={index} item={book} />
+                                    <BookAdminTab item={book} onFlag={handleFlag} />
+                                ))}
+                            </TabPanel>
+        
+                            <TabPanel>
+                                {data.sellerReviews.map((review, index) => (
+                                    <ReportAdminTab item={review} onFlag={handleFlag} />
                                 ))}
                             </TabPanel>
                             <TabPanel>
-                                {data.sellerReviews.map((review, index) => (
-                                    <ReportAdminTab key={index} item={review} />
+                                {data.users.map((user, index) => (
+                                    <UserAdminTab item={user} onFlag={handleFlag} />
                                 ))}
                             </TabPanel>
                             </TabPanels>
