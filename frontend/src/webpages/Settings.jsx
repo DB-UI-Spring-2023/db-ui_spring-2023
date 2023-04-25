@@ -95,11 +95,14 @@ export const Settings = () => {
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             </Button>
           </Stack>
-          <Stack direction="column">
+          <Stack
+            direction="column"
+            mt="1rem"
+            ml="2rem"
+            w="20%"
+          >
             <Button
-              mt="1rem"
-              ml="2rem"
-              w="20%"
+              
               onClick={handleLogout}
               color="white"
               bg="red"
@@ -114,9 +117,6 @@ export const Settings = () => {
             </Button>
             {isAdmin && (
               <Button
-                mt="1rem"
-                ml="2rem"
-                w="20%"
                 onClick={handleAdminDashboard}
                 color="white"
                 bg="blue"
