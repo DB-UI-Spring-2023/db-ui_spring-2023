@@ -17,4 +17,7 @@ export * from "./CartProductDescription";
 export * from "./UserAdminTab";
 export * from "./BookAdminTab";
 export * from "./ReportAdminTab";
+export * from "./FlagUserAdminTab";
+export * from "./FlagBookAdminTab";
+export * from "./FlagReportAdminTab";
 export * from "./Clock";

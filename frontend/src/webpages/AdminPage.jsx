@@ -41,9 +41,12 @@ import {
 } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 // import {BookSearch} from '../components/BookSearch'
-import { UserAdminTab } from "../components/UserAdminTab";
-import { BookAdminTab } from "../components/BookAdminTab";
-import { ReportAdminTab } from "../components/ReportAdminTab";
+import {UserAdminTab} from '../components/UserAdminTab';
+import {BookAdminTab} from '../components/BookAdminTab';
+import {ReportAdminTab} from '../components/ReportAdminTab';
+import {FlagUserAdminTab} from '../components/FlagUserAdminTab';
+import {FlagBookAdminTab} from '../components/FlagBookAdminTab';
+import {FlagReportAdminTab} from '../components/FlagReportAdminTab';
 import Sidebar from "../components/Sidebar";
 
 export const AdminPage = () => {
@@ -55,11 +58,19 @@ export const AdminPage = () => {
     const bg = colors[tabIndex]
     const [data, setData] = useState({ users: [], books: [], sellerReviews: [] });
 
-    const [flaggedItems, setFlaggedItems] = useState([]);
+    const [flaggedUsers, setFlaggedUsers] = useState([]);
+    const [flaggedBooks , setFlaggedBooks] = useState([]);
+    const [flaggedReviews, setFlaggedReviews] = useState([]);
 
-    const handleFlag = (item) => {
-    setFlaggedItems((prevFlaggedItems) => [...prevFlaggedItems, item]);
+    const handleFlagU = (item) => {
+        setFlaggedUsers((prevFlaggedItems) => [...prevFlaggedItems, item]);
     };
+    const handleFlagB = (item) => {
+        setFlaggedBooks((prevFlaggedItems) => [...prevFlaggedItems, item]);
+        };
+    const handleFlagR = (item) => {
+        setFlaggedReviews((prevFlaggedItems) => [...prevFlaggedItems, item]);
+        };
 
 
 
@@ -189,27 +200,45 @@ export const AdminPage = () => {
                                 <Tab>Listing</Tab>
                                 <Tab>Report</Tab>
                                 <Tab>Users</Tab>
+                                <Tab>FlaggedUsers</Tab>
+                                <Tab>FlaggedReviews</Tab>
+                                <Tab>FlaggedBooks</Tab>
                             </TabList>
                             <TabPanels p='2rem'>
                             <TabPanel>
                                 {data.books.map((book, index) => (
-                                    <BookAdminTab item={book} onFlag={handleFlag} />
+                                    <BookAdminTab item={book} onFlag={handleFlagB} />
                                 ))}
                             </TabPanel>
                             <TabPanel>
                                 {data.books.map((book, index) => (
-                                    <BookAdminTab item={book} onFlag={handleFlag} />
+                                    <BookAdminTab item={book} onFlag={handleFlagB} />
                                 ))}
                             </TabPanel>
         
                             <TabPanel>
                                 {data.sellerReviews.map((review, index) => (
-                                    <ReportAdminTab item={review} onFlag={handleFlag} />
+                                    <ReportAdminTab item={review} onFlag={handleFlagR} />
                                 ))}
                             </TabPanel>
                             <TabPanel>
                                 {data.users.map((user, index) => (
-                                    <UserAdminTab item={user} onFlag={handleFlag} />
+                                    <UserAdminTab item={user} onFlag={handleFlagU} />
+                                ))}
+                            </TabPanel>
+                            <TabPanel>
+                                {flaggedUsers.map((user, index) => (
+                                    <FlagUserAdminTab item={user} onFlag={handleFlagU} />
+                                ))}
+                            </TabPanel>
+                            <TabPanel>
+                                {flaggedReviews.map((user, index) => (
+                                    <FlagReportAdminTab item={user} onFlag={handleFlagU} />
+                                ))}
+                            </TabPanel>
+                            <TabPanel>
+                                {flaggedBooks.map((user, index) => (
+                                    <FlagBookAdminTab item={user} onFlag={handleFlagU} />
                                 ))}
                             </TabPanel>
                             </TabPanels>
