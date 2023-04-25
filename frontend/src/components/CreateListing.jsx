@@ -60,7 +60,6 @@ export default function CreateListing({
         seller: seller,
       });
       setRefreshListings(!refreshListings);
-      onClose();
       console.log(response);
     } catch (error) {
       console.error("Error posting listing:", error);
@@ -112,7 +111,6 @@ export default function CreateListing({
                 type="text"
                 placeHolder="Title"
                 onChange={(e) => {
-                  handleInputChange(e);
                   setTitle(e.target.value);
                 }}
               />
@@ -123,7 +121,6 @@ export default function CreateListing({
                 type="text"
                 placeHolder="Author"
                 onChange={(e) => {
-                  handleInputChange(e);
                   setAuthor(e.target.value);
                 }}
               />
@@ -134,7 +131,6 @@ export default function CreateListing({
                 type="email"
                 placeHolder="ISBN"
                 onChange={(e) => {
-                  handleInputChange(e);
                   setibsn(e.target.value);
                 }}
               />
@@ -146,7 +142,6 @@ export default function CreateListing({
                 type="text"
                 placeHolder="Condition"
                 onChange={(e) => {
-                  handleInputChange(e);
                   setCondition(e.target.value);
                 }}
               >
@@ -161,7 +156,6 @@ export default function CreateListing({
                 type="text"
                 placeHolder="Condition"
                 onChange={(e) => {
-                  handleInputChange(e);
                   setFormat(e.target.value);
                 }}
               >
@@ -176,12 +170,11 @@ export default function CreateListing({
                 type="text"
                 placeHolder="Price"
                 onChange={(e) => {
-                  handleInputChange(e);
                   setCost(e.target.value);
                 }}
               />
               <Flex justifyContent="center">
-                <Button mt={4} colorScheme="teal" type="submit" onClick={postListing}>
+                <Button mt={4} colorScheme="teal" type="submit" onClick={() => {postListing();onClose();}}>
                   Submit
                 </Button>
                 <Button

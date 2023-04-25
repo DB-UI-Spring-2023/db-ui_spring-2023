@@ -52,6 +52,8 @@ import {
 } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
 import { MdSearch } from "react-icons/md";
+import StarRating from "../components/StarRating";
+
 
 export const SellerProfilePage = () => {
     const location = useLocation();
@@ -63,8 +65,15 @@ export const SellerProfilePage = () => {
   const [last, setLast] = useState('');
   const [privileges, setPrivileges] = useState('');
   const [books, setBooks] = useState([]);
-  const [review, setReview] = useState('');
+  
+
+  //Rating value for posting reviews
+  const [ratingValue, setRatingValue] = useState(0);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewComment, setReviewComment] = useState('');
   const [showReviewForm, setShowReviewForm] = useState(false);
+
+
 
   const nav = useNavigate();
 
@@ -99,26 +108,43 @@ export const SellerProfilePage = () => {
     fetchUserInfo(sellerEmail);
   }, [sellerEmail]);
 
+  const fetchReviewsAndRatings = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/reviews/${email}`);
+      console.log('Reviews and ratings fetched successfully:', response.data);
+      setReviews(response.data.reviews);
+      setSellerRating(response.data.rating);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching reviews and ratings:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchReviewsAndRatings = async (email) => {
-      try {
-        const response = await axios.get(`http://localhost:8000/reviews/${email}`);
-        console.log('Reviews and ratings fetched successfully:', response.data);
-        setReviews(response.data.reviews);
-        setSellerRating(response.data.rating);
-        return response.data;
-      } catch (error) {
-        console.error('Error fetching reviews and ratings:', error);
-      }
-    };
+    
     fetchReviewsAndRatings(sellerEmail);
   }, [sellerEmail]);
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
 
-    // Implement logic to submit a review using Chakra UI components
-    // ...
+    try {
+      await axios.post("http://localhost:8000/post-review", {
+        seller_email :sellerEmail,
+        comment: reviewComment,
+        rating: ratingValue,
+        title: reviewTitle,
+      });
+      // Refresh the reviews and ratings
+      fetchReviewsAndRatings(sellerEmail);
+      // Reset the rating and review form
+      setRatingValue(0);
+      setReviewComment("");
+      setReviewTitle("");
+      setShowReviewForm(false);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   };
 
   const handleToggleReviewForm = () => {
@@ -188,13 +214,27 @@ export const SellerProfilePage = () => {
                             <Text fontSize="2xl" fontWeight="bold">
                                 Submit a Review
                             </Text>
+                            <StarRating
+                              maxStars={5}
+                              onRatingChange={(value) => setRatingValue(value)}
+                            />
                             <Stack spacing={4}>
                             <FormControl>
+                              <FormLabel>Review Title</FormLabel>
+                              <Input
+                                placeholder="Enter review title"
+                                value={reviewTitle}
+                                onChange={(e) => setReviewTitle(e.target.value)}
+                              />
+                            </FormControl>
+                            <FormControl>
+                            
+
                                 <FormLabel>Review</FormLabel>
                                 <Textarea
                                 placeholder="Write your review here"
-                                value={review}
-                                onChange={(e) => setReview(e.target.value)}
+                                value={reviewComment}
+                                onChange={(e) => setReviewComment(e.target.value)}
                                 />
                             </FormControl>
                             <Button colorScheme="teal" onClick={handleSubmitReview}>
