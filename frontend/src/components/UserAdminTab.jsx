@@ -15,7 +15,7 @@ import {
   import { TbEyeCheck } from "react-icons/tb";
   import { useToast, status } from "@chakra-ui/react";
   
-  export const UserAdminTab = ({ item }) => {
+  export const UserAdminTab = ({ item, onFlag }) => {
     const toast = useToast();
     const [open, setOpen] = useState(false);
   
@@ -36,21 +36,22 @@ import {
                   View
                 </Button>
                 <Button
-                  colorScheme="yellow"
-                  onClick={() =>
-                    toast({
-                      title: "Flagged.",
-                      description:
-                        "This content is now flagged on the database.",
-                      status: "success",
-                      duration: 9000,
-                      isClosable: true,
-                    })
-                  }
-                >
-                  <Icon as={TbFlag3Filled} w={6} h={6} />
-                  Flag
-                </Button>
+                    colorScheme="yellow"
+                    onClick={() => {
+                        onFlag(item);
+                        toast({
+                        title: "Flagged.",
+                        description: "This content is now flagged on the database.",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                        });
+                    }}
+                    >
+                    <Icon as={TbFlag3Filled} w={6} h={6} />
+                    Flag
+                    </Button>
+
                 <Button
                   colorScheme="red"
                   onClick={() =>

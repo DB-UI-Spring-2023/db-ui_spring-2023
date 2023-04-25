@@ -156,6 +156,10 @@ export const BookList = ({
       return [...prevCartItems, { ...book, id: book.book_id, quantity: 1 }];
     });
   };
+
+  const handleNavigation = () => {
+    navigate("/cart");
+  };
   
 
 
@@ -185,6 +189,10 @@ export const BookList = ({
               colorScheme="green"
               size="lg"
               fontWeight="bold"
+              onClick={() => {
+                handleAddToCart(book);
+                handleNavigation();
+              }}
             >
               Buy now
             </Button>
