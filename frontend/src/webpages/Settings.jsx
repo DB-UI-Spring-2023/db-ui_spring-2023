@@ -12,11 +12,19 @@ import Sidebar from "../components/Sidebar";
 import "../css/Settings.css";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export const Settings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
+
+  const [first, setFirst] = useState("");
+  const [last, setLast] = useState("");
+  const [email, setEmail] = useState("");
+  const [privileges, setPrivileges] = useState("");
+
+  const [isAdmin, setIsAdmin] = useState(false);
   
   const handleLogout = () => {
     axios.post('http://localhost:8000/logout')
@@ -26,6 +34,43 @@ export const Settings = () => {
       .catch(err => {
         console.error('Logout error:', err);
       });
+  };
+
+
+  useEffect(() => {
+    const fetchUserInfo = async (email) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/users/${email}`
+        );
+        console.log("User info fetched successfully:", response.data);
+        setFirst(response.data[0].firstName);
+        setLast(response.data[0].lastName);
+        setEmail(response.data[0].email);
+        setPrivileges(response.data[0].privileges);
+        if (response.data[0].privileges == "Admin") {
+          setIsAdmin(true)
+        }
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching User:", error);
+      }
+    };
+    fetchUserInfo(email);
+  }, [email]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/login").then((response) => {
+      if (response.data.loggedIn == true) {
+        setEmail(response.data.user[0].email);
+      } else {
+        navigate("/");
+      }
+    });
+  },[]);
+
+  const handleAdminDashboard = () => {
+    navigate("/admin-dashboard");
   };
 
   return (
@@ -50,7 +95,7 @@ export const Settings = () => {
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             </Button>
           </Stack>
-          <Stack direction="row">
+          <Stack direction="column">
             <Button
               mt="1rem"
               ml="2rem"
@@ -67,6 +112,24 @@ export const Settings = () => {
             >
               Log Out
             </Button>
+            {isAdmin && (
+              <Button
+                mt="1rem"
+                ml="2rem"
+                w="20%"
+                onClick={handleAdminDashboard}
+                color="white"
+                bg="blue"
+                variant="outline"
+                _hover={{
+                  bg: "white",
+                  color: "blue",
+                  border: "2px",
+                }}
+              >
+                Admin Dashboard
+              </Button>
+            )}
           </Stack>
         </Box>
       </Grid>
