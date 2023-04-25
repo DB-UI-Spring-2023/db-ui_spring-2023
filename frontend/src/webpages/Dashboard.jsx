@@ -128,8 +128,6 @@ export const Dashboard = () => {
           <Input
             value={searchTerm}
             onChange={handleSearchTermChange}
-            variant="filled"
-            bgColor="#72bfde"
             color="#FFF"
             placeholder="Search for a textbook"
             _placeholder={{ color: '#FFF' }}

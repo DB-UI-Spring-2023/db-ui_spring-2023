@@ -203,6 +203,7 @@ export const Listings = () => {
           />
           <Input
             type="text"
+            color='#FFF'
             placeholder="Search for a book"
             _placeholder={{ color: "#FFF" }}
             mb="2rem"
@@ -269,6 +270,7 @@ export const Listings = () => {
                   w="90%"
                   variant="filled"
                   type="number"
+                  color='#FFF'
                   placeholder="$ Min Price"
                   value={minPrice}
                   onChange={handleMinPriceChange}
@@ -279,6 +281,7 @@ export const Listings = () => {
                   w="90%"
                   variant="filled"
                   type="number"
+                  color='#FFF'
                   placeholder="$ Max Price"
                   value={maxPrice}
                   onChange={handleMaxPriceChange}

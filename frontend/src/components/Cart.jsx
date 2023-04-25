@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   IconButton,
@@ -13,12 +13,10 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Badge,
-} from '@chakra-ui/react';
-import { FaShoppingCart, FaTimes, FaTrash } from 'react-icons/fa';
+} from "@chakra-ui/react";
+import { FaShoppingCart, FaTimes, FaTrash } from "react-icons/fa";
 
 const Cart = ({ cartItems, setCartItems }) => {
-
-
   const addToCart = (item) => {
     setCartItems([...cartItems, item]);
   };
@@ -33,22 +31,16 @@ const Cart = ({ cartItems, setCartItems }) => {
     <Box>
       <Popover>
         <PopoverTrigger>
-          <IconButton
-            icon={<FaShoppingCart />}
-            size="lg"
-
-            mr={5}
-          />
-
+          <IconButton icon={<FaShoppingCart />} size="lg" mr={5} />
         </PopoverTrigger>
         <Badge
-            borderRadius="full"
-            px="2"
-            colorScheme="purple"
-            variant="subtle"
-          >
-            {cartItems.length}
-          </Badge>
+          borderRadius="full"
+          px="2"
+          colorScheme="purple"
+          variant="subtle"
+        >
+          {cartItems.length}
+        </Badge>
         <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton />
@@ -63,17 +55,22 @@ const Cart = ({ cartItems, setCartItems }) => {
           <PopoverBody>
             <VStack spacing={2}>
               {cartItems.map((item, index) => (
-                <HStack key={index} justifyContent="space-between" w="100%">
-                    <Text>
-                      Title: {item.Title}, Author: {item.Author}, Price: ${item.Cost}, Seller: {item.Seller}
-                    </Text>
-                    <IconButton
-                      onClick={() => removeFromCart(index)}
-                      icon={<FaTrash />}
-                      size="sm"
-                      colorScheme="red"
-                      ml={2}
-                    />
+                <HStack
+                  key={index}
+                  justifyContent="space-between"
+                  w="100%"
+                >
+                  <Text>
+                    Title: {item.Title}, Author: {item.Author}, Price:
+                    ${item.Cost}, Seller: {item.Seller}
+                  </Text>
+                  <IconButton
+                    onClick={() => removeFromCart(index)}
+                    icon={<FaTrash />}
+                    size="sm"
+                    colorScheme="red"
+                    ml={2}
+                  />
                 </HStack>
               ))}
             </VStack>
