@@ -24,7 +24,7 @@ import {
   } from "@chakra-ui/react";
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import { useState, useEffect } from "react";
-import { usesideBarigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Clock } from "../components";
 import { Icon } from '@chakra-ui/react';
 import { TbBooks} from "react-icons/tb";
@@ -40,8 +40,11 @@ import {
     StatGroup,
   } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import {BookSearch} from './bookSearch.jsx'
-import {AdminTab} from '../components/AdminTab';
+// import {BookSearch} from '../components/BookSearch'
+import {UserAdminTab} from '../components/UserAdminTab';
+import {BookAdminTab} from '../components/BookAdminTab';
+import {ReportAdminTab} from '../components/ReportAdminTab';
+import Sidebar from "../components/Sidebar";
 
 export const AdminPage = () => {
     const colors = useColorModeValue(
@@ -50,16 +53,38 @@ export const AdminPage = () => {
       )
     const [tabIndex, setTabIndex] = useState(0)
     const bg = colors[tabIndex]
+    const [data, setData] = useState({ users: [], books: [], sellerReviews: [] });
+
+
+    const fetchData = async () => {
+        try {
+          const usersResponse = await fetch(`http://localhost:8000/admin/users`);
+          const booksResponse = await fetch(`http://localhost:8000/admin/books`);
+          const sellerReviewsResponse = await fetch(`http://localhost:8000/admin/seller_reviews`);
+      
+          const users = await usersResponse.json();
+          const books = await booksResponse.json();
+          const sellerReviews = await sellerReviewsResponse.json();
+      
+          setData({ users, books, sellerReviews });
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+      }, []);
 
     return (
         <>
             <Grid
-            templateAreas={`"sideBar header"
+            templateAreas={`"header header"
                             "sideBar Dashboard"
                             "sideBar footer"
             `}
             gridTemplateRows={'50px 1fr 30px'}
-            gridTemplateColumns={'150px 1fr'}
+            gridTemplateColumns={'200px 1fr'}
             h='600px'
             gap='1'
             color='blackAlpha.700'
@@ -76,8 +101,8 @@ export const AdminPage = () => {
                         >Admin Page </Heading>
                     </Center>
                 </GridItem>
-                <GridItem pl='2' bg='pink.300' area={'sideBar'}>
-                    Side Bar
+                <GridItem pl='2'  area={'sideBar'}>
+                    <Sidebar />
                 </GridItem>
                 <GridItem pl='2' bgGradient='linear(red.100 0%, orange.100 25%, yellow.100 50%)' area={'Dashboard'}>
                     Dashboard
@@ -152,55 +177,21 @@ export const AdminPage = () => {
                                 <Tab>Users</Tab>
                             </TabList>
                             <TabPanels p='2rem'>
-                                <TabPanel>
-                                    {/* <BookSearch /> */}
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                </TabPanel>
-                                <TabPanel>
-                                    {/* <BookSearch /> */}
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                </TabPanel>
-                                <TabPanel>
-                                    {/* <BookSearch /> */}
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                </TabPanel>
-                                <TabPanel>
-                                    {/* <BookSearch /> */}
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                    <AdminTab />
-                                </TabPanel>
+                            <TabPanel>
+                                {data.users.map((user, index) => (
+                                    <UserAdminTab key={index} item={user} />
+                                ))}
+                            </TabPanel>
+                            <TabPanel>
+                                {data.books.map((book, index) => (
+                                    <AdminTab key={index} item={book} />
+                                ))}
+                            </TabPanel>
+                            <TabPanel>
+                                {data.sellerReviews.map((review, index) => (
+                                    <AdminTab key={index} item={review} />
+                                ))}
+                            </TabPanel>
                             </TabPanels>
                         </Tabs>
                 </GridItem>
@@ -211,3 +202,5 @@ export const AdminPage = () => {
         </>
     );
 }
+
+export default AdminPage;
