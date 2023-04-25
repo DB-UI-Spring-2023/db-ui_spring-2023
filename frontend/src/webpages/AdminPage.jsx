@@ -184,12 +184,12 @@ export const AdminPage = () => {
                             </TabPanel>
                             <TabPanel>
                                 {data.books.map((book, index) => (
-                                    <AdminTab key={index} item={book} />
+                                    <BookAdminTab key={index} item={book} />
                                 ))}
                             </TabPanel>
                             <TabPanel>
                                 {data.sellerReviews.map((review, index) => (
-                                    <AdminTab key={index} item={review} />
+                                    <ReportAdminTab key={index} item={review} />
                                 ))}
                             </TabPanel>
                             </TabPanels>

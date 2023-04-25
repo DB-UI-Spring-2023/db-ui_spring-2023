@@ -74,4 +74,6 @@ import {
       </>
     );
   };
+
+  export default UserAdminTab;
   

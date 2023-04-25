@@ -15,4 +15,6 @@ export * from "./CartItems";
 export * from "./CartOrderSummary";
 export * from "./CartProductDescription";
 export * from "./UserAdminTab";
+export * from "./BookAdminTab";
+export * from "./ReportAdminTab";
 export * from "./Clock";
