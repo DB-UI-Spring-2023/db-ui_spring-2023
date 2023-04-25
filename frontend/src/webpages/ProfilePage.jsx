@@ -51,9 +51,11 @@ import {
 } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
 import { MdSearch } from "react-icons/md";
+import Rating from "../components/Rating";
 
 export const ProfilePage = () => {
-  // const [rating, setRating] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  const [sellerRating, setSellerRating] = useState(0);
 
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
@@ -71,6 +73,21 @@ export const ProfilePage = () => {
   const [updatePass, setUpdatePass] = useState("");
 
   const nav = useNavigate();
+
+  useEffect(() => {
+    const fetchReviewsAndRatings = async (email) => {
+      try {
+        const response = await axios.get(`http://localhost:8000/reviews/${email}`);
+        console.log('Reviews and ratings fetched successfully:', response.data);
+        setReviews(response.data.reviews);
+        setSellerRating(response.data.rating);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching reviews and ratings:', error);
+      }
+    };
+    fetchReviewsAndRatings(email);
+  }, [email]);
 
   useEffect(() => {
     const fetchBooksBySeller = async (email) => {
@@ -362,19 +379,23 @@ export const ProfilePage = () => {
                 </Collapse>
                 </VStack>
               </Flex>
-
+              
               <h4>Current Rating</h4>
+            <Rating value={sellerRating} />
+            {reviews.length === 0 ? (
+              <Text>No reviews available</Text>
+            ) : (
+              reviews.map((review) => (
+                <Box key={review.id} borderWidth={1} borderRadius="lg" p={4} mb={2}>
+                  <Text fontWeight="bold">{review.title}</Text>
+                  <Rating value={review.rating} />
+                  <Text>{review.comment}</Text>
+                </Box>
+              ))
+            )}
 
-              <h4>Temp #Reviews</h4>
-              <Textarea
-                w="50%"
-                placeholder="Write a review"
-                rows="4"
-                bgColor="white"
-                mb="1rem"
-              />
-              <Button colorScheme="teal">Submit</Button>
-              <h4>Temp #Listings</h4>
+              
+              <h4>Listings</h4>
 
               <Stack
                 direction="row"
