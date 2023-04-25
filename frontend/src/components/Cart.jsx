@@ -16,8 +16,12 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { FaShoppingCart, FaTimes, FaTrash } from 'react-icons/fa';
+import { useCart } from '../CartContext';
+import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ cartItems, setCartItems }) => {
+const Cart = () => {
+  const navigate = useNavigate();
+  const { cartItems, setCartItems } = useCart();
 
 
   const addToCart = (item) => {
@@ -28,6 +32,10 @@ const Cart = ({ cartItems, setCartItems }) => {
     const newCartItems = [...cartItems];
     newCartItems.splice(index, 1);
     setCartItems(newCartItems);
+  };
+
+  const handleNavigation = () => {
+    navigate("/cart");
   };
 
   return (
@@ -86,6 +94,7 @@ const Cart = ({ cartItems, setCartItems }) => {
                   color: "#38A169",
                   border: "2px",
                 }}
+                onClick={handleNavigation}
               >
                 Checkout
               </Button>

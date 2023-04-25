@@ -24,11 +24,11 @@ export const ShoppingCart = () => {
     }, {})
   );
 
-  const removeFromCart = (index) => {
-    const newCartItems = [...cartItems];
-    newCartItems.splice(index, 1);
-    setCartItems(newCartItems);
-  };
+  // const removeFromCart = (index) => {
+  //   const newCartItems = [...cartItems];
+  //   newCartItems.splice(index, 1);
+  //   setCartItems(newCartItems);
+  // };
 
   const handleQuantityChange = (itemId, newQuantity) => {
     setQuantities((prevQuantities) => ({
