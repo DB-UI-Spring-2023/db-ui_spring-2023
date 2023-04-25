@@ -15,7 +15,10 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import axios from "axios";
 import { MdSearch } from "react-icons/md";
 
-const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
+export const SellerFilter = ({
+  selectedSellers,
+  setSelectedSellers,
+}) => {
   const [sellers, setSellers] = useState([]);
   const [sellerSearch, setSellerSearch] = useState("");
 
@@ -46,64 +49,29 @@ const SellerFilter = ({ selectedSellers, setSelectedSellers }) => {
   );
 
   return (
-    <Stack
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <InputGroup className="input-group" w="50%">
-        <InputLeftElement
-          pointerEvents="none"
-          children={<MdSearch color="#FFF" />}
-        />
-        {/* <Input
-          variant="filled"
-          bgColor="#72bfde"
-          color="#FFF"
-          placeholder="Search by seller"
-          _placeholder={{ color: "#FFF" }}
-          type="text"
-          mb={4}
-          value={sellerSearch}
-          onChange={(e) => setSellerSearch(e.target.value)}
-        /> */}
-        <Menu>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                w="auto"
-                ml="2rem"
-                isActive={isOpen}
-                as={Button}
-                color="black"
-              >
-                Sellers <ChevronDownIcon />
-              </MenuButton>
-              <MenuList>
-                {filteredSellers.map((seller, index) => (
-                  <MenuItem
-                    color="black"
-                    key={index}
-                    onClick={() =>
-                      selectedSellers.includes(seller)
-                        ? handleSellerDeselect(seller)
-                        : handleSellerSelect(seller)
-                    }
-                  >
-                    {selectedSellers.includes(seller) ? (
-                      <del>{seller}</del>
-                    ) : (
-                      seller
-                    )}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </>
-          )}
-        </Menu>
-      </InputGroup>
-    </Stack>
+    <Menu>
+      <MenuButton as={Button} color="black">
+        Sellers <ChevronDownIcon />
+      </MenuButton>
+      <MenuList>
+        {filteredSellers.map((seller, index) => (
+          <MenuItem
+            color="black"
+            key={index}
+            onClick={() =>
+              selectedSellers.includes(seller)
+                ? handleSellerDeselect(seller)
+                : handleSellerSelect(seller)
+            }
+          >
+            {selectedSellers.includes(seller) ? (
+              <del>{seller}</del>
+            ) : (
+              seller
+            )}
+          </MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
   );
 };
-
-export default SellerFilter;

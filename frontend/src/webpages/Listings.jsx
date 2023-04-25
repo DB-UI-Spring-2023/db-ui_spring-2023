@@ -18,44 +18,54 @@ import {
   InputLeftElement,
   InputGroup,
   Flex,
+  SimpleGrid,
 } from "@chakra-ui/react";
 
 import "../css/Listings.css";
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateListing, BookList } from "../components";
 import Sidebar from "../components/Sidebar";
-import SellerFilter from "../components/SellerFilter";
+import { SellerFilter } from "../components";
 import BookFilter from "../components/BookFilter";
 import { MdSearch } from "react-icons/md";
 
 export const Listings = () => {
   const [searchTerm, setSearchTerm] = useState("");
-    const [books, setBooks] = useState([]);
-    const [minPrice, setMinPrice] = useState("");
-    const [maxPrice, setMaxPrice] = useState("");
-    const [navSize, setNavSize] = useState("large");
-    const [sellers, setSellers] = useState([]);
-    const [selectedSellers, setSelectedSellers] = useState([]);
-    const [selectedBooks, setSelectedBooks] = useState([]);
-    const [sellersFilter, setSellersFilter] = useState([]);
-    const [showSuggestions, setShowSuggestions] = useState(false);
-    const [suggestedBooks, setSuggestedBooks] = useState([]);
-    const [tags, setTags] = useState([]);
-    const sellersRef = useRef();
-    const [authorSearch,setAuthorSearch] = useState("");
+  const [books, setBooks] = useState([]);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [navSize, setNavSize] = useState("large");
+  const [sellers, setSellers] = useState([]);
+  const [selectedSellers, setSelectedSellers] = useState([]);
+  const [selectedBooks, setSelectedBooks] = useState([]);
+  const [sellersFilter, setSellersFilter] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestedBooks, setSuggestedBooks] = useState([]);
+  const [tags, setTags] = useState([]);
+  const sellersRef = useRef();
+  const [authorSearch, setAuthorSearch] = useState("");
 
   const fetchBooks = async (searchTerms) => {
     try {
-      const response = await axios.get("http://localhost:8000/books", {
-        params: {
-          searchTerms: searchTerms.join(","),
-          minPrice,
-          maxPrice,
-          sellers: selectedSellers.join(","),
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:8000/books",
+        {
+          params: {
+            searchTerms: searchTerms.join(","),
+            minPrice,
+            maxPrice,
+            sellers: selectedSellers.join(","),
+          },
+        }
+      );
       setBooks(response.data);
     } catch (error) {
       console.error("Error fetching books data:", error);
@@ -69,7 +79,9 @@ export const Listings = () => {
   useEffect(() => {
     const fetchSuggestedBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/book-titles");
+        const response = await axios.get(
+          "http://localhost:8000/book-titles"
+        );
         setSuggestedBooks(response.data);
       } catch (error) {
         console.error("Error fetching suggested books data:", error);
@@ -81,7 +93,9 @@ export const Listings = () => {
   useEffect(() => {
     const fetchSellers = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/sellers");
+        const response = await axios.get(
+          "http://localhost:8000/sellers"
+        );
         setSellers(response.data);
       } catch (error) {
         console.error("Error fetching sellers data:", error);
@@ -92,7 +106,10 @@ export const Listings = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (sellersRef.current && !sellersRef.current.contains(event.target)) {
+      if (
+        sellersRef.current &&
+        !sellersRef.current.contains(event.target)
+      ) {
         setShowSuggestions(false);
       }
     };
@@ -173,112 +190,142 @@ export const Listings = () => {
 
   return (
     <>
-      <Flex direction="column" className="header-color" py="2rem">
-      
-            <InputGroup className="input-group" mx="auto" my="auto" w="50%">
-              <InputLeftElement
-                pointerEvents="none"
-                children={<MdSearch color="#FFF" />}
-              />
-              <Input
-                variant="filled"
-                bgColor="#72bfde"
-                color="#FFF"
-                type="text"
-                placeholder="Search for a book"
-                _placeholder={{ color: '#FFF' }}
-                mb={4}
-                value={searchTerm}
-                onChange={handleSearchTermChange}
-                onFocus={() => setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
-                onKeyDown={onEnterPress}
-              />
-              {/* Seller filter */}
+      <Flex
+        direction="column"
+        className="header-color"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <InputGroup className="input-group" mt="2rem" w="50%">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<MdSearch color="#FFF" />}
+          />
+          <Input
+            type="text"
+            placeholder="Search for a book"
+            _placeholder={{ color: "#FFF" }}
+            mb="2rem"
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() =>
+              setTimeout(() => setShowSuggestions(false), 100)
+            }
+            onKeyDown={onEnterPress}
+          />
+          {/* Seller filter */}
+        </InputGroup>
+
+        {showSuggestions && (
+          <VStack
+            borderWidth="1px"
+            borderRadius="lg"
+            borderColor="gray.200"
+            color="#FFF"
+            p={2}
+            mb="2rem"
+            w="50%"
+            maxH="200px"
+            overflowY="scroll"
+          >
+            {filteredSuggestions.map((book) => (
+              <Button
+                key={book}
+                size="sm"
+                variant="outline"
+                onClick={() => handleSuggestionClick(book)}
+              >
+                {book}
+              </Button>
+            ))}
+          </VStack>
+        )}
+
+        <SimpleGrid columns={2} spacing={2} ml="25%" mb='2rem'>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Wrap mt={4}>
+              {tags.map((tag) => (
+                <WrapItem
+                  key={tag}
+                  bg="gray.200"
+                  borderRadius="md"
+                  px={2}
+                  py={1}
+                  cursor="pointer"
+                  onClick={() => handleTagRemove(tag)}
+                >
+                  {tag}
+                </WrapItem>
+              ))}
+            </Wrap>
+            <Wrap spacing={4}>
+              <WrapItem>
+                <Input
+                  w="90%"
+                  variant="filled"
+                  type="number"
+                  placeholder="$ Min Price"
+                  value={minPrice}
+                  onChange={handleMinPriceChange}
+                />
+              </WrapItem>
+              <WrapItem>
+                <Input
+                  w="90%"
+                  variant="filled"
+                  type="number"
+                  placeholder="$ Max Price"
+                  value={maxPrice}
+                  onChange={handleMaxPriceChange}
+                />
+              </WrapItem>
+            </Wrap>
+          </Box>
+          <Box
+            display="flex"
+            justifyContent="start"
+            alignItems="center"
+          >
             <SellerFilter
               selectedSellers={selectedSellers}
               setSelectedSellers={setSelectedSellers}
             />
-            </InputGroup>
-          
-          {showSuggestions && (
-            <VStack
-              borderWidth="1px"
-              borderRadius="lg"
-              borderColor="gray.200"
-              color="#FFF"
-              p={2}
-              mt={2}
-              w="90%"
-              ml="auto"
-              mr="auto"
-              maxH="200px"
-              overflowY="scroll"
-            >
-              {filteredSuggestions.map((book) => (
-                <Button
-                  key={book}
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleSuggestionClick(book)}
-                >
-                  {book}
-                </Button>
-              ))}
-            </VStack>
-          )}
-
-          <Wrap mt={4} mb={4}>
-            {tags.map((tag) => (
-              <WrapItem
-                key={tag}
-                bg="gray.200"
-                borderRadius="md"
-                px={2}
-                py={1}
-                cursor="pointer"
-                onClick={() => handleTagRemove(tag)}
+          </Box>
+          <Box>
+            {(minPrice || maxPrice) && (
+              <Button
+                w="95%"
+                colorScheme="teal"
+                onClick={handleClearFilters}
+                m="1rem 0"
               >
-                {tag}
-              </WrapItem>
-            ))}
-          </Wrap>
-          <Wrap spacing={4} mb={4}>
-         <WrapItem>
-           <Input
-             mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
-             type="number"
-             placeholder="Min Price"
-             value={minPrice}
-            onChange={handleMinPriceChange}
-          />
-        </WrapItem>
-         <WrapItem>
-
-           <Input
-             mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
-             type="number"
-             placeholder="Max Price"
-             value={maxPrice}
-            onChange={handleMaxPriceChange}
-          />
-        </WrapItem>
-      </Wrap>
-          {/* Clear filters button */}
-          {(minPrice || maxPrice) && (
-            <Button colorScheme="teal" onClick={handleClearFilters} mb={4}>
-              Clear Filters
-            </Button>
-          )}
-          
+                Clear Filters
+              </Button>
+            )}
+          </Box>
+        </SimpleGrid>
       </Flex>
-      <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
+      <Grid
+        templateColumns="12% 1fr"
+        gap={10}
+        m="2rem 2rem auto 2rem"
+      >
         <GridItem>
           <Sidebar />
         </GridItem>
 
         <Box gridColumn="2" bg="tomato" height="auto">
-          <Wrap spacing={4} width="100%">
+          <Wrap
+            spacing={4}
+            width="100%"
+            justifyContent="center"
+            alignItems="center"
+          >
             {books.map((book) => (
               <BookList key={book.IBSN} book={book} />
             ))}

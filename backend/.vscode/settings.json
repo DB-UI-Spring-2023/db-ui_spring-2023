@@ -9,9 +9,10 @@
       "port": 3306,
       "driver": "MySQL",
       "name": "DBUI",
-      "database": "newuser_db",
+      "database": "dbui",
       "username": "root",
       "password": "#ponyUp2023!"
     }
-  ]
+  ],
+  "git.ignoreLimitWarning": true
 }

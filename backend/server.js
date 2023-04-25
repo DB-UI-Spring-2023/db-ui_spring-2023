@@ -1,3 +1,12 @@
+/*
+ * Author:          Rudy Lucas
+ * filename:        server.js
+ * Date:            04-13-2023
+ * Description:     This file represents the backend functionality;
+ *                  server.js will import relevant files
+ */
+
+
 const express = require("express");
 const app = express();
 const port = 8000;
@@ -35,8 +44,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect to mysql
-const mysql = require('mysql2')
-
+const mysql = require("mysql2");
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',

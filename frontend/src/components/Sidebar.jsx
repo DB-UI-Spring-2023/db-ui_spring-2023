@@ -19,12 +19,12 @@ import { useState, useEffect } from "react";
 import Profile from "./Profile";
 import CreateListing from "./CreateListing";
 import Home from "./Home";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import ViewListings from "./ViewListings";
 import NavSettings from "./NavSettings";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export default function Sidebar({ setRefreshListings, refreshListings }) {
+export default function Sidebar() {
   const nav = useNavigate();
 
   const [navSize, changeNavSize] = useState("large");
@@ -48,7 +48,7 @@ export default function Sidebar({ setRefreshListings, refreshListings }) {
       pos="sticky"
       left="5"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.5)"
-      borderRadius={navSize == "small" ? "15px" : "30px"}
+      borderRadius={navSize === "small" ? "15px" : "30px"}
       flexDir="column"
       justifyContent="space-between"
     >
@@ -62,8 +62,6 @@ export default function Sidebar({ setRefreshListings, refreshListings }) {
       />
 
       <CreateListing
-        setRefreshListings={setRefreshListings}
-        refreshListings={refreshListings}
         navSize={navSize}
         icon={FiPlusCircle}
         id="create-listing"

@@ -18,10 +18,10 @@ export default function Home({
 }) {
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
   const handleNavigation = () => {
-    nav("/dashboard");
+    navigate("/dashboard");
   };
 
   return (

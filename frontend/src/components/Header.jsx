@@ -1,4 +1,4 @@
-/**
+/*
  * Author:          Rudy Lucas
  * filename:        Header.jsx
  * Date:            03-20-2023
@@ -8,6 +8,7 @@
  *                  and the "Sign In"/"Sign Out" buttons
  */
 import "../css/Header.css";
+import "../css/HomePage.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import booksIcon from "../images/stack-of-books.png";
@@ -40,6 +41,7 @@ import {
   Stack,
   useColorMode,
   Center,
+  Text,
   useEditable,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
@@ -47,10 +49,18 @@ import { JoinModal } from "./JoinModal";
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen: isOpenLogin, onOpen: onOpenLogin, onClose: onCloseLogin } = useDisclosure();
-  const { isOpen: isOpenSignUp, onOpen: onOpenSignUp, onClose: onCloseSignUp } = useDisclosure();
+  const {
+    isOpen: isOpenLogin,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenSignUp,
+    onOpen: onOpenSignUp,
+    onClose: onCloseSignUp,
+  } = useDisclosure();
 
-  const [userEmail, setUserEmail] = useState();
+  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState();
 
   const [newUserFirstName, setNewUserFirstName] = useState("");
@@ -60,7 +70,7 @@ export const Header = () => {
 
   const [registerStatus, setRegisterStatus] = useState(false);
   const [loginStatus, setLoginStatus] = useState("");
-  const [ errorMessage, setErrorMessage ] = useState("Noit Logged In")
+  const [errorMessage, setErrorMessage] = useState("Not Logged In")
   const [privileges, setPrivileges] = useState("");
 
   const handleUserEmail = (e) =>
@@ -80,12 +90,33 @@ export const Header = () => {
 
   const url = "http://localhost:8000";
 
+  const login_creds = {
+    email: userEmail,
+    password: userPassword,
+  };
+
   const user = {
     firstName: newUserFirstName,
     lastName: newUserLastName,
     email: newUserEmail,
     createPass: newUserPassword,
     privileges: privileges,
+  };
+
+  const sendLogin = async (event) => {
+    event.preventDefault(); // prevent default behavior of the <a> element
+
+    try {
+      const response = await axios.post(url + "/login", login_creds);
+      // alert(response.data);
+      navigate("/home");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
   };
 
   const sendNewUser = () => {
@@ -168,7 +199,11 @@ export const Header = () => {
               >
                 Login
               </Button>
-              <Modal onClose={onCloseLogin} isOpen={isOpenLogin} isCentered>
+              <Modal
+                onClose={onCloseLogin}
+                isOpen={isOpenLogin}
+                isCentered
+              >
                 <ModalOverlay />
                 <ModalContent>
                   <ModalHeader>Login:</ModalHeader>
@@ -281,19 +316,19 @@ export const Header = () => {
             <ButtonGroup gap="2">
               <Button
                 color="white"
-                bg="#0C97FA"
+                bgGradient="linear(to-r, #49C5F6, #FF2AEF)"
                 variant="outline"
                 _hover={{
-                  bg: "white",
-                  color: "#0C97FA",
-                  border: "2px",
+                  color: "#252525",
+                  bg: "#FFF",
+                  borderColor: "#252525",
                 }}
                 onClick={sendNewUser}
               >
                 Create
               </Button>
               <Button
-                onClick={onCloseSignUp  }
+                onClick={onCloseSignUp}
                 _hover={{
                   bg: "white",
                   color: "#FF176B",

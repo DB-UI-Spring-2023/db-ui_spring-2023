@@ -24,6 +24,7 @@ import {
   ModalBody,
   Select,
 } from "@chakra-ui/react";
+import "../css/CreateListing.css";
 
 export default function CreateListing({
   setRefreshListings,

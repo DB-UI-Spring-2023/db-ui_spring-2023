@@ -1,3 +1,13 @@
+/*
+ * Author:          Rudy Lucas
+ * filename:        HomePage.jsx
+ * Date:            03-20-2023
+ * Description:     This component represents the website's homepage with 
+ *                  simple functionality such as logging into your account
+ *                  and signing up for an account.
+ */
+
+import axios from "axios";
 import { Header, JoinModal } from "../components";
 import hero from "../images/hero.png";
 import "../css/HomePage.css";
@@ -19,10 +29,8 @@ import {
   Flex,
   Select,
 } from "@chakra-ui/react";
+import { useNavigate, useRouter } from "react-router-dom";
 import { useState, useRef, useEffect } from "react"
-import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
-
 
 //import { Alert } from 'react-alert'
 
@@ -94,7 +102,7 @@ export const HomePage = () => {
           <Heading as="h2" size="lg" m="1rem auto" textAlign="center">
             Buy. Sell. Trade. Textbooks.
           </Heading>
-          <FormControl w="50%" m="2rem auto" isRequired>
+          <FormControl w="50%" m="2rem auto 1rem auto" isRequired>
             <FormLabel>Email:</FormLabel>
             <Input
               type="email"
