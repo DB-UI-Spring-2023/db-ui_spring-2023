@@ -48,6 +48,7 @@ import { MdDelete } from "react-icons/md";
 import { CartItem } from "./CartItems";
 import { CartOrderSummary } from "./CartOrderSummary";
 import { CartProductDescription } from "./CartProductDescription";
+import { CartContext } from "../context";
 
 //import css from '../css/bookList.css';
 export const BookList = ({
@@ -62,8 +63,9 @@ export const BookList = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [summary, setSummary] = useState("Summary Loading...");
-
+  const theCartContext = React.useContext(CartContext);
   const navigate = useNavigate();
+  const [bookImageUrl, setBookImageUrl] = useState("");
 
   const API_Body = {
     model: "text-davinci-003",
@@ -96,6 +98,26 @@ export const BookList = ({
     onOpen();
   }
 
+  const fetchBookImage = async (isbn) => {
+    try {
+      const proxyUrl = "https://api.allorigins.win/raw?url=";
+      const targetUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=AIzaSyDnJ6BrGDIpKvDxXPeGvzF-Ia5DJMwEZxw`;
+      const response = await axios.get(proxyUrl + targetUrl);
+      if (response.data.items && response.data.items.length > 0) {
+        const thumbnail = response.data.items[0].volumeInfo.imageLinks.thumbnail;
+        setBookImageUrl(thumbnail);
+      } else {
+        console.error("No image found for the book.");
+      }
+    } catch (error) {
+      console.error("Error fetching book image:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookImage(book.IBSN);
+  }, []);
+
   const handleRemoveBook = async () => {
     if (privileges != "Admin" && book.Seller != currentUserEmail) {
       alert("You don't have the permissions to remove this book.");
@@ -118,9 +140,6 @@ export const BookList = ({
     }
   };
 
-  useEffect(() => {
-    callAPI();
-  }, []);
 
   return (
     <>
@@ -128,10 +147,10 @@ export const BookList = ({
         <CardBody>
           <Center>
             <Image
-              src={hp}
-              width="50%"
-              alt="Harry Potter and the Philosopher Stone"
-              maxWidth="sm"
+                src={bookImageUrl || hp}
+                width="50%"
+                maxH="15rem"
+                alt={book.Title}
             />
           </Center>
           <Stack mt="6" spacing="3" w="100%">
