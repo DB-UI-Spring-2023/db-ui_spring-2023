@@ -11,6 +11,7 @@ import {
   VStack,
   Flex,
   SimpleGrid,
+  Divider
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -139,8 +140,8 @@ export const Dashboard = () => {
         <Sidebar setRefreshListings={setRefreshListings} refreshListings={refreshListings} />
         </GridItem>
 
-        <Box gridColumn="2" bg="tomato" height="auto" >
-          <Text color="white">Current Listings</Text>
+        <Box gridColumn="2" height="auto" >
+          <Text color="#5fb1d1" fontWeight='bold'>Current Listings:</Text>
           <Wrap spacing={2} zIndex={1} height="40rem"  overflowY="auto">
             {books.map((book) => (
               <Box
@@ -161,8 +162,10 @@ export const Dashboard = () => {
             ))}
           </Wrap>
         </Box>
-        <Box gridColumn="2" bg="green" height="auto">
-          <Text color="white">Your Listings:</Text>
+        
+        <Box gridColumn="2" height="auto">
+        <Divider></Divider>
+          <Text mt='2rem' color="#5fb1d1" fontWeight='bold'>Your Listings:</Text>
           <Wrap spacing={2} mx="2" height="40rem" overflowY="auto">
             {myBooks.map((book2) => (
               <Box

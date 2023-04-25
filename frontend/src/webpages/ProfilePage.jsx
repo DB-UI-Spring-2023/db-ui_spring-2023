@@ -221,7 +221,6 @@ export const ProfilePage = () => {
 
         <Box
           gridColumn="2"
-          bg="tomato"
           h="auto"
           display="flex"
           flexDirection="column"
