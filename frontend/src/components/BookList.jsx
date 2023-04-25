@@ -7,6 +7,7 @@ import {
   Box,
   Flex,
   Center,
+  Link,
 } from "@chakra-ui/react";
 import { VStack, HStack } from "@chakra-ui/react";
 import {
@@ -41,27 +42,28 @@ import { useDisclosure } from "@chakra-ui/react";
 import SellerPopup from "./SellerPopup";
 import axios from "axios";
 import hp from "../images/harrypotter.png";
-
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-import { CartContext } from "../context";
+import { CartItem } from "./CartItems";
+import { CartOrderSummary } from "./CartOrderSummary";
+import { CartProductDescription } from "./CartProductDescription";
+
 //import css from '../css/bookList.css';
 export const BookList = ({
   setRefreshListings,
   refreshListings,
-  book, 
+  book,
   privileges,
   currentUserEmail,
   addToCart,
 }) => {
   const [isHoverd, setIsHovered] = useState(false);
-  const theCartContext = React.useContext(CartContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [summary, setSummary] = useState("Summary Loading...");
 
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
   const API_Body = {
     model: "text-davinci-003",
@@ -98,7 +100,7 @@ export const BookList = ({
   }
 
   const handleRemoveBook = async () => {
-    if (privileges != "Admin" && book.Seller != currentUserEmail ) {
+    if (privileges != "Admin" && book.Seller != currentUserEmail) {
       alert("You don't have the permissions to remove this book.");
       return;
     }
@@ -124,15 +126,17 @@ export const BookList = ({
       <Card maxWidth="sm" borderRadius="1.875rem">
         <CardBody>
           <Center>
-          <Image
-            src={hp}
-            width="50%"
-            alt="Harry Potter and the Philosopher Stone"
-            maxWidth='sm'
-          />
+            <Image
+              src={hp}
+              width="50%"
+              alt="Harry Potter and the Philosopher Stone"
+              maxWidth="sm"
+            />
           </Center>
-          <Stack mt="6" spacing="3" w='100%'>
-            <Heading size="md" w='80%'>{book.Title}</Heading>
+          <Stack mt="6" spacing="3" w="100%">
+            <Heading size="md" w="80%">
+              {book.Title}
+            </Heading>
             <Heading size="sm">{book.Author}</Heading>
             <Text color="purple" fontSize="2xl">
               ${book.Cost} ({book.bookFormat}) {book.book_id}
@@ -168,15 +172,19 @@ export const BookList = ({
           <VStack alignItems="flex-start" spacing={1}>
             <HStack spacing={1}>
               <Text></Text>
-              <Button 
-                variant="ghost" 
-                colorScheme="teal" 
-                size="sm" 
-                onClick={() => addToCart(book)}
-                onClickCapture={() => theCartContext.addToCart(book)}
-              >
-                Add to cart
-              </Button>
+              <Link to="/cart">
+                <Button
+                  variant="ghost"
+                  colorScheme="teal"
+                  size="sm"
+                  onClick={() => {
+                    addToCart(book);
+                    navigate("/cart");
+                  }}
+                >
+                  Add to cart
+                </Button>
+              </Link>
               <Button
                 variant="ghost"
                 ref={btnRef}
@@ -208,7 +216,9 @@ export const BookList = ({
                       mt={2}
                       colorScheme="teal"
                       onClick={() =>
-                        nav(`/seller-profile/${book.SellerEmail}`)
+                        navigate(
+                          `/seller-profile/${book.SellerEmail}`
+                        )
                       }
                     >
                       View Profile

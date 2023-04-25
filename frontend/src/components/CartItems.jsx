@@ -9,6 +9,7 @@ import { PriceTag } from "./PriceTag";
 import { CartProductDescription } from "./CartProductDescription";
 
 const QuantitySelect = (props) => {
+    
   return (
     <Select
       maxW="64px"
