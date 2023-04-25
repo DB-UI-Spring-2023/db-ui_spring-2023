@@ -13,6 +13,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Badge,
+  Button,
 } from '@chakra-ui/react';
 import { FaShoppingCart, FaTimes, FaTrash } from 'react-icons/fa';
 
@@ -76,6 +77,18 @@ const Cart = ({ cartItems, setCartItems }) => {
                     />
                 </HStack>
               ))}
+              <Button
+                color="white"
+                bg="#38A169"
+                variant="outline"
+                _hover={{
+                  bg: "white",
+                  color: "#38A169",
+                  border: "2px",
+                }}
+              >
+                Checkout
+              </Button>
             </VStack>
           </PopoverBody>
         </PopoverContent>
