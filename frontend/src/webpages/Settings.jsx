@@ -11,9 +11,20 @@ import {
 import Sidebar from "../components/Sidebar";
 import "../css/Settings.css";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 export const Settings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    document.cookie = 'userID=;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=localhost;path=/;';
+    const redirectUser = () => {
+      navigate("/");
+    }
+    setTimeout(redirectUser, 0);
+    
+  }
 
   return (
     <>
@@ -28,13 +39,31 @@ export const Settings = () => {
         </GridItem>
 
         <Box gridColumn="2" bg="tomato" height="auto">
-          <Stack pt="2rem" pl="1rem" direction="row">
-            <Text>Change dark/light mode:</Text>
+          <Stack pt="2rem" pl="2rem" direction="row">
+            <Text mt="0.5rem">Change dark/light mode:</Text>
             <Button
               onClick={toggleColorMode}
               _hover={{ bg: "#252525", color: "#fff" }}
             >
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            </Button>
+          </Stack>
+          <Stack direction="row">
+            <Button
+              mt="1rem"
+              ml="2rem"
+              w="20%"
+              onClick={handleLogout}
+              color="white"
+              bg="red"
+              variant="outline"
+              _hover={{
+                bg: "white",
+                color: "red",
+                border: "2px",
+              }}
+            >
+              Log Out
             </Button>
           </Stack>
         </Box>

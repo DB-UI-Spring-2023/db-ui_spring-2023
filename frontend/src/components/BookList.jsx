@@ -7,8 +7,6 @@ import {
   Box,
   Flex,
   Center,
-  Spacer,
-  Grid
 } from "@chakra-ui/react";
 import { VStack, HStack } from "@chakra-ui/react";
 import {
@@ -47,18 +45,18 @@ import hp from "../images/harrypotter.png";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+import { CartContext } from "../context";
 //import css from '../css/bookList.css';
-
 export const BookList = ({
   setRefreshListings,
   refreshListings,
-  book,
+  book, 
   privileges,
   currentUserEmail,
   addToCart,
 }) => {
   const [isHoverd, setIsHovered] = useState(false);
-
+  const theCartContext = React.useContext(CartContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [summary, setSummary] = useState("Summary Loading...");
@@ -75,13 +73,32 @@ export const BookList = ({
     presence_penalty: 0.0,
   };
 
+  // async function callAPI() {
+  //   await fetch("https://api.openai.com/v1/completions", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization:
+  //         "Bearer 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",
+  //     },
+  //     body: JSON.stringify(API_Body),
+  //   })
+  //     .then((data) => {
+  //       return data.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setSummary(data.choices[0].text.trim());
+  //     });
+  // }
+
   function openChange() {
     //callAPI();
     onOpen();
   }
 
   const handleRemoveBook = async () => {
-    if (privileges != "Admin" && book.Seller != currentUserEmail) {
+    if (privileges != "Admin" && book.Seller != currentUserEmail ) {
       alert("You don't have the permissions to remove this book.");
       return;
     }
@@ -104,24 +121,23 @@ export const BookList = ({
 
   return (
     <>
-      <Card w='sm' h='auto' borderRadius="1.875rem">
+      <Card maxWidth="sm" borderRadius="1.875rem">
         <CardBody>
           <Center>
-            <Image
-              src={hp}
-              maxWidth='sm'
-              maxH='15rem'
-              alt={book.Title}
-            />
+          <Image
+            src={hp}
+            width="50%"
+            alt="Harry Potter and the Philosopher Stone"
+            maxWidth='sm'
+          />
           </Center>
-          <Stack mt="6" spacing="3">
-            <Heading size="md">{book.Title}</Heading>
-            <Text fontWeight="light">{book.Author}</Text>
+          <Stack mt="6" spacing="3" w='100%'>
+            <Heading size="md" w='80%'>{book.Title}</Heading>
+            <Heading size="sm">{book.Author}</Heading>
             <Text color="purple" fontSize="2xl">
               ${book.Cost} ({book.bookFormat}) {book.book_id}
             </Text>
             <Button
-              m="1rem auto"
               w="100%"
               variant="solid"
               colorScheme="green"
@@ -149,56 +165,59 @@ export const BookList = ({
         </CardBody>
         <div className="left2-right2-divider2"></div>
         <CardFooter>
-          <Flex justifyContent="space-evenly" w="100%">
-            <Button
-              variant="ghost"
-              colorScheme="teal"
-              size="sm"
-              onClick={() => addToCart(book)}
-            >
-              Add to cart
-            </Button>
+          <VStack alignItems="flex-start" spacing={1}>
+            <HStack spacing={1}>
+              <Text></Text>
+              <Button 
+                variant="ghost" 
+                colorScheme="teal" 
+                size="sm" 
+                onClick={() => addToCart(book)}
+                onClickCapture={() => theCartContext.addToCart(book)}
+              >
+                Add to cart
+              </Button>
+              <Button
+                variant="ghost"
+                ref={btnRef}
+                colorScheme="pink"
+                size="sm"
+                onClick={openChange}
+              >
+                Details
+              </Button>
 
-            <Button
-              variant="ghost"
-              ref={btnRef}
-              colorScheme="pink"
-              size="sm"
-              onClick={openChange}
-            >
-              Details
-            </Button>
-
-            <Popover>
-              <PopoverTrigger>
-                <Button size="sm" variant="ghost" colorScheme="blue">
-                  Seller Info
-                </Button>
-              </PopoverTrigger>
-
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader>Seller Information</PopoverHeader>
-                <PopoverBody>
-                  <Text>
-                    Name: {book.SellerFirstName} {book.SellerLastName}
-                  </Text>
-                  <Text>Email: {book.SellerEmail}</Text>
-
-                  <Button
-                    mt={2}
-                    colorScheme="teal"
-                    onClick={() =>
-                      nav(`/seller-profile/${book.SellerEmail}`)
-                    }
-                  >
-                    View Profile
+              <Popover>
+                <PopoverTrigger>
+                  <Button variant="ghost" colorScheme="blue">
+                    Seller Info
                   </Button>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
-          </Flex>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverHeader>Seller Information</PopoverHeader>
+                  <PopoverBody>
+                    <Text>
+                      Name: {book.SellerFirstName}{" "}
+                      {book.SellerLastName}
+                    </Text>
+                    <Text>Email: {book.SellerEmail}</Text>
+
+                    <Button
+                      mt={2}
+                      colorScheme="teal"
+                      onClick={() =>
+                        nav(`/seller-profile/${book.SellerEmail}`)
+                      }
+                    >
+                      View Profile
+                    </Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            </HStack>
+          </VStack>
           <Drawer
             isOpen={isOpen}
             placement="right"
