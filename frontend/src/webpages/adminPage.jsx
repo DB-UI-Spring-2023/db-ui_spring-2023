@@ -26,7 +26,7 @@ import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import { useState, useEffect } from "react";
 import { usesideBarigate } from "react-router-dom";
 import { Clock } from "../components";
-import { Icon } from '@chakra-ui/react'
+import { Icon } from '@chakra-ui/react';
 import { TbBooks} from "react-icons/tb";
 import { TbReportMoney } from "react-icons/tb";
 import { TbUsers } from "react-icons/tb";
@@ -41,12 +41,12 @@ import {
   } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import {BookSearch} from './bookSearch.jsx'
-
+import {AdminTab} from '../components/adminTab.jsx'
 
 export const AdminPage = () => {
     const colors = useColorModeValue(
-        ['blue.50', 'teal.50', 'red.50','pink.50'],
-        ['blue.100', 'teal.900', 'red.50', 'pink.900'],
+        ['blue.50', 'teal.50', 'red.50','purple.50'],
+        ['blue.100', 'teal.900', 'red.50', 'purple.900'],
       )
     const [tabIndex, setTabIndex] = useState(0)
     const bg = colors[tabIndex]
@@ -79,7 +79,7 @@ export const AdminPage = () => {
                 <GridItem pl='2' bg='pink.300' area={'sideBar'}>
                     Side Bar
                 </GridItem>
-                <GridItem pl='2' bg ="gray.200" area={'Dashboard'}>
+                <GridItem pl='2' bgGradient='linear(red.100 0%, orange.100 25%, yellow.100 50%)' area={'Dashboard'}>
                     Dashboard
                         <Stack direction='row' spacing={4} align='center'>
                             <Card flex={1} textAlign='center'>
@@ -153,10 +153,54 @@ export const AdminPage = () => {
                             </TabList>
                             <TabPanels p='2rem'>
                                 <TabPanel>
-                                    <BookSearch />
-                                    {/* <BackTable /> */}
+                                    {/* <BookSearch /> */}
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
                                 </TabPanel>
-                                <TabPanel>Red, yellow and blue.</TabPanel>
+                                <TabPanel>
+                                    {/* <BookSearch /> */}
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                </TabPanel>
+                                <TabPanel>
+                                    {/* <BookSearch /> */}
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                </TabPanel>
+                                <TabPanel>
+                                    {/* <BookSearch /> */}
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                    <AdminTab />
+                                </TabPanel>
                             </TabPanels>
                         </Tabs>
                 </GridItem>
