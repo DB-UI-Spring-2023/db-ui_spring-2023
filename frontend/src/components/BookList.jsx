@@ -158,7 +158,7 @@ export const BookList = ({
               {book.Title}
             </Heading>
             <Heading size="sm">{book.Author}</Heading>
-            <Text color="purple" fontSize="2xl">
+            <Text color="black" fontSize="2xl">
               ${book.Cost} ({book.bookFormat}) {book.book_id}
             </Text>
             <Button

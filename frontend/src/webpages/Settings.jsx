@@ -38,7 +38,7 @@ export const Settings = () => {
           <Sidebar />
         </GridItem>
 
-        <Box gridColumn="2" bg="tomato" height="auto">
+        <Box gridColumn="2" height="auto">
           <Stack pt="2rem" pl="2rem" direction="row">
             <Text mt="0.5rem">Change dark/light mode:</Text>
             <Button
