@@ -268,7 +268,6 @@ import {
           />
         </WrapItem>
          <WrapItem>
-
            <Input
              mt='2rem' ml='auto' mr='auto' w='90%' variant='filled'
              type="number"

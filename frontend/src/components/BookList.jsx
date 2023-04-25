@@ -37,7 +37,7 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //import css from '../css/bookList.css';
-export const BookList = ({book, privileges}) => {
+export const BookList = ({ book, privileges, addToCart }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const btnRef = React.useRef()
     const [summary, setSummary] = useState("Summary Loading...");
@@ -79,8 +79,6 @@ export const BookList = ({book, privileges}) => {
         onOpen();
     }
 
-    
-
 
     const handleRemoveBook = async () => {
 
@@ -100,9 +98,6 @@ export const BookList = ({book, privileges}) => {
           alert('An error occurred while removing the listing.');
         }
       };
-
-
-  
 
     
     return (
@@ -151,7 +146,7 @@ export const BookList = ({book, privileges}) => {
                         
                         <HStack spacing={1}>
                             <Text></Text>
-                            <Button variant="ghost" colorScheme="teal" size="sm">
+                            <Button variant="ghost" colorScheme="teal" size="sm" onClick={addToCart}>
                             Add to cart
                             </Button>
                             <Button

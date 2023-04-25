@@ -9,9 +9,19 @@ import { CreateListing, BookList } from "../components";
 import { CUIAutoComplete } from "chakra-ui-autocomplete";
 import { MdDensityMedium, MdSearch } from 'react-icons/md';
 import Sidebar from "../components/Sidebar";
+import Cart from "../components/Cart"
 
 export const Dashboard = () => {
   
+  // Cart Stuff
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (item) => {
+    setCartItems([...cartItems, item]);
+  };
+
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
@@ -108,17 +118,25 @@ export const Dashboard = () => {
       fontWeight="bold"
     >
     
-      <GridItem className="header-color" area={"header"}>
-        <Stack direction="row">
-          <InputGroup className="input-group" m="2rem auto" w="50%">
-            <InputLeftElement
-              pointerEvents='none'
-              children={<MdSearch color='#606060' />}
-            />
-            <Input value={searchTerm} onChange={handleSearchTermChange} variant='filled' bgColor="#82AAAD" color="#606060" placeholder='Search for a textbook' />
-          </InputGroup>
-        </Stack>
-      </GridItem>
+    <GridItem className="header-color" area={"header"}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <InputGroup className="input-group" m="2rem auto" w="50%">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<MdSearch color="#606060" />}
+          />
+          <Input
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            variant="filled"
+            bgColor="#82AAAD"
+            color="#606060"
+            placeholder="Search for a textbook"
+          />
+        </InputGroup>
+        <Cart cartItems={cartItems} setCartItems={setCartItems} />
+      </Stack>
+    </GridItem>
 
       
       <GridItem pl="2" area={"nav"}>
@@ -143,7 +161,7 @@ export const Dashboard = () => {
           <Wrap spacing={2} zIndex={1}>
             {books.map((book) => (
               <Box key={book.IBSN} transform="scale(0.8)" transformOrigin="center" zIndex={1}>
-                <BookList book={book} privileges={privileges} />
+                <BookList book={book} privileges={privileges} addToCart={addToCart} />
               </Box>
             ))}
           </Wrap>

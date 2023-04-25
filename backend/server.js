@@ -256,40 +256,8 @@ app.put('/profile/update-password', async (req, res) => {
 
 
 
-// Delete listing
-app.delete('/listing/:id', async (req, res) => {
-  const { id } = req.params;
-
-  const query = 'DELETE FROM DB_UI.Books WHERE IBSN = ?';
-
-  connection.query(query, [id], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error deleting listing', err });
-    } else {
-      res.status(200).json({ message: 'Listing deleted successfully', result });
-    }
-  });
-});
-
-// app.get('/dashboard-books', (req, res) => {
-//   const searchTerm = req.query;
-
-//   const query = `
-//     SELECT B.*, U.firstName AS SellerFirstName, U.lastName AS SellerLastName, U.email AS SellerEmail
-//     FROM DB_UI.Books B
-//     JOIN DB_UI.Users U ON B.Seller = U.email
-//     WHERE B.Title LIKE '%${searchTerm}%' OR B.Author LIKE '%${searchTerm}%'`;
 
 
-//   connection.query(query, (error, results) => {
-//     if (error) {
-//       console.error("Error querying books data:", error);
-//       return res.status(500).json({ error: "Failed to fetch books data" });
-//     }
-//     // Send the fetched books data as JSON response
-//     res.json(results);
-//   });
-// });
 
 app.get('/dashboard-books', (req, res) => {
   const { searchTerm, minPrice, maxPrice } = req.query;

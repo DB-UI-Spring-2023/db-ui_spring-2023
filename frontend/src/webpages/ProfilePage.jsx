@@ -296,7 +296,7 @@ export const ProfilePage = () => {
         </Flex>
       </Box>
 
-              <h4>Current Rating</h4>
+            <h4>Current Rating</h4>
             <Rating value={sellerRating} />
             {reviews.length === 0 ? (
               <Text>No reviews available</Text>
