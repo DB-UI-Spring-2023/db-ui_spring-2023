@@ -8,19 +8,27 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { CartItem, CartOrderSummary } from "../components";
-import { products } from "../api/products";
+
 import "../css/Dashboard.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from '../CartContext';
+
 
 export const ShoppingCart = () => {
-  let cartItems = products;
+  const { cartItems } = useCart();
   const [quantities, setQuantities] = useState(
     cartItems.reduce((acc, item) => {
       acc[item.id] = item.quantity;
       return acc;
     }, {})
   );
+
+  const removeFromCart = (index) => {
+    const newCartItems = [...cartItems];
+    newCartItems.splice(index, 1);
+    setCartItems(newCartItems);
+  };
 
   const handleQuantityChange = (itemId, newQuantity) => {
     setQuantities((prevQuantities) => ({
@@ -30,7 +38,7 @@ export const ShoppingCart = () => {
   };
 
   const calculateSubtotal = () => {
-    return products.reduce(
+    return cartItems.reduce(
       (acc, item) => acc + item.price * quantities[item.id],
       0
     );
@@ -98,12 +106,16 @@ export const ShoppingCart = () => {
             </Heading>
 
             <Stack spacing="6">
-              {products.map((item) => (
+              {cartItems.map((item) => (
                 <CartItem
                   key={item.id}
-                  {...item}
+                  name={item.Title}
+                  description={item.Author}
+                  imageUrl={item.imageUrl}
+                  price={item.Cost}
+                  quantity={item.quantity}
                   onChangeQuantity={(newQuantity) =>
-                    handleQuantityChange(item.id, newQuantity)
+                    handleQuantityChange(item.book_id, newQuantity)
                   }
                 />
               ))}
