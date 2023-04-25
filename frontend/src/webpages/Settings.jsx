@@ -12,19 +12,21 @@ import Sidebar from "../components/Sidebar";
 import "../css/Settings.css";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Settings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
   
   const handleLogout = () => {
-    document.cookie = 'userID=;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=localhost;path=/;';
-    const redirectUser = () => {
-      navigate("/");
-    }
-    setTimeout(redirectUser, 0);
-    
-  }
+    axios.post('http://localhost:8000/logout')
+      .then(() => {
+        navigate('/');
+      })
+      .catch(err => {
+        console.error('Logout error:', err);
+      });
+  };
 
   return (
     <>

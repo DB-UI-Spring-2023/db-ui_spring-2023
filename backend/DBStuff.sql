@@ -8,7 +8,7 @@ CREATE TABLE `Books` (
   `book_id` int NOT NULL AUTO_INCREMENT,
   `IBSN` varchar(40) NOT NULL,
   `Title` varchar(100) NOT NULL,
-  `Author` varchar(45) DEFAULT NULL,
+  `Author` varchar(100) DEFAULT NULL,
   `bookCondition` varchar(45) NOT NULL,
   `bookFormat` varchar(45) NOT NULL,
   `Cost` decimal(5,2) NOT NULL,
@@ -18,23 +18,24 @@ CREATE TABLE `Books` (
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO Books (IBSN, Title, Author, bookCondition, bookFormat, Cost, Seller) VALUES
-  ('19283756','The Adventures of Duck and Goose','Sir Quackalot','new','paperback', '10.99', 'cboeger@smu.edu'),
-  ('19382681','The Return of Duck and Goose','Sir Quackalot','new','paperback', '11.99', 'cmoore@smu.edu'),
-  ('17984726','More Fun with Duck and Goose','Sir Quackalot','new','paperback', '12.99', 'rlucas@smu.edu'),
-  ('16859372','Duck and Goose on Holiday','Sir Quackalot','new','paperback', '11.99', 'abavare@smu.edu'),
-  ('16431663','The Return of Duck and Goose','Sir Quackalot','new','hardback', '19.99', 'test@gmail.com'),
-  ('87564632','The Adventures of Duck and Goose','Sir Quackalot','new','hardback', '18.99', 'musky@tesla.edu'),
-  ('74653354','My Friend is a Duck', 'A. Parrot','lightly used','paperback','14.99', 'test2@gmail.com'),
-  ('16273864','Annotated Notes on the ‘Duck and Goose’ chronicles','Prof Macaw','new','ebook','8.99', 'user@example.com'),
-  ('42654331','‘Duck and Goose’ Cheat Sheet for Students','Polly Parrot','significant wear','ebook','5.99', 'rlucas@smu.edu'),
-  ('37129084','‘Duck and Goose’: an allegory for modern times?','Bor Ing','sealed','hardback','59.99', 'cmoore@smu.edu'),
-  ('31231984','1984','George Orwell','minor wear','hardback','49.99', 'cboeger@smu.edu'),
-  ('45798322','The Adventures of Huckleberry Finn','Tom Sawyer','no back cover','paperback','6.99', 'abavare@smu.edu'),
-  ('42141211','The Bible as in Literature','Christian','new','hardcover','12.89', 'test@gmail.com'),
-  ('58263419','To Kill a Mockingbird','Harper Lee','like new','paperback','15.99', 'musky@tesla.edu'),
-  ('73461825','Pride and Prejudice','Jane Austen','used','hardback','22.99', 'test2@gmail.com'),
-  ('98654231','The Great Gatsby','F. Scott Fitzgerald','new','hardback','28.99', 'user@example.com'),
-  ('73518462','Moby Dick','Herman Melville','worn','paperback','9.99', 'rlucas');
+ ('9780321993619','Calculus: Early Transcendentals','James Stewart','new','paperback', '10.99', 'cboeger@smu.edu'),
+('9780135164147','Campbell Biology','Lisa A. Urry, Michael L. Cain, Steven A. Wasserman, Peter V. Minorsky, Rebecca B. Orr','new','paperback', '11.99', 'cmoore@smu.edu'),
+('9780134639710','Psychology: From Inquiry to Understanding','Scott O. Lilienfeld, Steven J. Lynn, Laura L. Namy','new','paperback', '12.99', 'rlucas@smu.edu'),
+('9781119375916','Operating System Concepts','Abraham Silberschatz, Greg Gagne, Peter B. Galvin','new','paperback', '11.99', 'abavare@smu.edu'),
+('9780133760064','Introduction to Java Programming and Data Structures','Y. Daniel Liang','new','hardback', '19.99', 'test@gmail.com'),
+('9780321836960','An Introduction to Statistical Learning','Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani','new','hardback', '18.99', 'musky@tesla.edu'),
+('9781464182891','Macroeconomics','Paul Krugman, Robin Wells','lightly used','paperback','14.99', 'test2@gmail.com'),
+('9780321629920','Essential University Physics','Richard Wolfson','new','ebook','8.99', 'user@example.com'),
+('9781119049654','Fundamentals of Physics','David Halliday, Robert Resnick, Jearl Walker','significant wear','ebook','5.99', 'rlucas@smu.edu'),
+('9780192853523','A Very Short Introduction to Philosophy','Edward Craig','sealed','hardback','59.99', 'cmoore@smu.edu'),
+('9780140186883','1984','George Orwell','minor wear','hardback','49.99', 'cboeger@smu.edu'),
+('9780143105947','The Adventures of Huckleberry Finn','Mark Twain','no back cover','paperback','6.99', 'abavare@smu.edu'),
+('9780195119756','The Bible as in Literature','Leland Ryken','new','hardcover','12.89', 'test@gmail.com'),
+('9780060935467','To Kill a Mockingbird','Harper Lee','like new','paperback','15.99', 'musky@tesla.edu'),
+('9780141439518','Pride and Prejudice','Jane Austen','used','hardback','22.99', 'test2@gmail.com'),
+('9780684830421','The Great Gatsby','F. Scott Fitzgerald','new','hardback','28.99', 'user@example.com'),
+('9780142000083','Moby Dick','Herman Melville','worn','paperback','9.99', 'rlucas@smu.edu');
+
 
 
 

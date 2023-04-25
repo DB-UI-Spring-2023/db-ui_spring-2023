@@ -41,14 +41,14 @@ import { useDisclosure } from "@chakra-ui/react";
 //import { Configuration, OpenAIApi } from "openai"; // Import OpenAI modules
 import SellerPopup from "./SellerPopup";
 import axios from "axios";
-import hp from "../images/harrypotter.png";
+import placeholderImg from "../images/book-placeholder.png";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { CartItem } from "./CartItems";
 import { CartOrderSummary } from "./CartOrderSummary";
 import { CartProductDescription } from "./CartProductDescription";
-import { CartContext } from "../context";
+import { useCart } from '../CartContext';
 
 //import css from '../css/bookList.css';
 export const BookList = ({
@@ -63,9 +63,12 @@ export const BookList = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [summary, setSummary] = useState("Summary Loading...");
-  const theCartContext = React.useContext(CartContext);
+
   const navigate = useNavigate();
   const [bookImageUrl, setBookImageUrl] = useState("");
+
+  const { cartItems, setCartItems } = useCart();
+
 
   const API_Body = {
     model: "text-davinci-003",
@@ -83,7 +86,7 @@ export const BookList = ({
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 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",
+          "Bearer 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",
       },
       body: JSON.stringify(API_Body),
     });
@@ -94,7 +97,7 @@ export const BookList = ({
   }
 
   function openChange() {
-    //callAPI();
+    callAPI();
     onOpen();
   }
 
@@ -140,6 +143,21 @@ export const BookList = ({
     }
   };
 
+  const handleAddToCart = (book) => {
+    setCartItems((prevCartItems) => {
+      const existingCartItem = prevCartItems.find((item) => item.id === book.book_id);
+  
+      if (existingCartItem) {
+        return prevCartItems.map((item) =>
+          item.id === book.book_id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+  
+      return [...prevCartItems, { ...book, id: book.book_id, quantity: 1 }];
+    });
+  };
+  
+
 
   return (
     <>
@@ -147,7 +165,7 @@ export const BookList = ({
         <CardBody>
           <Center>
             <Image
-                src={bookImageUrl || hp}
+                src={bookImageUrl || placeholderImg}
                 width="50%"
                 maxH="15rem"
                 alt={book.Title}
@@ -198,8 +216,7 @@ export const BookList = ({
                   colorScheme="teal"
                   size="sm"
                   onClick={() => {
-                    addToCart(book);
-                    navigate("/cart");
+                    handleAddToCart(book);
                   }}
                 >
                   Add to cart

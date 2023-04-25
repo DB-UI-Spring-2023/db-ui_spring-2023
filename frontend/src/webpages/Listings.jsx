@@ -354,7 +354,7 @@ export const Listings = () => {
         </GridItem>
 
         <Box gridColumn="2" height="auto">
-        <Text m='2rem 2rem' color="#5fb1d1" fontWeight='bold'>Your Listings:</Text>
+        <Text m='2rem 2rem' color="#5fb1d1" fontWeight='bold'>All Listings:</Text>
           <Wrap
             spacing={4}
             width="100%"
