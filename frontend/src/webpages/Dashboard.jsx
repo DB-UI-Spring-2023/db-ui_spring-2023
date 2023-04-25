@@ -48,40 +48,38 @@ export const Dashboard = () => {
     setSearchTerm(event.target.value);
   };
 
-  useEffect(() => {
-    const fetchBooksBySeller = async (email) => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/books/${email}`
-        );
-        console.log("Books fetched successfully:", response.data);
-        setMyBooks(response.data);
-        return response.data;
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
-    fetchBooksBySeller(email);
-  }, [email, refreshListings]);
+  const fetchBooksBySeller = async (email) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/books/${email}`
+      );
+      console.log("Books fetched successfully:", response.data);
+      setMyBooks(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  };
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/dashboard-books`,
+        {
+          params: {
+            searchTerm: searchTerm,
+          },
+        }
+      );
+      setBooks(response.data);
+    } catch (error) {
+      console.error("Error fetching books data:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/dashboard-books`,
-          {
-            params: {
-              searchTerm: searchTerm,
-            },
-          }
-        );
-        setBooks(response.data);
-      } catch (error) {
-        console.error("Error fetching books data:", error);
-      }
-    };
     fetchBooks();
-  }, [searchTerm, refreshListings]);
+    fetchBooksBySeller(email);
+  }, [searchTerm, refreshListings, email]);
 
   const nav = useNavigate();
 
@@ -148,7 +146,7 @@ export const Dashboard = () => {
           <Wrap spacing={2} zIndex={1} height="40rem"  overflowY="auto">
             {books.map((book) => (
               <Box
-                key={book.IBSN}
+                key={book.book_id}
                 transform="scale(0.8)"
                 transformOrigin="center"
                 zIndex={1}
@@ -170,7 +168,7 @@ export const Dashboard = () => {
           <Wrap spacing={2} mx="2" height="40rem" overflowY="auto">
             {myBooks.map((book2) => (
               <Box
-                key={book2.IBSN}
+                key={book2.book_id}
                 transform="scale(0.8)"
                 transformOrigin="center"
               >

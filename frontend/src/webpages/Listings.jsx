@@ -191,7 +191,7 @@ export const Listings = () => {
                 value={searchTerm}
                 onChange={handleSearchTermChange}
                 onFocus={() => setShowSuggestions(true)}
-                onBlur={() => setShowSuggestions(false)} 
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
                 onKeyDown={onEnterPress}
               />
               {/* Seller filter */}
