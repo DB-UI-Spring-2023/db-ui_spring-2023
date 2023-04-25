@@ -368,9 +368,9 @@ export const Listings = () => {
         </Box>
       </Grid>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} className="button-color">
         <ModalOverlay />
-        <ModalContent className="modal-content">
+        <ModalContent maxW="80%">
           <ModalHeader>Full Textbook List</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -392,9 +392,9 @@ export const Listings = () => {
                     <Td>{book.IBSN}</Td>
                     <Td>{book.Title}</Td>
                     <Td>{book.Author}</Td>
-                    <Td>{book.Condition}</Td>
+                    <Td>{book.bookCondition}</Td>
                     <Td>${book.Cost}</Td>
-                    <Td>{book.Aeller}</Td>
+                    <Td>{book.Seller}</Td>
                   </Tr>
                 ))}
               </Tbody>
