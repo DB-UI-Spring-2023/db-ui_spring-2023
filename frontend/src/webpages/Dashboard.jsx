@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { BookList } from "../components";
 import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
+
 import "../css/Dashboard.css";
 
 
@@ -133,11 +134,11 @@ export const Dashboard = () => {
             _placeholder={{ color: '#FFF' }}
           />
         </InputGroup>
-        {/* <ShoppingCart cartItems={cartItems} setCartItems={setCartItems} /> */}
+          {/* <Cart cartItems={cartItems} setCartItems={setCartItems} /> */}
       </Flex>
       <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
         <GridItem>
-        <Sidebar setRefreshListings={setRefreshListings} refreshListings={refreshListings} />
+          <Sidebar setRefreshListings={setRefreshListings} refreshListings={refreshListings} />
         </GridItem>
 
         <Box gridColumn="2" height="auto" >

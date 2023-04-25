@@ -19,6 +19,19 @@ import {
   InputGroup,
   Flex,
   SimpleGrid,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
 } from "@chakra-ui/react";
 
 import "../css/Listings.css";
@@ -53,6 +66,9 @@ export const Listings = () => {
   const sellersRef = useRef();
   const [authorSearch, setAuthorSearch] = useState("");
 
+  const [fullTextbookList, setFullTextbookList] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const fetchBooks = async (searchTerms) => {
     try {
       const response = await axios.get(
@@ -67,6 +83,18 @@ export const Listings = () => {
         }
       );
       setBooks(response.data);
+    } catch (error) {
+      console.error("Error fetching books data:", error);
+    }
+  };
+
+  const fetchFullTextbookList = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/full-textbook-list",
+        
+      );
+      setFullTextbookList(response.data);
     } catch (error) {
       console.error("Error fetching books data:", error);
     }
@@ -320,6 +348,9 @@ export const Listings = () => {
       >
         <GridItem>
           <Sidebar />
+          <Button mt={4} mb={4} onClick={() => { onOpen(); fetchFullTextbookList(); }}>
+            Full Textbook List
+          </Button>
         </GridItem>
 
         <Box gridColumn="2" height="auto">
@@ -336,6 +367,42 @@ export const Listings = () => {
           </Wrap>
         </Box>
       </Grid>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent className="modal-content">
+          <ModalHeader>Full Textbook List</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+          <Table className="full-textbook-list-modal" variant="simple" mt={6} mx="auto">
+
+              <Thead>
+                <Tr>
+                  <Th>ISBN</Th>
+                  <Th>Title</Th>
+                  <Th>Author</Th>
+                  <Th>Condition</Th>
+                  <Th>Cost</Th>
+                  <Th>Seller</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {fullTextbookList.map((book) => (
+                  <Tr key={book.book_id}>
+                    <Td>{book.IBSN}</Td>
+                    <Td>{book.Title}</Td>
+                    <Td>{book.Author}</Td>
+                    <Td>{book.Condition}</Td>
+                    <Td>${book.Cost}</Td>
+                    <Td>{book.Aeller}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
     </>
   );
 };

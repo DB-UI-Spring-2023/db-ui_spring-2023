@@ -370,6 +370,17 @@ app.get("/reviews/:email", (req, res) => {
       }
     });
   });
+
+  app.get("/full-textbook-list", (req, res) => {
+    const query = "SELECT * FROM DB_UI.Books";
+    connection.query(query, (error, results) => {
+      if (error) {
+        console.error("Error fetching full textbook list:", error);
+        return res.status(500).json({ error: "Failed to fetch full textbook list" });
+      }
+      res.status(200).json(results);
+    });
+  });
   
   app.post("/post-review", (req, res) => {
     const { seller_email, rating, title, comment } = req.body;
