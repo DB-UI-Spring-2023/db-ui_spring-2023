@@ -135,7 +135,9 @@ export const Dashboard = () => {
             _placeholder={{ color: '#FFF' }}
           />
         </InputGroup>
+        <Flex mt='2rem' mr='2rem'>
           <Cart cartItems={cartItems} setCartItems={setCartItems} />
+          </Flex>
       </Flex>
       <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
         <GridItem>

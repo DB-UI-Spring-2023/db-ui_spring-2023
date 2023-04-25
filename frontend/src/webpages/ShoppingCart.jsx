@@ -39,9 +39,7 @@ export const ShoppingCart = () => {
 
   const calculateSubtotal = () => {
     return cartItems.reduce(
-      (acc, item) => acc + item.price * quantities[item.id],
-      0
-    );
+      (acc, item) => acc + item.Cost * quantities[item.id], 0);
   };
 
   const navigate = useNavigate();
@@ -109,14 +107,13 @@ export const ShoppingCart = () => {
               {cartItems.map((item) => (
                 <CartItem
                   key={item.id}
+                  itemId={item.id}
                   name={item.Title}
                   description={item.Author}
                   imageUrl={item.imageUrl}
                   price={item.Cost}
-                  quantity={item.quantity}
-                  onChangeQuantity={(newQuantity) =>
-                    handleQuantityChange(item.book_id, newQuantity)
-                  }
+                  quantity={quantities[item.id]}
+                  setQuantity={handleQuantityChange}
                 />
               ))}
             </Stack>

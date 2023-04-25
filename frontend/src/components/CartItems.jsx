@@ -29,15 +29,17 @@ const QuantitySelect = (props) => {
 
 export const CartItem = (props) => {
   const {
+    itemId,
     name,
     description,
     quantity,
     imageUrl,
     currency,
     price,
-    onChangeQuantity,
+    setQuantity,
     onClickDelete,
   } = props;
+
   return (
     <Flex
       direction={{
@@ -65,7 +67,7 @@ export const CartItem = (props) => {
         <QuantitySelect
           value={quantity}
           onChange={(e) => {
-            onChangeQuantity?.(+e.currentTarget.value);
+            setQuantity(itemId, +e.target.value);
           }}
         />
         <PriceTag price={price} currency={currency} />
@@ -92,7 +94,6 @@ export const CartItem = (props) => {
         <QuantitySelect
           value={quantity}
           onChange={(e) => {
-            onChangeQuantity?.(+e.currentTarget.value);
           }}
         />
         <PriceTag price={price} currency={currency} />

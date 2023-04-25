@@ -14,6 +14,7 @@ import {
   PopoverCloseButton,
   Badge,
   Button,
+  Flex
 } from '@chakra-ui/react';
 import { FaShoppingCart, FaTimes, FaTrash } from 'react-icons/fa';
 import { useCart } from '../CartContext';
@@ -40,24 +41,29 @@ const Cart = () => {
 
   return (
     <Box>
+      <Flex flexDirection='row' m='0 0'>
       <Popover>
         <PopoverTrigger>
           <IconButton
             icon={<FaShoppingCart />}
             size="lg"
-
-            mr={5}
+            
+            mr={-3}
           />
 
         </PopoverTrigger>
+        <Flex justifyContent='center' alignItems='flex-start' mt='-4px'>
         <Badge
-            borderRadius="full"
+            borderRadius='full'
             px="2"
-            colorScheme="purple"
-            variant="subtle"
+            color='#fff'
+            bg='red'
+            zIndex='9999'
+            
           >
             {cartItems.length}
           </Badge>
+          </Flex>
         <PopoverContent>
           <PopoverArrow />
           <PopoverCloseButton />
@@ -102,6 +108,7 @@ const Cart = () => {
           </PopoverBody>
         </PopoverContent>
       </Popover>
+      </Flex>
     </Box>
   );
 };
