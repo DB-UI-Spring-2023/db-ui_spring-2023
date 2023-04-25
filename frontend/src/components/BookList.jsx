@@ -41,7 +41,7 @@ import { useDisclosure } from "@chakra-ui/react";
 //import { Configuration, OpenAIApi } from "openai"; // Import OpenAI modules
 import SellerPopup from "./SellerPopup";
 import axios from "axios";
-import hp from "../images/harrypotter.png";
+import placeholderImg from "../images/book-placeholder.png";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
@@ -83,7 +83,7 @@ export const BookList = ({
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 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",
+          "Bearer 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",
       },
       body: JSON.stringify(API_Body),
     });
@@ -94,7 +94,7 @@ export const BookList = ({
   }
 
   function openChange() {
-    //callAPI();
+    callAPI();
     onOpen();
   }
 
@@ -147,7 +147,7 @@ export const BookList = ({
         <CardBody>
           <Center>
             <Image
-                src={bookImageUrl || hp}
+                src={bookImageUrl || placeholderImg}
                 width="50%"
                 maxH="15rem"
                 alt={book.Title}
