@@ -14,4 +14,5 @@ export * from "./NavSettings";
 export * from "./CartItems";
 export * from "./CartOrderSummary";
 export * from "./CartProductDescription";
-export * from "./AdminTab";
+export * from "./UserAdminTab";
+export * from "./Clock";

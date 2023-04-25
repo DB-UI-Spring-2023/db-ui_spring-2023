@@ -410,6 +410,28 @@ app.get("/reviews/:email", (req, res) => {
     });
   });
 
+  // STUFF FOR ADMIN PAGE
+  app.get('/admin/users', (req, res) => {
+    connection.query('SELECT * FROM DB_UI.Users', (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
+  });
+  
+  app.get('/admin/books', (req, res) => {
+    connection.query('SELECT * FROM DB_UI.Books', (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
+  });
+  
+  app.get('/admin/seller_reviews', (req, res) => {
+    connection.query('SELECT * FROM DB_UI.seller_reviews', (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
+  });
+
 
 // Start server
 app.listen(port, () => {

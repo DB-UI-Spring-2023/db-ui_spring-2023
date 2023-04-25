@@ -1,10 +1,40 @@
 *{box-sizing: border-box;}
 
 .header-color {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
     background-image: linear-gradient(135deg, #5fb1d1, #FF2AEF);
     z-index: 2;
     color:#606060
 }
+@media (max-width: 767px) {
+    .header-color {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+}
+
+@media (max-width: 767px) {
+    .profile-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .profile-content {
+      max-width: 768px;
+    }
+  }
 
 .head {
   display: flex;
