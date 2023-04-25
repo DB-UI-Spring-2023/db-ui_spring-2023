@@ -20,7 +20,6 @@ import { BookList } from "../components";
 import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
 import "../css/Dashboard.css";
-import ShoppingCart from "../components/ShoppingCart";
 
 
 export const Dashboard = () => {

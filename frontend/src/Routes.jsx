@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HomePage, Dashboard, Listings, ProfilePage, SellerProfilePage, Settings } from "./webpages";
-import { ShoppingCart } from "./components/ShoppingCart";
+import { ShoppingCart } from "./webpages";
 
 export const Router = () => {
 

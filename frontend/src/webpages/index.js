@@ -4,3 +4,4 @@ export * from "./Listings";
 export * from "./ProfilePage";
 export * from "./SellerProfilePage";
 export * from "./Settings";
+export * from "./ShoppingCart";
