@@ -18,7 +18,7 @@ CREATE TABLE `Books` (
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO Books (IBSN, Title, Author, bookCondition, bookFormat, Cost, Seller) VALUES
- ('9780321993619','Calculus: Early Transcendentals','James Stewart','new','paperback', '10.99', 'cboeger@smu.edu'),
+('9780321993619','Calculus: Early Transcendentals','James Stewart','new','paperback', '10.99', 'cboeger@smu.edu'),
 ('9780135164147','Campbell Biology','Lisa A. Urry, Michael L. Cain, Steven A. Wasserman, Peter V. Minorsky, Rebecca B. Orr','new','paperback', '11.99', 'cmoore@smu.edu'),
 ('9780134639710','Psychology: From Inquiry to Understanding','Scott O. Lilienfeld, Steven J. Lynn, Laura L. Namy','new','paperback', '12.99', 'rlucas@smu.edu'),
 ('9781119375916','Operating System Concepts','Abraham Silberschatz, Greg Gagne, Peter B. Galvin','new','paperback', '11.99', 'abavare@smu.edu'),
