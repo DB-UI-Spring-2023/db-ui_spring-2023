@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Button, Grid, GridItem } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { Badge } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
@@ -11,13 +7,7 @@ import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Container } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { BookList } from "../components";
-import {
-  List,
-  ListItem,
-  ListIcon,
-  Collapse,
-  Center,
-} from "@chakra-ui/react";
+import { List, ListItem, ListIcon, Collapse, Center } from "@chakra-ui/react";
 import {
   Flex,
   FormControl,
@@ -56,13 +46,15 @@ export const ProfilePage = () => {
   useEffect(() => {
     const fetchReviewsAndRatings = async (email) => {
       try {
-        const response = await axios.get(`http://localhost:8000/reviews/${email}`);
-        console.log('Reviews and ratings fetched successfully:', response.data);
+        const response = await axios.get(
+          `http://localhost:8000/reviews/${email}`
+        );
+        console.log("Reviews and ratings fetched successfully:", response.data);
         setReviews(response.data.reviews);
         setSellerRating(response.data.rating);
         return response.data;
       } catch (error) {
-        console.error('Error fetching reviews and ratings:', error);
+        console.error("Error fetching reviews and ratings:", error);
       }
     };
     fetchReviewsAndRatings(email);
@@ -190,8 +182,10 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <Flex direction="column" className="header-color" py="2rem">
-        <h1><b>Profile</b></h1>
+      <Flex direction="column" className="header-color" py="2rem" w="100vw">
+        <h1>
+          <b>Profile</b>
+        </h1>
       </Flex>
       <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
         <GridItem>
@@ -207,27 +201,32 @@ export const ProfilePage = () => {
           // Insert profile elements below
         >
           <div className="container">
-            <div className="profileInfo">
-              <Image
-                mt=".5rem"
-                borderRadius="full"
-                boxSize="150px"
-                src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
-                alt="default pic"
-              />
-              <Badge m="1rem auto">
-                {first} {last}{" "}
-              </Badge>
-              <h2>({privileges})</h2>
+            <Flex
+              className="profile-content"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="start"
+              w="75%"
+            >
+              <Flex flexDirection="column" alignItems="center">
+                <Image
+                  mt=".5rem"
+                  ml="6rem"
+                  mb="1rem"
+                  borderRadius="full"
+                  boxSize="150px"
+                  src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
+                  alt="default pic"
+                />
+                <Text ml="35%">
+                  {first} {last}{" "}
+                </Text>
+                <Text ml="35%">({privileges})</Text>
 
-              <Flex
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                m="1rem auto"
-              >
                 <Button
                   onClick={handleTogglePersonalInfo}
+                  ml="35%"
+                  mb="1rem"
                   color="white"
                   bg="#0C97FA"
                   variant="outline"
@@ -248,15 +247,13 @@ export const ProfilePage = () => {
                           Personal Information
                         </Text>
 
-                        <Stack spacing={4}>
+                        <Stack spacing={4} mb="2rem">
                           <FormControl>
                             <FormLabel>First Name</FormLabel>
                             <Input
                               type="text"
                               placeholder={first}
-                              onChange={(e) =>
-                                setUpdateFirst(e.target.value)
-                              }
+                              onChange={(e) => setUpdateFirst(e.target.value)}
                             />
                           </FormControl>
                           <FormControl>
@@ -264,9 +261,7 @@ export const ProfilePage = () => {
                             <Input
                               type="text"
                               placeholder={last}
-                              onChange={(e) =>
-                                setUpdateLast(e.target.value)
-                              }
+                              onChange={(e) => setUpdateLast(e.target.value)}
                             />
                           </FormControl>
                           <Button
@@ -287,145 +282,109 @@ export const ProfilePage = () => {
                     </Flex>
                   </Box>
                 </Collapse>
-              </Flex>
 
-              <Flex justifyContent="center">
-                <VStack spacing='4' alignItems='center'>
-                <Button
-                  onClick={handleTogglePasswordReset}
-                  color="#FF176B"
-                  border="1px solid #FF176B"
-                  _hover={{
-                    bgGradient: "linear(to-r, #49C5F6, #FF2AEF)",
-                    color: "#FFF",
-                    border: "2px",
-                  }}
-                >
-                  Reset Password
-                </Button>
-                <Collapse in={showPasswordReset}>
-                  <Box
-                    width="100%"
-                    display="flex"
-                    flexDirection='column'
-                    justifyContent="center"
+                <VStack spacing="4" alignItems="center">
+                  <Button
+                    onClick={handleTogglePasswordReset}
+                    ml="55%"
+                    mb="2rem"
+                    color="#FF176B"
+                    border="1px solid #FF176B"
+                    _hover={{
+                      bgGradient: "linear(to-r, #49C5F6, #FF2AEF)",
+                      color: "#FFF",
+                      border: "2px",
+                    }}
                   >
-                    <VStack spacing={6} alignItems="center">
-                      <Center>
-                        <Text fontSize="2xl" fontWeight="bold">
-                          Password Reset
-                        </Text>
-                      </Center>
+                    Reset Password
+                  </Button>
+                  <Collapse in={showPasswordReset}>
+                    <Box
+                      width="100%"
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="center"
+                    >
+                      <VStack spacing={6} alignItems="center" mb="2rem">
+                        <Center>
+                          <Text fontSize="2xl" fontWeight="bold">
+                            Password Reset
+                          </Text>
+                        </Center>
 
-                      <VStack spacing={4} width="100%">
-                        <FormControl>
-                          <FormLabel>Current Password</FormLabel>
-                          <Input
-                            type="password"
-                            placeholder={createpword}
-                            onChange={(e) =>
-                              setConfirmpword(e.target.value)
-                            }
-                          />
-                        </FormControl>
-                        <FormControl>
-                          <FormLabel>New Password</FormLabel>
-                          <Input
-                            type="password"
-                            placeholder={createpword}
-                            onChange={(e) =>
-                              setUpdatePass(e.target.value)
-                            }
-                          />
-                        </FormControl>
-                        <Button
-                          onClick={handleUpdatePassword}
-                          color="#FF176B"
-                          border="1px solid #FF176B"
-                          _hover={{
-                            bgGradient:
-                              "linear(to-r, #49C5F6, #FF2AEF)",
-                            color: "#FFF",
-                            border: "2px",
-                          }}
-                        >
-                          Reset Password
-                        </Button>
+                        <VStack spacing={4} width="100%">
+                          <FormControl>
+                            <FormLabel>Current Password</FormLabel>
+                            <Input
+                              type="password"
+                              placeholder={createpword}
+                              onChange={(e) => setConfirmpword(e.target.value)}
+                            />
+                          </FormControl>
+                          <FormControl>
+                            <FormLabel>New Password</FormLabel>
+                            <Input
+                              type="password"
+                              placeholder={createpword}
+                              onChange={(e) => setUpdatePass(e.target.value)}
+                            />
+                          </FormControl>
+                          <Button
+                            onClick={handleUpdatePassword}
+                            color="#FF176B"
+                            border="1px solid #FF176B"
+                            _hover={{
+                              bgGradient: "linear(to-r, #49C5F6, #FF2AEF)",
+                              color: "#FFF",
+                              border: "2px",
+                            }}
+                          >
+                            Reset Password
+                          </Button>
+                        </VStack>
                       </VStack>
-                    </VStack>
-                  </Box>
-                </Collapse>
+                    </Box>
+                  </Collapse>
                 </VStack>
               </Flex>
-              
-              <h4>Current Rating</h4>
-            <Rating value={sellerRating} />
-            {reviews.length === 0 ? (
-              <Text>No reviews available</Text>
-            ) : (
-              reviews.map((review) => (
-                <Box key={review.id} borderWidth={1} borderRadius="lg" p={4} mb={2}>
-                  <Text fontWeight="bold">{review.title}</Text>
-                  <Rating value={review.rating} />
-                  <Text>{review.comment}</Text>
-                </Box>
-              ))
-            )}
 
+              <h4><b>My Rating</b></h4>
+              <Rating value={sellerRating} />
+              {reviews.length === 0 ? (
+                <Text>No reviews available</Text>
+              ) : (
+                reviews.map((review) => (
+                  <Box
+                    key={review.id}
+                    borderWidth={1}
+                    borderRadius="lg"
+                    p={4}
+                    mb={2}
+                  >
+                    <Text fontWeight="bold">{review.title}</Text>
+                    <Rating value={review.rating} />
+                    <Text>{review.comment}</Text>
+                  </Box>
+                ))
+              )}
               
-              <h4>Listings</h4>
+              <Flex flexDirection="column" mt="2rem">
+              <h4 className="profile-listing-header"><b>My Listings</b></h4>
 
               <Stack
                 direction="row"
                 alignItems="center"
                 justifyContent="center"
-                spacing={4}
+                spacing={10}
                 width="100%"
-                mb="2rem"
+                my="2rem"
               >
                 {books.map((book) => (
-                    <BookList book={book} privileges="Admin" />
+                  <BookList book={book} privileges="Admin" />
                 ))}
               </Stack>
-
-              <h4>Temp #Purchases Log</h4>
-              <Container>
-                <Box>
-                  <List spacing={3}>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color="green.500"
-                      />
-                      Lorem ipsum dolor sit amet, consectetur
-                      adipisicing elit
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color="green.500"
-                      />
-                      Assumenda, quia temporibus eveniet a libero
-                      incidunt suscipit
-                    </ListItem>
-                    <ListItem>
-                      <ListIcon
-                        as={CheckCircleIcon}
-                        color="green.500"
-                      />
-                      Quidem, ipsam illum quis sed voluptatum quae eum
-                      fugit earum
-                    </ListItem>
-                    {/* You can also use custom icons from react-icons */}
-                    <ListItem>
-                      <ListIcon as={WarningIcon} color="green.500" />
-                      Quidem, ipsam illum quis sed voluptatum quae eum
-                      fugit earum
-                    </ListItem>
-                  </List>
-                </Box>
-              </Container>
-            </div>
+              </Flex>
+            </Flex>
           </div>
         </Box>
       </Grid>
