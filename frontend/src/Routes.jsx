@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HomePage, Dashboard, Listings, ProfilePage, SellerProfilePage, Settings } from "./webpages";
+import Cart from "./components/Cart";
 
 export const Router = () => {
 
@@ -13,6 +14,8 @@ export const Router = () => {
                 <Route path="/profile/:email" element={<ProfilePage />} exact />
                 <Route path="/seller-profile/:email" element={<SellerProfilePage />} exact />
                 <Route path="/settings" element={<Settings />} exact />
+                <Route path="/cart" element={<Cart />} exact />
+
             </Routes>
         </BrowserRouter>
     );
