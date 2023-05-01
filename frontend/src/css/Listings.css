@@ -5,5 +5,15 @@
 }
 
 .input-group {
+<<<<<<< HEAD
   color: #c9c9c9;
+=======
+    color:#c9c9c9;
+}
+
+.modal-content {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    width: 90%;
+>>>>>>> 1aac9932a37c7222f737a491b3090354a42e70eb
 }

@@ -164,6 +164,12 @@ export const BookList = ({
     });
   };
 
+  const handleNavigation = () => {
+    navigate("/cart");
+  };
+  
+
+
   return (
     <>
       <Card maxWidth="sm" borderRadius="1.875rem">
@@ -190,6 +196,10 @@ export const BookList = ({
               colorScheme="green"
               size="lg"
               fontWeight="bold"
+              onClick={() => {
+                handleAddToCart(book);
+                handleNavigation();
+              }}
             >
               Buy now
             </Button>
