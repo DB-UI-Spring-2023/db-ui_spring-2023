@@ -17,14 +17,15 @@ import axios from "axios";
 export const Settings = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
-  
+
   const handleLogout = () => {
-    axios.post('http://localhost:8000/logout')
+    axios
+      .post("http://localhost:8000/logout")
       .then(() => {
-        navigate('/');
+        navigate("/");
       })
-      .catch(err => {
-        console.error('Logout error:', err);
+      .catch((err) => {
+        console.error("Logout error:", err);
       });
   };
 
@@ -35,7 +36,11 @@ export const Settings = () => {
           <b>Settings</b>
         </h1>
       </Flex>
-      <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
+      <Grid
+        templateColumns="12% 1fr"
+        gap={10}
+        m="2rem 2rem auto 2rem"
+      >
         <GridItem>
           <Sidebar />
         </GridItem>

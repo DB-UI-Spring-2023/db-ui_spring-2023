@@ -2,7 +2,7 @@
  * Author:          Rudy Lucas
  * filename:        JoinModal.jsx
  * Date:            03-20-2023
- * Description:     This component is a modal that activates when 
+ * Description:     This component is a modal that activates when
  *                  attempting to sign up for an account.
  */
 
@@ -89,8 +89,6 @@ export const JoinModal = () => {
         console.log("Error during registration: ", error);
       });
   };
-
-
 
   return (
     <>

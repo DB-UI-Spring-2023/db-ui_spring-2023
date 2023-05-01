@@ -70,13 +70,11 @@ export const Header = () => {
 
   const [registerStatus, setRegisterStatus] = useState(false);
   const [loginStatus, setLoginStatus] = useState("");
-  const [errorMessage, setErrorMessage] = useState("Not Logged In")
+  const [errorMessage, setErrorMessage] = useState("Not Logged In");
   const [privileges, setPrivileges] = useState("");
 
-  const handleUserEmail = (e) =>
-    setUserEmail(e.target.value);
-    const handleUserPassword = (e) =>
-    setUserPassword(e.target.value);
+  const handleUserEmail = (e) => setUserEmail(e.target.value);
+  const handleUserPassword = (e) => setUserPassword(e.target.value);
 
   const handleNewUserFirstName = (e) =>
     setNewUserFirstName(e.target.value);
@@ -135,21 +133,20 @@ export const Header = () => {
   };
 
   const login = () => {
-    axios.post("http://localhost:8000/login", {
-      email: userEmail,
-      createPass: userPassword
-    }).then((response) => {
-     
-      if (response.data.msg) {
-        setLoginStatus(response.data.msg)
-        setErrorMessage(response.data.msg)
-        
-      } else {
-        setLoginStatus(response.data[0].email)
-        setErrorMessage(response.data[0].email)
-      }
-
-    });
+    axios
+      .post("http://localhost:8000/login", {
+        email: userEmail,
+        createPass: userPassword,
+      })
+      .then((response) => {
+        if (response.data.msg) {
+          setLoginStatus(response.data.msg);
+          setErrorMessage(response.data.msg);
+        } else {
+          setLoginStatus(response.data[0].email);
+          setErrorMessage(response.data[0].email);
+        }
+      });
   };
 
   useEffect(() => {
@@ -157,18 +154,18 @@ export const Header = () => {
       onCloseSignUp();
       login();
     }
-  },[registerStatus])
+  }, [registerStatus]);
 
   useEffect(() => {
     axios.get("http://localhost:8000/login").then((response) => {
-      if (response.data.loggedIn == true){
-        setLoginStatus(response.data.user[0].email)
+      if (response.data.loggedIn == true) {
+        setLoginStatus(response.data.user[0].email);
         navigate("/dashboard");
       } else {
-        setLoginStatus("Not logged in.")
+        setLoginStatus("Not logged in.");
       }
-    })
-  },[loginStatus])
+    });
+  }, [loginStatus]);
 
   return (
     <>
@@ -307,7 +304,7 @@ export const Header = () => {
                 placeHolder=""
                 onChange={handleNewUserPassword}
               />
-              
+
               {/* <FormLabel mt=".5rem">Confirm password:</FormLabel>
               <Input type="text" placeHolder="" onChange={handleConfirmPassword}/> */}
             </FormControl>

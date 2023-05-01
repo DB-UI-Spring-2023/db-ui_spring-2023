@@ -91,8 +91,7 @@ export const Listings = () => {
   const fetchFullTextbookList = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/full-textbook-list",
-        
+        "http://localhost:8000/full-textbook-list"
       );
       setFullTextbookList(response.data);
     } catch (error) {
@@ -231,7 +230,7 @@ export const Listings = () => {
           />
           <Input
             type="text"
-            color='#FFF'
+            color="#FFF"
             placeholder="Search for a book"
             _placeholder={{ color: "#FFF" }}
             mb="2rem"
@@ -271,7 +270,7 @@ export const Listings = () => {
           </VStack>
         )}
 
-        <SimpleGrid columns={2} spacing={2} ml="25%" mb='2rem'>
+        <SimpleGrid columns={2} spacing={2} ml="25%" mb="2rem">
           <Box
             display="flex"
             justifyContent="center"
@@ -298,7 +297,7 @@ export const Listings = () => {
                   w="90%"
                   variant="filled"
                   type="number"
-                  color='#FFF'
+                  color="#FFF"
                   placeholder="$ Min Price"
                   value={minPrice}
                   onChange={handleMinPriceChange}
@@ -309,7 +308,7 @@ export const Listings = () => {
                   w="90%"
                   variant="filled"
                   type="number"
-                  color='#FFF'
+                  color="#FFF"
                   placeholder="$ Max Price"
                   value={maxPrice}
                   onChange={handleMaxPriceChange}
@@ -348,13 +347,22 @@ export const Listings = () => {
       >
         <GridItem>
           <Sidebar />
-          <Button mt={4} mb={4} onClick={() => { onOpen(); fetchFullTextbookList(); }}>
+          <Button
+            mt={4}
+            mb={4}
+            onClick={() => {
+              onOpen();
+              fetchFullTextbookList();
+            }}
+          >
             Full Textbook List
           </Button>
         </GridItem>
 
         <Box gridColumn="2" height="auto">
-        <Text m='2rem 2rem' color="#5fb1d1" fontWeight='bold'>All Listings:</Text>
+          <Text m="2rem 2rem" color="#5fb1d1" fontWeight="bold">
+            All Listings:
+          </Text>
           <Wrap
             spacing={4}
             width="100%"
@@ -374,8 +382,12 @@ export const Listings = () => {
           <ModalHeader>Full Textbook List</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <Table className="full-textbook-list-modal" variant="simple" mt={6} mx="auto">
-
+            <Table
+              className="full-textbook-list-modal"
+              variant="simple"
+              mt={6}
+              mx="auto"
+            >
               <Thead>
                 <Tr>
                   <Th>ISBN</Th>
@@ -402,7 +414,6 @@ export const Listings = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-
     </>
   );
 };

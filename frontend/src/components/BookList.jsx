@@ -48,7 +48,7 @@ import { MdDelete } from "react-icons/md";
 import { CartItem } from "./CartItems";
 import { CartOrderSummary } from "./CartOrderSummary";
 import { CartProductDescription } from "./CartProductDescription";
-import { useCart } from '../CartContext';
+import { useCart } from "../CartContext";
 
 //import css from '../css/bookList.css';
 export const BookList = ({
@@ -68,7 +68,6 @@ export const BookList = ({
   const [bookImageUrl, setBookImageUrl] = useState("");
 
   const { cartItems, setCartItems } = useCart();
-
 
   const API_Body = {
     model: "text-davinci-003",
@@ -107,7 +106,8 @@ export const BookList = ({
       const targetUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=AIzaSyDnJ6BrGDIpKvDxXPeGvzF-Ia5DJMwEZxw`;
       const response = await axios.get(proxyUrl + targetUrl);
       if (response.data.items && response.data.items.length > 0) {
-        const thumbnail = response.data.items[0].volumeInfo.imageLinks.thumbnail;
+        const thumbnail =
+          response.data.items[0].volumeInfo.imageLinks.thumbnail;
         setBookImageUrl(thumbnail);
       } else {
         console.error("No image found for the book.");
@@ -145,19 +145,24 @@ export const BookList = ({
 
   const handleAddToCart = (book) => {
     setCartItems((prevCartItems) => {
-      const existingCartItem = prevCartItems.find((item) => item.id === book.book_id);
-  
+      const existingCartItem = prevCartItems.find(
+        (item) => item.id === book.book_id
+      );
+
       if (existingCartItem) {
         return prevCartItems.map((item) =>
-          item.id === book.book_id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === book.book_id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       }
-  
-      return [...prevCartItems, { ...book, id: book.book_id, quantity: 1 }];
+
+      return [
+        ...prevCartItems,
+        { ...book, id: book.book_id, quantity: 1 },
+      ];
     });
   };
-  
-
 
   return (
     <>
@@ -165,10 +170,10 @@ export const BookList = ({
         <CardBody>
           <Center>
             <Image
-                src={bookImageUrl || placeholderImg}
-                width="50%"
-                maxH="15rem"
-                alt={book.Title}
+              src={bookImageUrl || placeholderImg}
+              width="50%"
+              maxH="15rem"
+              alt={book.Title}
             />
           </Center>
           <Stack mt="6" spacing="3" w="100%">

@@ -8,7 +8,7 @@ body {
 }
 
 @media (max-width: 349px) {
-    .button {
-        display: none;
-    }
+  .button {
+    display: none;
+  }
 }

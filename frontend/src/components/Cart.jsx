@@ -67,7 +67,12 @@ const Cart = () => {
             <PopoverHeader>
               <HStack>
                 <Text>Cart</Text>
-                <Badge ml="1" colorScheme="red" color='#252525' fontSize=".875rem">
+                <Badge
+                  ml="1"
+                  colorScheme="red"
+                  color="#252525"
+                  fontSize=".875rem"
+                >
                   {cartItems.length}
                 </Badge>
               </HStack>
@@ -86,16 +91,15 @@ const Cart = () => {
                     <Box>Author: {item.Author}</Box>
                     <Box>Price: ${item.Cost}</Box>
                     <Box>Seller: {item.Seller}</Box>
-<Flex justifyContent='center' alignItems='center'>
-                    <IconButton
-                      w="40%"
-                      ml='auto'
-                      mr='auto'
-                      onClick={() => removeFromCart(index)}
-                      icon={<FaTrash />}
-                      colorScheme="red"
-                      
-                    />
+                    <Flex justifyContent="center" alignItems="center">
+                      <IconButton
+                        w="40%"
+                        ml="auto"
+                        mr="auto"
+                        onClick={() => removeFromCart(index)}
+                        icon={<FaTrash />}
+                        colorScheme="red"
+                      />
                     </Flex>
                   </VStack>
                 ))}

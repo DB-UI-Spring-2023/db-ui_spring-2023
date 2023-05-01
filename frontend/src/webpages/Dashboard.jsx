@@ -11,7 +11,7 @@ import {
   VStack,
   Flex,
   SimpleGrid,
-  Divider
+  Divider,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -20,13 +20,11 @@ import { useNavigate } from "react-router-dom";
 import { BookList } from "../components";
 import { MdSearch } from "react-icons/md";
 import Sidebar from "../components/Sidebar";
-import Cart from "../components/Cart"
+import Cart from "../components/Cart";
 
 import "../css/Dashboard.css";
 
-
 export const Dashboard = () => {
-
   // Cart Stuff
   const [cartItems, setCartItems] = useState([]);
 
@@ -132,21 +130,35 @@ export const Dashboard = () => {
             onChange={handleSearchTermChange}
             color="#FFF"
             placeholder="Search for a textbook"
-            _placeholder={{ color: '#FFF' }}
+            _placeholder={{ color: "#FFF" }}
           />
         </InputGroup>
-        <Flex mt='2rem' mr='2rem'>
+        <Flex mt="2rem" mr="2rem">
           <Cart cartItems={cartItems} setCartItems={setCartItems} />
-          </Flex>
+        </Flex>
       </Flex>
-      <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
+      <Grid
+        templateColumns="12% 1fr"
+        gap={10}
+        m="2rem 2rem auto 2rem"
+      >
         <GridItem>
-          <Sidebar setRefreshListings={setRefreshListings} refreshListings={refreshListings} />
+          <Sidebar
+            setRefreshListings={setRefreshListings}
+            refreshListings={refreshListings}
+          />
         </GridItem>
 
-        <Box gridColumn="2" height="auto" >
-          <Text color="#5fb1d1" fontWeight='bold'>Current Listings:</Text>
-          <Wrap spacing={2} zIndex={1} height="40rem"  overflowY="auto">
+        <Box gridColumn="2" height="auto">
+          <Text color="#5fb1d1" fontWeight="bold">
+            Current Listings:
+          </Text>
+          <Wrap
+            spacing={2}
+            zIndex={1}
+            height="40rem"
+            overflowY="auto"
+          >
             {books.map((book) => (
               <Box
                 key={book.book_id}
@@ -154,22 +166,24 @@ export const Dashboard = () => {
                 transformOrigin="center"
                 zIndex={1}
               >
-                <BookList 
-                  book={book} 
-                  privileges={privileges} 
-                  setRefreshListings={setRefreshListings} 
-                  refreshListings={refreshListings} 
+                <BookList
+                  book={book}
+                  privileges={privileges}
+                  setRefreshListings={setRefreshListings}
+                  refreshListings={refreshListings}
                   currentUserEmail={email}
                   addToCart={addToCart}
-                  />
+                />
               </Box>
             ))}
           </Wrap>
         </Box>
-        
+
         <Box gridColumn="2" height="auto">
-        <Divider></Divider>
-          <Text mt='2rem' color="#5fb1d1" fontWeight='bold'>Your Listings:</Text>
+          <Divider></Divider>
+          <Text mt="2rem" color="#5fb1d1" fontWeight="bold">
+            Your Listings:
+          </Text>
           <Wrap spacing={2} mx="2" height="40rem" overflowY="auto">
             {myBooks.map((book2) => (
               <Box
@@ -177,14 +191,14 @@ export const Dashboard = () => {
                 transform="scale(0.8)"
                 transformOrigin="center"
               >
-                <BookList 
-                  book={book2} 
+                <BookList
+                  book={book2}
                   privileges="Admin"
-                  setRefreshListings={setRefreshListings} 
-                  refreshListings={refreshListings} 
+                  setRefreshListings={setRefreshListings}
+                  refreshListings={refreshListings}
                   currentUserEmail={email}
                   addToCart={addToCart}
-                  />
+                />
               </Box>
             ))}
           </Wrap>

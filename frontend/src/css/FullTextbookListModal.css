@@ -1,27 +1,25 @@
 .full-textbook-list-modal {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .full-textbook-list-modal td {
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 0.9rem;
-  }
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-  .modal-content {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .modal-content td {
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 0.9rem;
-  }
-  
-  
+.full-textbook-list-modal td {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}
+
+.modal-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.modal-content td {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}

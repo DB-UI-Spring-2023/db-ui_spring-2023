@@ -19,7 +19,9 @@ const StarRating = ({ maxStars, onRatingChange }) => {
         <FaStar
           key={index}
           size={20}
-          color={index + 1 <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+          color={
+            index + 1 <= (hover || rating) ? "#ffc107" : "#e4e5e9"
+          }
           onMouseEnter={() => setHover(index + 1)}
           onMouseLeave={() => setHover(null)}
           onClick={() => handleClick(index)}

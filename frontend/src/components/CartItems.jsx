@@ -88,15 +88,14 @@ export const CartItem = (props) => {
           md: "none",
         }}
       >
-        <Link fontSize="sm" textDecor="underline"
-          onClick={() => onClickDelete()}>
+        <Link
+          fontSize="sm"
+          textDecor="underline"
+          onClick={() => onClickDelete()}
+        >
           Delete
         </Link>
-        <QuantitySelect
-          value={quantity}
-          onChange={(e) => {
-          }}
-        />
+        <QuantitySelect value={quantity} onChange={(e) => {}} />
         <PriceTag price={price} currency={currency} />
       </Flex>
     </Flex>

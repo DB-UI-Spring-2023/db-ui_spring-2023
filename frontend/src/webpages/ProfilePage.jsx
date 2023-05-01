@@ -7,7 +7,13 @@ import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
 import { Container } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { BookList } from "../components";
-import { List, ListItem, ListIcon, Collapse, Center } from "@chakra-ui/react";
+import {
+  List,
+  ListItem,
+  ListIcon,
+  Collapse,
+  Center,
+} from "@chakra-ui/react";
 import {
   Flex,
   FormControl,
@@ -49,7 +55,10 @@ export const ProfilePage = () => {
         const response = await axios.get(
           `http://localhost:8000/reviews/${email}`
         );
-        console.log("Reviews and ratings fetched successfully:", response.data);
+        console.log(
+          "Reviews and ratings fetched successfully:",
+          response.data
+        );
         setReviews(response.data.reviews);
         setSellerRating(response.data.rating);
         return response.data;
@@ -182,12 +191,21 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <Flex direction="column" className="header-color" py="2rem" w="100vw">
+      <Flex
+        direction="column"
+        className="header-color"
+        py="2rem"
+        w="100vw"
+      >
         <h1>
           <b>Profile</b>
         </h1>
       </Flex>
-      <Grid templateColumns="12% 1fr" gap={10} m="2rem 2rem auto 2rem">
+      <Grid
+        templateColumns="12% 1fr"
+        gap={10}
+        m="2rem 2rem auto 2rem"
+      >
         <GridItem>
           <Sidebar />
         </GridItem>
@@ -253,7 +271,9 @@ export const ProfilePage = () => {
                             <Input
                               type="text"
                               placeholder={first}
-                              onChange={(e) => setUpdateFirst(e.target.value)}
+                              onChange={(e) =>
+                                setUpdateFirst(e.target.value)
+                              }
                             />
                           </FormControl>
                           <FormControl>
@@ -261,7 +281,9 @@ export const ProfilePage = () => {
                             <Input
                               type="text"
                               placeholder={last}
-                              onChange={(e) => setUpdateLast(e.target.value)}
+                              onChange={(e) =>
+                                setUpdateLast(e.target.value)
+                              }
                             />
                           </FormControl>
                           <Button
@@ -305,7 +327,11 @@ export const ProfilePage = () => {
                       flexDirection="column"
                       justifyContent="center"
                     >
-                      <VStack spacing={6} alignItems="center" mb="2rem">
+                      <VStack
+                        spacing={6}
+                        alignItems="center"
+                        mb="2rem"
+                      >
                         <Center>
                           <Text fontSize="2xl" fontWeight="bold">
                             Password Reset
@@ -318,7 +344,9 @@ export const ProfilePage = () => {
                             <Input
                               type="password"
                               placeholder={createpword}
-                              onChange={(e) => setConfirmpword(e.target.value)}
+                              onChange={(e) =>
+                                setConfirmpword(e.target.value)
+                              }
                             />
                           </FormControl>
                           <FormControl>
@@ -326,7 +354,9 @@ export const ProfilePage = () => {
                             <Input
                               type="password"
                               placeholder={createpword}
-                              onChange={(e) => setUpdatePass(e.target.value)}
+                              onChange={(e) =>
+                                setUpdatePass(e.target.value)
+                              }
                             />
                           </FormControl>
                           <Button
@@ -334,7 +364,8 @@ export const ProfilePage = () => {
                             color="#FF176B"
                             border="1px solid #FF176B"
                             _hover={{
-                              bgGradient: "linear(to-r, #49C5F6, #FF2AEF)",
+                              bgGradient:
+                                "linear(to-r, #49C5F6, #FF2AEF)",
                               color: "#FFF",
                               border: "2px",
                             }}
@@ -348,7 +379,9 @@ export const ProfilePage = () => {
                 </VStack>
               </Flex>
 
-              <h4><b>My Rating</b></h4>
+              <h4>
+                <b>My Rating</b>
+              </h4>
               <Rating value={sellerRating} />
               {reviews.length === 0 ? (
                 <Text>No reviews available</Text>
@@ -367,22 +400,24 @@ export const ProfilePage = () => {
                   </Box>
                 ))
               )}
-              
-              <Flex flexDirection="column" mt="2rem">
-              <h4 className="profile-listing-header"><b>My Listings</b></h4>
 
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
-                spacing={10}
-                width="100%"
-                my="2rem"
-              >
-                {books.map((book) => (
-                  <BookList book={book} privileges="Admin" />
-                ))}
-              </Stack>
+              <Flex flexDirection="column" mt="2rem">
+                <h4 className="profile-listing-header">
+                  <b>My Listings</b>
+                </h4>
+
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="center"
+                  spacing={10}
+                  width="100%"
+                  my="2rem"
+                >
+                  {books.map((book) => (
+                    <BookList book={book} privileges="Admin" />
+                  ))}
+                </Stack>
               </Flex>
             </Flex>
           </div>

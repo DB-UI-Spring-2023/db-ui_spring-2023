@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import React, { useState, useEffect } from "react";
+import { Box, Text } from "@chakra-ui/react";
 
 export const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -14,12 +14,11 @@ export const Clock = () => {
 
   return (
     <Box>
-      <Text fontSize='sm' fontWeight='light' color={'gray.500'}>
+      <Text fontSize="sm" fontWeight="light" color={"gray.500"}>
         Current Date and Time:
       </Text>
-      <Text fontSize='sm'>{time.toLocaleDateString()}</Text>
-      <Text fontSize='sm'>{time.toLocaleTimeString()}</Text>
+      <Text fontSize="sm">{time.toLocaleDateString()}</Text>
+      <Text fontSize="sm">{time.toLocaleTimeString()}</Text>
     </Box>
   );
 };
-

@@ -11,7 +11,6 @@ import "../css/Dashboard.css";
 import { MdSearch } from "react-icons/md";
 
 export const Listings = () => {
-
   return (
     <Grid
       templateAreas={`"header header"
@@ -27,10 +26,15 @@ export const Listings = () => {
         <Stack direction="row">
           <InputGroup className="input-group" m="2rem auto" w="50%">
             <InputLeftElement
-              pointerEvents='none'
-              children={<MdSearch color='#606060' />}
+              pointerEvents="none"
+              children={<MdSearch color="#606060" />}
             />
-            <Input variant='filled' bgColor="#82AAAD" color="#606060" placeholder='Search for a textbook' />
+            <Input
+              variant="filled"
+              bgColor="#82AAAD"
+              color="#606060"
+              placeholder="Search for a textbook"
+            />
           </InputGroup>
         </Stack>
       </GridItem>

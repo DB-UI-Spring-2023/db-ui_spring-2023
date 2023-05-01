@@ -50,15 +50,18 @@ export default function CreateListing({
 
   const postListing = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/post-listing", {
-        ibsn: ibsn,
-        title: bookTitle,
-        author: author,
-        bookCondition: condition,
-        bookFormat: format,
-        cost: cost,
-        seller: seller,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/post-listing",
+        {
+          ibsn: ibsn,
+          title: bookTitle,
+          author: author,
+          bookCondition: condition,
+          bookFormat: format,
+          cost: cost,
+          seller: seller,
+        }
+      );
       setRefreshListings(!refreshListings);
       console.log(response);
     } catch (error) {
@@ -174,7 +177,15 @@ export default function CreateListing({
                 }}
               />
               <Flex justifyContent="center">
-                <Button mt={4} colorScheme="teal" type="submit" onClick={() => {postListing();onClose();}}>
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  type="submit"
+                  onClick={() => {
+                    postListing();
+                    onClose();
+                  }}
+                >
                   Submit
                 </Button>
                 <Button

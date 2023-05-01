@@ -2,7 +2,7 @@
  * Author:          Rudy Lucas
  * filename:        HomePage.jsx
  * Date:            03-20-2023
- * Description:     This component represents the website's homepage with 
+ * Description:     This component represents the website's homepage with
  *                  simple functionality such as logging into your account
  *                  and signing up for an account.
  */
@@ -30,7 +30,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useNavigate, useRouter } from "react-router-dom";
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect } from "react";
 
 //import { Alert } from 'react-alert'
 
@@ -43,49 +43,45 @@ export const HomePage = () => {
   const [email, setEmail] = useState("");
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
-  
+
   const [createpword, setCreatepword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
 
-  const [ errorMessage, setErrorMessage ] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
 
-  
-
-  
   axios.defaults.withCredentials = true;
 
   const login = () => {
-    axios.post("http://localhost:8000/login", {
-      email: email,
-      last: last,
-      first: first,
-      createPass: createpword
-    }).then((response) => {
-     
-      if (response.data.msg) {
-        setLoginStatus(response.data.msg)
-        setErrorMessage(response.data.msg)
-        
-      } else {
-        setLoginStatus(response.data[0].email)
-        setErrorMessage(response.data[0].email)
-      }
-
-    });
+    axios
+      .post("http://localhost:8000/login", {
+        email: email,
+        last: last,
+        first: first,
+        createPass: createpword,
+      })
+      .then((response) => {
+        if (response.data.msg) {
+          setLoginStatus(response.data.msg);
+          setErrorMessage(response.data.msg);
+        } else {
+          setLoginStatus(response.data[0].email);
+          setErrorMessage(response.data[0].email);
+        }
+      });
   };
 
   useEffect(() => {
     axios.get("http://localhost:8000/login").then((response) => {
-      if (response.data.loggedIn == true){
-        setLoginStatus(response.data.user[0].email)
-  
+      if (response.data.loggedIn == true) {
+        setLoginStatus(response.data.user[0].email);
+
         nav("/dashboard");
       } else {
-        setLoginStatus("Not logged in.")
+        setLoginStatus("Not logged in.");
       }
-    })
-  },[loginStatus, email])
-  
+    });
+  }, [loginStatus, email]);
+
   return (
     <>
       <Header />
@@ -111,7 +107,7 @@ export const HomePage = () => {
               onChange={(e) => {
                 handleInputChange(e);
                 setEmail(e.target.value);
-                }}
+              }}
             />
 
             <FormLabel mt="1rem">Password:</FormLabel>
@@ -122,27 +118,27 @@ export const HomePage = () => {
               onChange={(e) => {
                 handleInputChange(e);
                 setCreatepword(e.target.value);
-                }}
+              }}
             />
-            
-            
+
             <Flex mt="1rem" textAlign="center">
-            {errorMessage && (
-              <p className="error-message">
-                <b>{errorMessage}</b>
-              </p>
-            )}
-          </Flex>
+              {errorMessage && (
+                <p className="error-message">
+                  <b>{errorMessage}</b>
+                </p>
+              )}
+            </Flex>
           </FormControl>
-          
+
           <button type="button" class="login-button" href="/">
-            <span onClick={login} class="login-button-span">Login</span>
+            <span onClick={login} class="login-button-span">
+              Login
+            </span>
           </button>
           <div className="left-right-divider">
             <p className="divider-text">or</p>
           </div>
           <JoinModal />
-         
         </Box>
         <Box mt="3rem">
           <Center justifyContent="center">
